@@ -66,11 +66,11 @@
     // Tampilkan halaman pertama
     iframe.src = pages[currentPage];
 
-    // Ganti halaman tiap 2 menit (120000 ms)
+    // Ganti halaman tiap 1 menit (60000 ms)
     setInterval(() => {
       currentPage = (currentPage + 1) % pages.length;
       iframe.src = pages[currentPage];
-    }, 24000);
+    }, 60000);
 
     // Fungsi jam digital
     function two(n){ return n<10 ? '0'+n : n; }
@@ -86,3 +86,4 @@
   </script>
 </body>
 </html>
+
