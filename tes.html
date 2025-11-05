@@ -24,15 +24,16 @@
   <thead>
     <tr>
       <th>Line</th>
-      <th>08:00~09:00</th>
-      <th>09:00~10:00</th>
-      <th>10:00~11:00</th>
-      <th>11:00~12:00</th>
-      <th>13:00~14:00</th>
-      <th>14:00~15:00</th>
-      <th>15:00~16:00</th>
-      <th>16:00~17:00</th>
-      <th>17:00~18:00</th>
+      <th>09:00</th>
+      <th>10:00</th>
+      <th>11:00</th>
+      <th>12:00</th>
+      <th>14:00</th>
+      <th>15:00</th>
+      <th>16:00</th>
+      <th>17:00</th>
+      <th>~18:00</th>
+      <th>~19:30</th>
       <th>AVG</th>
       <th>Total</th>
     </tr>
@@ -70,7 +71,7 @@ async function loadSheetData() {
   } catch (err) {
     console.error("Fetch error:", err);
     document.getElementById("tableBody").innerHTML =
-      `<tr><td colspan="12">❌ Error: ${err.message}</td></tr>`;
+      `<tr><td colspan="13">❌ Error: ${err.message}</td></tr>`;
   }
 }
 
@@ -79,3 +80,4 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
