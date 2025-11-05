@@ -14,12 +14,12 @@
   h2 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
+    margin: 30px 0 10px;
   }
 
   .container {
     max-width: 1200px;
-    margin: auto;
+    margin: 20px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -36,14 +36,14 @@
     color: white;
     padding: 10px;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   td {
     border-top: 1px solid #ddd;
-    padding: 10px;
+    padding: 8px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   tr:nth-child(even) { background-color: #f9f9f9; }
@@ -78,34 +78,38 @@
 </head>
 <body>
 
-<h2>📊 Monitoring Packing Topper</h2>
-
 <div class="status" id="status">⏳ Memuat data...</div>
 
+<h2>📦 Monitoring Packing TOPPER</h2>
 <div class="container">
-  <table id="dataTable">
+  <table id="tableTopper">
     <thead>
       <tr>
-        <th>LINE</th>
-        <th>09:00</th>
-        <th>10:00</th>
-        <th>11:00</th>
-        <th>12:00</th>
-        <th>14:00</th>
-        <th>15:00</th>
-        <th>16:00</th>
-        <th>17:00</th>
-        <th>18:00</th>
-        <th>19:30</th>
-        <th>AVG</th>
-        <th>TOTAL</th>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
-    <tbody id="tableBody">
-      <tr><td class="loading" colspan="12">Loading data...</td></tr>
+    <tbody id="bodyTopper">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">⏱ Auto-refresh setiap 30 detik</div>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
+</div>
+
+<h2>🧱 Monitoring Packing FOAM</h2>
+<div class="container">
+  <table id="tableFoam">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyFoam">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
 <script>
@@ -118,21 +122,35 @@ async function loadSheetData() {
     const response = await fetch(SHEET_URL + "&t=" + Date.now(), {cache:"no-store"});
     if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
     const text = await response.text();
-
     const rows = text.trim().split("\n").map(r => r.split(","));
-    const tbody = document.getElementById("tableBody");
-    tbody.innerHTML = "";
 
-    const maxCols = document.querySelectorAll("#dataTable thead th").length;
+    const topperBody = document.getElementById("bodyTopper");
+    const foamBody = document.getElementById("bodyFoam");
+    topperBody.innerHTML = "";
+    foamBody.innerHTML = "";
 
-    rows.slice(1).forEach(row => {
+    // Contoh: baris 2–6 untuk Topper, baris 8–12 untuk Foam
+    const topperRows = rows.slice(1, 6);
+    const foamRows = rows.slice(7, 12);
+
+    topperRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0, maxCols).forEach(cell => {
+      row.slice(0, 13).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
         tr.appendChild(td);
       });
-      tbody.appendChild(tr);
+      topperBody.appendChild(tr);
+    });
+
+    foamRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach(cell => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      foamBody.appendChild(tr);
     });
 
     const now = new Date();
@@ -140,8 +158,6 @@ async function loadSheetData() {
 
   } catch (err) {
     console.error("Fetch error:", err);
-    document.getElementById("tableBody").innerHTML =
-      `<tr><td colspan="13" class="loading">❌ Error: ${err.message}</td></tr>`;
     status.textContent = "⚠️ Gagal memuat data";
   }
 }
@@ -152,6 +168,3 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
-
-
-
