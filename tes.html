@@ -130,7 +130,7 @@ async function loadSheetData() {
     foamBody.innerHTML = "";
 
     // Contoh: baris 2–6 untuk Topper, baris 8–12 untuk Foam
-    const topperRows = rows.slice(1, 5);
+    const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
 
     topperRows.forEach(row => {
@@ -168,4 +168,5 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
+
 
