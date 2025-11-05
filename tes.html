@@ -22,14 +22,6 @@
     white-space: nowrap;
   }
 
-  .clock {
-    text-align: center;
-    font-size: 20px;
-    color: #333;
-    margin: 10px 0 20px;
-    font-weight: 500;
-  }
-
   h2 {
     text-align: center;
     color: #333;
@@ -93,20 +85,28 @@
     padding: 20px;
     color: #999;
   }
+
+  .clock {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+    margin: 25px 0;
+    font-weight: 500;
+  }
 </style>
 </head>
 <body>
 
+<!-- === TEKS BERJALAN === -->
 <div class="marquee">
   <marquee behavior="scroll" direction="left" scrollamount="6">
     📊 Hourly Monitoring Packing Topper dan Packing Foam 📦
   </marquee>
 </div>
 
-<div class="clock" id="clock">🕒 Memuat jam...</div>
-
 <div class="status" id="status">⏳ Memuat data...</div>
 
+<!-- === TABEL TOPPER === -->
 <h2>📦 Monitoring Packing TOPPER</h2>
 <div class="container">
   <table id="tableTopper">
@@ -123,6 +123,7 @@
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
+<!-- === TABEL FOAM === -->
 <h2>🧱 Monitoring Packing FOAM</h2>
 <div class="container">
   <table id="tableFoam">
@@ -138,6 +139,9 @@
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
+
+<!-- === JAM & TANGGAL === -->
+<div class="clock" id="clock">🕒 Memuat jam...</div>
 
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
@@ -189,7 +193,7 @@ async function loadSheetData() {
   }
 }
 
-// Jam realtime
+// Jam realtime di bawah tabel
 function updateClock() {
   const clock = document.getElementById("clock");
   const now = new Date();
