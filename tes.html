@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📊 Monitoring Produksi Realtime</title>
 <style>
   body {
@@ -25,36 +26,35 @@
   h2 {
     text-align: center;
     color: #333;
-    margin: 30px 0 10px;
+    margin: 25px 0 10px;
+    font-size: 22px;
   }
 
   .container {
+    width: 95%;
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 15px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
+    overflow-x: auto; /* biar bisa scroll kalau layar kecil */
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 900px; /* biar kolom tetap proporsional */
+  }
+
+  th, td {
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 16px;
   }
 
   th {
     background: #1976d2;
     color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 18px;
-  }
-
-  td {
-    border-top: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    font-size: 16px;
   }
 
   tr:nth-child(even) { background-color: #f9f9f9; }
@@ -87,6 +87,24 @@
     font-size: 14px;
     color: #444;
     margin-bottom: 25px;
+  }
+
+  /* Responsif untuk HP */
+  @media (max-width: 600px) {
+    .marquee {
+      font-size: 16px;
+      padding: 8px 0;
+    }
+    th, td {
+      font-size: 13px;
+      padding: 6px 4px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    .clock {
+      font-size: 16px;
+    }
   }
 </style>
 </head>
@@ -154,7 +172,6 @@ async function loadSheetData() {
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
 
-    // Baris data disesuaikan
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
 
@@ -187,7 +204,6 @@ async function loadSheetData() {
   }
 }
 
-// Jam realtime di bawah tabel
 function updateClock() {
   const clock = document.getElementById("clock");
   const now = new Date();
