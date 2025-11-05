@@ -8,7 +8,26 @@
     font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f6f8;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+  }
+
+  .marquee {
+    background: #1976d2;
+    color: white;
+    padding: 10px 0;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .clock {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+    margin: 10px 0 20px;
+    font-weight: 500;
   }
 
   h2 {
@@ -78,6 +97,14 @@
 </head>
 <body>
 
+<div class="marquee">
+  <marquee behavior="scroll" direction="left" scrollamount="6">
+    📊 Hourly Monitoring Packing Topper dan Packing Foam 📦
+  </marquee>
+</div>
+
+<div class="clock" id="clock">🕒 Memuat jam...</div>
+
 <div class="status" id="status">⏳ Memuat data...</div>
 
 <h2>📦 Monitoring Packing TOPPER</h2>
@@ -129,7 +156,7 @@ async function loadSheetData() {
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
 
-    // Contoh: baris 2–6 untuk Topper, baris 8–12 untuk Foam
+    // Baris 2–6 untuk Topper, baris 8–12 untuk Foam (ubah sesuai posisi datamu di Sheet)
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
 
@@ -162,11 +189,21 @@ async function loadSheetData() {
   }
 }
 
+// Jam realtime
+function updateClock() {
+  const clock = document.getElementById("clock");
+  const now = new Date();
+  const waktu = now.toLocaleTimeString("id-ID", {hour12:false});
+  const tanggal = now.toLocaleDateString("id-ID", {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  clock.innerHTML = `📅 ${tanggal} | 🕒 ${waktu}`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
 loadSheetData();
 setInterval(loadSheetData, 30000);
 </script>
 
 </body>
 </html>
-
-
