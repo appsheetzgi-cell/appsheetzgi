@@ -2,52 +2,119 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Data Realtime dari Google Sheet</title>
+<title>📊 Monitoring Produksi Realtime</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td {
-    border: 1px solid #ddd;
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    background: #1976d2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  td {
+    border-top: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+    font-size: 14px;
   }
-  th {
-    background-color: #333;
-    color: white;
+
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  tr:hover { background-color: #e3f2fd; }
+
+  .footer {
+    text-align: right;
+    font-size: 12px;
+    padding: 8px;
+    background: #f1f1f1;
+    color: #666;
+  }
+
+  .status {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    font-size: 13px;
+    color: #444;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .loading {
+    text-align: center;
+    padding: 20px;
+    color: #999;
   }
 </style>
 </head>
 <body>
-<h2>📊 Data Realtime dari Google Sheet</h2>
 
-<table id="dataTable">
-  <thead>
-    <tr>
-      <th>Line</th>
-      <th>09:00</th>
-      <th>10:00</th>
-      <th>11:00</th>
-      <th>12:00</th>
-      <th>14:00</th>
-      <th>15:00</th>
-      <th>16:00</th>
-      <th>17:00</th>
-      <th>~18:00</th>
-      <th>~19:30</th>
-      <th>AVG</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody">
-    <tr><td colspan="12">Loading...</td></tr>
-  </tbody>
-</table>
+<h2>📊 Monitoring Produksi Realtime</h2>
+
+<div class="status" id="status">⏳ Memuat data...</div>
+
+<div class="container">
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Line</th>
+        <th>09:00</th>
+        <th>10:00</th>
+        <th>11:00</th>
+        <th>12:00</th>
+        <th>14:00</th>
+        <th>15:00</th>
+        <th>16:00</th>
+        <th>17:00</th>
+        <th>18:00</th>
+        <th>19:30</th>
+        <th>AVG</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <tr><td class="loading" colspan="12">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">⏱ Auto-refresh setiap 30 detik</div>
+</div>
 
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
+  const status = document.getElementById("status");
   try {
+    status.textContent = "🔄 Memuat data...";
     const response = await fetch(SHEET_URL + "&t=" + Date.now(), {cache:"no-store"});
     if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
     const text = await response.text();
@@ -68,16 +135,20 @@ async function loadSheetData() {
       tbody.appendChild(tr);
     });
 
+    const now = new Date();
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
   } catch (err) {
     console.error("Fetch error:", err);
     document.getElementById("tableBody").innerHTML =
-      `<tr><td colspan="13">❌ Error: ${err.message}</td></tr>`;
+      `<tr><td colspan="13" class="loading">❌ Error: ${err.message}</td></tr>`;
+    status.textContent = "⚠️ Gagal memuat data";
   }
 }
 
 loadSheetData();
 setInterval(loadSheetData, 30000);
 </script>
+
 </body>
 </html>
-
