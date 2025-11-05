@@ -38,12 +38,11 @@
     </tr>
   </thead>
   <tbody id="tableBody">
-    <tr><td colspan="10">Loading...</td></tr>
+    <tr><td colspan="12">Loading...</td></tr>
   </tbody>
 </table>
 
 <script>
-// === URL CSV kamu dari "Publish to Web" ===
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
@@ -52,15 +51,15 @@ async function loadSheetData() {
     if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
     const text = await response.text();
 
-    // parsing CSV
     const rows = text.trim().split("\n").map(r => r.split(","));
     const tbody = document.getElementById("tableBody");
-    tbody.innerHTML = ""; // hapus isi lama
+    tbody.innerHTML = "";
 
-    // loop data mulai dari baris ke-2 (karena baris pertama header)
+    const maxCols = document.querySelectorAll("#dataTable thead th").length;
+
     rows.slice(1).forEach(row => {
       const tr = document.createElement("tr");
-      row.forEach(cell => {
+      row.slice(0, maxCols).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
         tr.appendChild(td);
@@ -71,15 +70,12 @@ async function loadSheetData() {
   } catch (err) {
     console.error("Fetch error:", err);
     document.getElementById("tableBody").innerHTML =
-      `<tr><td colspan="10">❌ Error: ${err.message}</td></tr>`;
+      `<tr><td colspan="12">❌ Error: ${err.message}</td></tr>`;
   }
 }
 
-// Jalankan pertama kali
 loadSheetData();
-// Lalu auto refresh setiap 30 detik
 setInterval(loadSheetData, 30000);
 </script>
-
 </body>
 </html>
