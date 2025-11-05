@@ -15,7 +15,7 @@
     background: #1976d2;
     color: white;
     padding: 10px 0;
-    font-size: 30px;
+    font-size: 22px;
     font-weight: bold;
     text-align: center;
     overflow: hidden;
@@ -23,7 +23,7 @@
   }
 
   h2 {
-    text-align: Left;
+    text-align: center;
     color: #333;
     margin: 30px 0 10px;
   }
@@ -100,13 +100,14 @@
 <!-- === TEKS BERJALAN === -->
 <div class="marquee">
   <marquee behavior="scroll" direction="left" scrollamount="6">
-    Hourly Monitoring Packing Topper dan Packing Foam
+    📊 Hourly Monitoring Packing Topper dan Packing Foam 📦
   </marquee>
 </div>
 
+<div class="status" id="status">⏳ Memuat data...</div>
+
 <!-- === TABEL TOPPER === -->
-<h2>Shift 1</h2>
-  <br><h2>Topper Mattress</h2>
+<h2>📦 Monitoring Packing TOPPER</h2>
 <div class="container">
   <table id="tableTopper">
     <thead>
@@ -210,4 +211,3 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
-
