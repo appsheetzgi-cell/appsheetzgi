@@ -206,11 +206,34 @@
   <div class="total-wrapper">
 
     <div class="total-box">
-      <table id="tableTotalFoam">
-        <thead><tr><th>SHIFT</th></tr></thead>
-        <tbody><tr><td>2</td></tr></tbody>
-      </table>
-    </div>
+  <table>
+    <thead>
+      <tr><th>SHIFT</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select id="shiftSelector" 
+            style="
+              font-size:28px;
+              font-weight:bold;
+              text-align:center;
+              width:100%;
+              border:none;
+              background:none;
+              appearance:none;
+              outline:none;
+              cursor:pointer;
+            ">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
     
     <div class="total-box">
       <table id="tableTotalTopper">
@@ -332,6 +355,17 @@ setInterval(updateClock, 1000);
 updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
+
+  // === Ganti Halaman Berdasarkan Shift ===
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  const value = this.value;
+  if (value === "2") {
+    window.location.href = "shift2.html"; // pindah ke halaman shift 2
+  } else {
+    window.location.href = "index.html"; // balik ke shift 1
+  }
+});
+
 </script>
 </body>
 </html>
