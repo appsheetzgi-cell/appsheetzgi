@@ -180,24 +180,23 @@
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
 
+  <!-- === DUA TABEL TOTAL KECIL (SEJAJAR KIRI) === -->
+  <div class="total-wrapper">
+    <div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
 
-<!-- === DUA TABEL TOTAL KECIL (SEJAJAR KIRI) === -->
-<div class="total-wrapper">
-  <div class="total-box">
-    <table id="tableTotalTopper">
-      <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-      <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
-    </table>
-  </div>
-
-  <div class="total-box">
-    <table id="tableTotalFoam">
-      <thead><tr><th>TOTAL FOAM</th></tr></thead>
-      <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
-    </table>
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
-  </div>
 
 <!-- === JAM & STATUS PEMBARUAN === -->
 <div class="clock" id="clock">🕒 Memuat jam...</div>
@@ -210,7 +209,7 @@ async function loadSheetData() {
   const status = document.getElementById("status");
   try {
     status.textContent = "🔄 Memuat data...";
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), {cache:"no-store"});
+    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
     if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
@@ -225,62 +224,57 @@ async function loadSheetData() {
     totalTopperBody.innerHTML = "";
     totalFoamBody.innerHTML = "";
 
-    // Ambil data utama
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
 
+    // === TOPPER ===
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0, 13).forEach(cell => {
+      row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
 
-    if (index > 0 && !isNaN(cleanValue)) {
-      if (cleanValue < 90 && cleanValue > 0) {
-        td.style.backgroundColor = "#ffcccc"; // merah muda
-        td.style.fontWeight = "bold";
-        td.style.color = "#a80000";
-      }
-    }
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 90 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.fontWeight = "bold";
+            td.style.color = "#a80000";
+          }
+        }
         tr.appendChild(td);
       });
       topperBody.appendChild(tr);
     });
 
+    // === FOAM ===
     foamRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0, 13).forEach(cell => {
+      row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
-       const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
 
-    if (index > 0 && !isNaN(cleanValue)) {
-      if (cleanValue < 75 && cleanValue > 0) {
-        td.style.backgroundColor = "#ffcccc"; // merah muda
-        td.style.fontWeight = "bold";
-        td.style.color = "#a80000";
-      }
-    }
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 75 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.fontWeight = "bold";
+            td.style.color = "#a80000";
+          }
+        }
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
     });
 
-    // === TOTAL TOPPER (baris 14, kolom A) ===
+    // === TOTAL (baris 14) ===
     const totalRow = rows[14];
     if (totalRow) {
-      const trTopper = document.createElement("tr");
-      const tdTopper = document.createElement("td");
-      tdTopper.textContent = totalRow[0]; // kolom A
-      trTopper.appendChild(tdTopper);
-      totalTopperBody.appendChild(trTopper);
+      const topperValue = totalRow[0] || "0";
+      const foamValue = totalRow[1] || "0";
 
-      const trFoam = document.createElement("tr");
-      const tdFoam = document.createElement("td");
-      tdFoam.textContent = totalRow[1]; // kolom B
-      trFoam.appendChild(tdFoam);
-      totalFoamBody.appendChild(trFoam);
+      totalTopperBody.innerHTML = `<tr><td style="font-weight:bold;">${topperValue}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td style="font-weight:bold;">${foamValue}</td></tr>`;
     }
 
     const now = new Date();
@@ -295,8 +289,8 @@ async function loadSheetData() {
 function updateClock() {
   const clock = document.getElementById("clock");
   const now = new Date();
-  const waktu = now.toLocaleTimeString("id-ID", {hour12:false});
-  const tanggal = now.toLocaleDateString("id-ID", {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const waktu = now.toLocaleTimeString("id-ID", { hour12: false });
+  const tanggal = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   clock.innerHTML = `📅 ${tanggal} | 🕒 ${waktu}`;
 }
 
@@ -307,7 +301,3 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
-
-
-
-
