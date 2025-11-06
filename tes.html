@@ -72,35 +72,44 @@
     border-bottom-right-radius: 10px;
   }
 
- /* === KHUSUS UNTUK TABEL TOTAL === */
-.total-container {
-  width: 40%;                /* lebih kecil dari tabel utama */
-  margin: 20px 0 40px 0;     /* auto sejajar dengan tabel utama */
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  background: white;
-}
+  /* === KHUSUS UNTUK TABEL TOTAL === */
+  .total-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px auto 40px;
+    max-width: 1200px;
+  }
 
-.total-container table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  .total-container {
+    flex: 1;
+    min-width: 280px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
 
-.total-container th,
-.total-container td {
-  font-size: 20px;
-  padding: 10px;
-  text-align: center;
-}
+  .total-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-.total-container th {
-  background: #1976d2;
-  color: white;
-}
+  .total-container th,
+  .total-container td {
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+  }
 
-.total-container tr:nth-child(even) { background-color: #f9f9f9; }
-.total-container tr:hover { background-color: #e8f5e9; }
+  .total-container th {
+    background: #1976d2;
+    color: white;
+  }
 
+  .total-container tr:nth-child(even) { background-color: #f9f9f9; }
+  .total-container tr:hover { background-color: #e8f5e9; }
 
   .loading {
     text-align: center;
@@ -151,7 +160,6 @@
 </div>
 
 <!-- === TABEL TOPPER === -->
-
 <div class="container">
   <h2>TOPPER Mattress Target : 90 Pcs/Jam</h2>
   <table id="tableTopper">
@@ -169,7 +177,6 @@
 </div>
 
 <!-- === TABEL FOAM === -->
-
 <div class="container">
   <h2>FOAM Mattress Target : 75 Pcs/Jam</h2>
   <table id="tableFoam">
@@ -184,27 +191,32 @@
     </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
-  
-<!-- === TABEL TOTAL (RINGKAS) === -->
-<div class="container total-container">
-  <table id="tableTotal">
-    <thead>
-      <tr>
-        <th>TOTAL TOPPER</th>
-        <th>TOTAL FOAM</th>
-      </tr>
-    </thead>
-    <tbody id="bodyTotal">
-      <tr><td class="loading" colspan="2">Menunggu data total...</td></tr>
-    </tbody>
-  </table>
 </div>
-  
+
+<!-- === TABEL TOTAL DALAM 1 BARIS === -->
+<div class="total-wrapper">
+  <div class="total-container">
+    <table id="tableTotalTopper">
+      <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+      <tbody id="bodyTotalTopper">
+        <tr><td class="loading">Menunggu data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="total-container">
+    <table id="tableTotalFoam">
+      <thead><tr><th>TOTAL FOAM</th></tr></thead>
+      <tbody id="bodyTotalFoam">
+        <tr><td class="loading">Menunggu data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- === JAM & STATUS PEMBARUAN === -->
 <div class="clock" id="clock">🕒 Memuat jam...</div>
 <div class="status" id="status">⏳ Memuat data...</div>
-  </div>
-
 
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
@@ -220,15 +232,18 @@ async function loadSheetData() {
 
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
-    const totalBody = document.getElementById("bodyTotal");
+    const totalTopperBody = document.getElementById("bodyTotalTopper");
+    const totalFoamBody = document.getElementById("bodyTotalFoam");
 
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
-    totalBody.innerHTML = "";
+    totalTopperBody.innerHTML = "";
+    totalFoamBody.innerHTML = "";
 
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
-    const totalRows = rows.slice(14, 15); // misal baris total di sheet-nya ada di bawah
+    const totalTopperRow = rows[14];
+    const totalFoamRow = rows[15];
 
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
@@ -250,51 +265,11 @@ async function loadSheetData() {
       foamBody.appendChild(tr);
     });
 
-    totalRows.forEach(row => {
+    if (totalTopperRow) {
       const tr = document.createElement("tr");
-      row.slice(0, 2).forEach(cell => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        tr.appendChild(td);
-      });
-      totalBody.appendChild(tr);
-    });
+      tr.innerHTML = `<td>${totalTopperRow[0]}</td>`;
+      totalTopperBody.appendChild(tr);
+    }
 
-    const now = new Date();
-    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
-
-  } catch (err) {
-    console.error("Fetch error:", err);
-    status.textContent = "⚠️ Gagal memuat data";
-  }
-}
-
-function updateClock() {
-  const clock = document.getElementById("clock");
-  const now = new Date();
-  const waktu = now.toLocaleTimeString("id-ID", {hour12:false});
-  const tanggal = now.toLocaleDateString("id-ID", {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-  clock.innerHTML = `📅 ${tanggal} | 🕒 ${waktu}`;
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-
-loadSheetData();
-setInterval(loadSheetData, 30000);
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
+    if (totalFoamRow) {
+      const tr = document.createElement("tr
