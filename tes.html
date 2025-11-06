@@ -179,8 +179,9 @@
     </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
+</div>
 
-  <!-- === DUA TABEL TOTAL KECIL === -->
+<!-- === DUA TABEL TOTAL KECIL (SEJAJAR KIRI) === -->
 <div class="total-wrapper">
   <div class="total-box">
     <table id="tableTotalTopper">
@@ -188,7 +189,6 @@
       <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
     </table>
   </div>
-</div>
 
   <div class="total-box">
     <table id="tableTotalFoam">
@@ -249,23 +249,19 @@ async function loadSheetData() {
     });
 
     // === TOTAL TOPPER (baris 14, kolom A) ===
-    const totalTopperRow = rows[14];
-    if (totalTopperRow) {
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.textContent = totalTopperRow[1];
-      tr.appendChild(td);
-      totalTopperBody.appendChild(tr);
-    }
+    const totalRow = rows[14];
+    if (totalRow) {
+      const trTopper = document.createElement("tr");
+      const tdTopper = document.createElement("td");
+      tdTopper.textContent = totalRow[0]; // kolom A
+      trTopper.appendChild(tdTopper);
+      totalTopperBody.appendChild(trTopper);
 
-    // === TOTAL FOAM (baris 14, kolom B) ===
-    const totalFoamRow = rows[14];
-    if (totalFoamRow) {
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.textContent = totalFoamRow[1];
-      tr.appendChild(td);
-      totalFoamBody.appendChild(tr);
+      const trFoam = document.createElement("tr");
+      const tdFoam = document.createElement("td");
+      tdFoam.textContent = totalRow[1]; // kolom B
+      trFoam.appendChild(tdFoam);
+      totalFoamBody.appendChild(trFoam);
     }
 
     const now = new Date();
@@ -292,4 +288,3 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
-
