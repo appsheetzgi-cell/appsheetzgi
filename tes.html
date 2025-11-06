@@ -272,4 +272,34 @@ async function loadSheetData() {
     }
 
     if (totalFoamRow) {
-      const tr = document.createElement("tr
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${totalFoamRow[0]}</td>`;
+      totalFoamBody.appendChild(tr);
+    }
+
+    const now = new Date();
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "⚠️ Gagal memuat data";
+  }
+}
+
+function updateClock() {
+  const clock = document.getElementById("clock");
+  const now = new Date();
+  const waktu = now.toLocaleTimeString("id-ID", {hour12:false});
+  const tanggal = now.toLocaleDateString("id-ID", {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  clock.innerHTML = `📅 ${tanggal} | 🕒 ${waktu}`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+loadSheetData();
+setInterval(loadSheetData, 30000);
+</script>
+
+</body>
+</html>
