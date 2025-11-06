@@ -72,6 +72,36 @@
     border-bottom-right-radius: 10px;
   }
 
+  /* === KHUSUS UNTUK TABEL TOTAL === */
+.total-container {
+  width: 350px;              /* kecil dan ringkas */
+  margin: 20px 0 30px 2.5%;  /* kiri bawah */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.total-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.total-container th,
+.total-container td {
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.total-container th {
+  background: #2e7d32; /* hijau tua */
+  color: white;
+}
+
+.total-container tr:nth-child(even) { background-color: #f9f9f9; }
+.total-container tr:hover { background-color: #e8f5e9; }
+
+
   .loading {
     text-align: center;
     padding: 20px;
@@ -154,12 +184,14 @@
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === TABEL TOTAL === -->
-<div class="container">
+<!-- === TABEL TOTAL (RINGKAS) === -->
+<h2>📈 Total Produksi</h2>
+<div class="container total-container">
   <table id="tableTotal">
     <thead>
       <tr>
-        <th>TOTAL TOPPER</th><th>TOTAL FOAM</th>
+        <th>TOTAL TOPPER</th>
+        <th>TOTAL FOAM</th>
       </tr>
     </thead>
     <tbody id="bodyTotal">
@@ -167,6 +199,7 @@
     </tbody>
   </table>
 </div>
+
 
 <!-- === JAM & STATUS PEMBARUAN === -->
 <div class="clock" id="clock">🕒 Memuat jam...</div>
@@ -252,3 +285,4 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
+
