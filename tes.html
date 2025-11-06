@@ -243,7 +243,7 @@ async function loadSheetData() {
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
     const totalTopperRow = rows[14];
-    const totalFoamRow = rows[15];
+    const totalFoamRow = rows[16];
 
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
@@ -303,3 +303,4 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
+
