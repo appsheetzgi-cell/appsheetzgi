@@ -179,9 +179,8 @@
     </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
-</div>
 
-<!-- === DUA TABEL TOTAL KECIL === -->
+  <!-- === DUA TABEL TOTAL KECIL === -->
 <div class="total-wrapper">
   <div class="total-box">
     <table id="tableTotalTopper">
@@ -189,6 +188,7 @@
       <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
     </table>
   </div>
+</div>
 
   <div class="total-box">
     <table id="tableTotalFoam">
@@ -248,8 +248,8 @@ async function loadSheetData() {
       foamBody.appendChild(tr);
     });
 
-    // === TOTAL TOPPER (baris 13, kolom B) ===
-    const totalTopperRow = rows[13];
+    // === TOTAL TOPPER (baris 14, kolom A) ===
+    const totalTopperRow = rows[14];
     if (totalTopperRow) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
@@ -292,3 +292,4 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
