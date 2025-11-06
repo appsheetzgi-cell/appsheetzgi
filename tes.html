@@ -234,13 +234,13 @@ async function loadSheetData() {
       row.slice(0, 13).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontWeight = "bold";
-            if (index > 0) {
-      const value = parseFloat(cell);
-      if (!isNaN(value) && value < 90 && value > 0) {
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+
+    if (index > 0 && !isNaN(cleanValue)) {
+      if (cleanValue < 90 && cleanValue > 0) {
         td.style.backgroundColor = "#ffcccc"; // merah muda
         td.style.fontWeight = "bold";
-        td.style.color = "#a80000"; // teks merah gelap
+        td.style.color = "#a80000";
       }
     }
         tr.appendChild(td);
@@ -253,13 +253,13 @@ async function loadSheetData() {
       row.slice(0, 13).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontWeight = "bold";
-            if (index > 0) {
-      const value = parseFloat(cell);
-      if (!isNaN(value) && value < 75 && value > 0) {
+       const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+
+    if (index > 0 && !isNaN(cleanValue)) {
+      if (cleanValue < 75 && cleanValue > 0) {
         td.style.backgroundColor = "#ffcccc"; // merah muda
         td.style.fontWeight = "bold";
-        td.style.color = "#a80000"; // teks merah gelap
+        td.style.color = "#a80000";
       }
     }
         tr.appendChild(td);
@@ -307,6 +307,7 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
 
 
 
