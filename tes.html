@@ -234,6 +234,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
+        td.style.fontWeight = "bold";
         tr.appendChild(td);
       });
       topperBody.appendChild(tr);
@@ -244,6 +245,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach(cell => {
         const td = document.createElement("td");
         td.textContent = cell;
+        td.style.fontWeight = "bold";
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
@@ -289,4 +291,5 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
 
