@@ -233,6 +233,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
+        td.style.fontWeight = "bold";
 
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
         if (index > 0 && !isNaN(cleanValue)) {
@@ -253,6 +254,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
+        td.style.fontWeight = "bold";
 
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
         if (index > 0 && !isNaN(cleanValue)) {
@@ -301,3 +303,4 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
