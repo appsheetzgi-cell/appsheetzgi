@@ -37,13 +37,14 @@
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow-x: auto; /* biar bisa scroll kalau layar kecil */
+    overflow-x: auto;
+    padding: 0;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 900px; /* biar kolom tetap proporsional */
+    table-layout: auto; /* kolom menyesuaikan isi */
   }
 
   th, td {
@@ -66,6 +67,9 @@
     padding: 8px;
     background: #f1f1f1;
     color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 
   .loading {
@@ -221,5 +225,3 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
-
-
