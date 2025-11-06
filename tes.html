@@ -74,12 +74,11 @@
 
  /* === KHUSUS UNTUK TABEL TOTAL === */
 .total-container {
-  width: 40%;                /* lebih kecil tapi masih sejajar */
-  margin: 20px 0 40px 2.5%;   /* auto kiri-kanan agar sejajar dengan container di atas */
+  width: 40%;                /* lebih kecil dari tabel utama */
+  margin: 20px 0 40px 0;     /* auto sejajar dengan tabel utama */
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   background: white;
-  padding: 0;
 }
 
 .total-container table {
@@ -95,7 +94,7 @@
 }
 
 .total-container th {
-  background: #2e7d32;
+  background: #2e7d32; /* hijau tua */
   color: white;
 }
 
@@ -183,10 +182,8 @@
     </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
-</div>
-
+  
 <!-- === TABEL TOTAL (RINGKAS) === -->
-<h2>📈 Total Produksi</h2>
 <div class="container total-container">
   <table id="tableTotal">
     <thead>
@@ -200,6 +197,7 @@
     </tbody>
   </table>
 </div>
+  </div>
 
 
 <!-- === JAM & STATUS PEMBARUAN === -->
@@ -286,6 +284,7 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
+
 
 
 
