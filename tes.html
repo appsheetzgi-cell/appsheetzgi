@@ -44,7 +44,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto; /* kolom menyesuaikan isi */
+    table-layout: auto;
   }
 
   th, td {
@@ -93,7 +93,6 @@
     margin-bottom: 25px;
   }
 
-  /* Responsif untuk HP */
   @media (max-width: 600px) {
     .marquee {
       font-size: 16px;
@@ -155,6 +154,20 @@
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
+<!-- === TABEL TOTAL === -->
+<div class="container">
+  <table id="tableTotal">
+    <thead>
+      <tr>
+        <th>TOTAL TOPPER</th><th>TOTAL FOAM</th>
+      </tr>
+    </thead>
+    <tbody id="bodyTotal">
+      <tr><td class="loading" colspan="2">Menunggu data total...</td></tr>
+    </tbody>
+  </table>
+</div>
+
 <!-- === JAM & STATUS PEMBARUAN === -->
 <div class="clock" id="clock">🕒 Memuat jam...</div>
 <div class="status" id="status">⏳ Memuat data...</div>
@@ -173,11 +186,15 @@ async function loadSheetData() {
 
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
+    const totalBody = document.getElementById("bodyTotal");
+
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
+    totalBody.innerHTML = "";
 
     const topperRows = rows.slice(1, 4);
     const foamRows = rows.slice(7, 12);
+    const totalRows = rows.slice(14, 15); // misal baris total di sheet-nya ada di bawah
 
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
@@ -197,6 +214,16 @@ async function loadSheetData() {
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
+    });
+
+    totalRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 2).forEach(cell => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      totalBody.appendChild(tr);
     });
 
     const now = new Date();
@@ -225,4 +252,3 @@ setInterval(loadSheetData, 30000);
 
 </body>
 </html>
-
