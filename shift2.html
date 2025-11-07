@@ -115,17 +115,18 @@
     color: #333;
   }
 
+  /* === JAM DAN LOGO === */
   .total-wrapper1 {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
     margin-right: 3%;
+    text-align: center;
   }
 
   .datetime {
-    text-align: right;
+    margin-bottom: 10px;
   }
 
   #tanggal {
@@ -142,19 +143,60 @@
     text-align: center;
   }
 
-  .loading {
-    text-align: center;
-    padding: 20px;
-    color: #999;
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
   }
 
-  .status {
-    text-align: center;
-    font-size: 14px;
-    color: #444;
-    margin: 20px 0 25px;
+  .zinus-logo, .zinus-logo1 {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background: white;
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
   }
 
+  @keyframes fadeZoomIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* === FOOTER ZINUS === */
+  .footer-zinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #006400;
+    color: white;
+    padding: 20px 10px;
+    border-top: 4px solid #004d00;
+    margin-top: 40px;
+  }
+
+  .footer-zinus p {
+    margin: 5px 0 15px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  /* === RESPONSIVE === */
   @media (max-width: 768px) {
     .container {
       width: 100%;
@@ -163,26 +205,27 @@
       box-shadow: none;
     }
 
-    table {
-      font-size: 12px;
-      table-layout: auto;
-    }
-
     th, td {
+      font-size: 14px;
       padding: 6px 4px;
-      word-wrap: break-word;
     }
 
     .marquee { font-size: 16px; padding: 8px 0; }
-    h2 { font-size: 30px;
-         text-align: center;}
-    #jam { font-size: 18px; }
+    h2 { font-size: 18px; }
+    #jam { font-size: 24px; }
     #tanggal { font-size: 14px; }
-    .total-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-left: 3%;
+
+    .zinus-logo, .zinus-logo1 {
+      width: 45px;
+      height: 45px;
     }
+
+    .logo-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-zinus p { font-size: 14px; }
   }
 </style>
 </head>
@@ -197,7 +240,7 @@
 
 <!-- === TABEL TOPPER === -->
 <div class="container">
-  <h2>TOPPER Mattress Target : 90 Pcs/Jam</h2>
+  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
   <table id="tableTopper">
     <thead>
       <tr>
@@ -214,7 +257,7 @@
 
 <!-- === TABEL FOAM === -->
 <div class="container">
-  <h2>FOAM Mattress Target : 75 Pcs/Jam</h2>
+  <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
   <table id="tableFoam">
     <thead>
       <tr>
@@ -226,67 +269,61 @@
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
 
-  <!-- === BAGIAN TOTAL DAN JAM === -->
-  <div class="top-bar">
+<!-- === BAGIAN TOTAL DAN JAM === -->
+<div class="top-bar">
 
-    <div class="total-wrapper">
-      <div class="total-box">
-        <table>
-          <thead>
-            <tr><th>SHIFT</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <select id="shiftSelector" 
-                  style="
-                    font-size:28px;
-                    font-weight:bold;
-                    text-align:center;
-                    width:100%;
-                    border:none;
-                    background:none;
-                    appearance:none;
-                    outline:none;
-                    cursor:pointer;
-                  ">
-                  <option value="2" selected>2</option>
-                  <option value="1">1</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="total-box">
-        <table id="tableTotalTopper">
-          <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-          <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
-        </table>
-      </div>
-
-      <div class="total-box">
-        <table id="tableTotalFoam">
-          <thead><tr><th>TOTAL FOAM</th></tr></thead>
-          <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
-        </table>
-      </div>
+  <div class="total-wrapper">
+    <div class="total-box">
+      <table>
+        <thead><tr><th>SHIFT</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <select id="shiftSelector" 
+                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
+                <option value="2" selected>2</option>
+                <option value="1">1</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="total-wrapper1">
-      <div class="datetime">
-        <div id="tanggal"></div>
-        <div id="jam"></div>
-      </div>
+    <div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="total-wrapper1">
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
     </div>
   </div>
 </div>
 
-<!-- STATUS PEMBARUAN -->
-<div class="status" id="status">⏳ Memuat data...</div>
+<!-- === FOOTER ZINUS === -->
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
+</footer>
 
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=1377587102&single=true&output=csv";
@@ -355,7 +392,6 @@ async function loadSheetData() {
     if (totalRow) {
       const topperValue = totalRow[0] || "0";
       const foamValue = totalRow[1] || "0";
-
       totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
       totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
     }
@@ -383,7 +419,7 @@ setInterval(loadSheetData, 30000);
 document.getElementById("shiftSelector").addEventListener("change", function() {
   const value = this.value;
   if (value === "1") {
-    window.location.href = "tes.html";
+    window.location.href = "index.html";
   } else {
     window.location.href = "shift2.html";
   }
@@ -391,4 +427,3 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
-
