@@ -155,6 +155,49 @@
     margin: 20px 0 25px;
   }
 
+  /* === FOOTER ZINUS === */
+  .footer-zinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #006400;
+    color: white;
+    padding: 20px 10px;
+    border-top: 4px solid #004d00;
+    margin-top: 40px;
+  }
+
+  .footer-zinus p {
+    margin: 5px 0 15px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .zinus-logo {
+    width: 120px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes fadeZoomIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
   @media (max-width: 768px) {
     .container {
       width: 100%;
@@ -174,8 +217,7 @@
     }
 
     .marquee { font-size: 16px; padding: 8px 0; }
-    h2 { font-size: 30px;
-         text-align: center;}
+    h2 { font-size: 18px; }
     #jam { font-size: 18px; }
     #tanggal { font-size: 14px; }
     .total-wrapper {
@@ -183,6 +225,8 @@
       align-items: flex-start;
       margin-left: 3%;
     }
+    .footer-zinus p { font-size: 14px; }
+    .zinus-logo { width: 90px; }
   }
 </style>
 </head>
@@ -288,6 +332,12 @@
 <!-- STATUS PEMBARUAN -->
 <div class="status" id="status">⏳ Memuat data...</div>
 
+<!-- === FOOTER ZINUS === -->
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang </p>
+  <img src="Hyundai_Logo.png" alt="Zinus Logo" class="zinus-logo">
+</footer>
+
 <script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
@@ -391,5 +441,3 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
-
-
