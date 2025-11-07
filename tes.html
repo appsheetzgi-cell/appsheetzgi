@@ -115,18 +115,18 @@
     color: #333;
   }
 
+  /* === JAM DAN LOGO === */
   .total-wrapper1 {
     display: flex;
     flex-direction: column;
-    align-items: center; /* tengah */
+    align-items: center;
     justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
     margin-right: 3%;
     text-align: center;
   }
 
   .datetime {
-    text-align: center;
+    margin-bottom: 10px;
   }
 
   #tanggal {
@@ -140,27 +140,23 @@
     font-weight: bold;
     color: #006400;
     margin-top: 5px;
+    text-align: center;
   }
 
-  /* === LOGO === */
   .logo-row {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin-top: 10px;
   }
 
   .zinus-logo, .zinus-logo1 {
-    width: 70px;
-    height: 70px;
-    background: white;
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
+    background: white;
     object-fit: contain;
-    padding: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    opacity: 0;
-    transform: scale(0.8);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
   }
 
@@ -200,12 +196,36 @@
     letter-spacing: 0.5px;
   }
 
+  /* === RESPONSIVE === */
   @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      margin: 10px 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    th, td {
+      font-size: 14px;
+      padding: 6px 4px;
+    }
+
     .marquee { font-size: 16px; padding: 8px 0; }
     h2 { font-size: 18px; }
     #jam { font-size: 24px; }
     #tanggal { font-size: 14px; }
-    .zinus-logo, .zinus-logo1 { width: 50px; height: 50px; }
+
+    .zinus-logo, .zinus-logo1 {
+      width: 45px;
+      height: 45px;
+    }
+
+    .logo-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-zinus p { font-size: 14px; }
   }
 </style>
 </head>
@@ -249,65 +269,60 @@
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer"> Auto-refresh setiap 30 detik
-  <!-- STATUS PEMBARUAN -->
-<div class="status" id="status">⏳ Memuat data...</div>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
 
-  </div>
+<!-- === BAGIAN TOTAL DAN JAM === -->
+<div class="top-bar">
 
-  <!-- === BAGIAN TOTAL DAN JAM === -->
-  <div class="top-bar">
-    <div class="total-wrapper">
-      <div class="total-box">
-        <table>
-          <thead><tr><th>SHIFT</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>
-                <select id="shiftSelector" style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
-                  <option value="1" selected>1</option>
-                  <option value="2">2</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="total-box">
-        <table id="tableTotalTopper">
-          <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-          <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
-        </table>
-      </div>
-
-      <div class="total-box">
-        <table id="tableTotalFoam">
-          <thead><tr><th>TOTAL FOAM</th></tr></thead>
-          <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
-        </table>
-      </div>
+  <div class="total-wrapper">
+    <div class="total-box">
+      <table>
+        <thead><tr><th>SHIFT</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <select id="shiftSelector" 
+                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- Bagian jam dan logo -->
-    <div class="total-wrapper1">
-      <div class="datetime">
-        <div id="tanggal"></div>
-        <div id="jam"></div>
-      </div>
+    <div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
 
-      <div class="logo-row">
-        <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
-        <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
-      </div>
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="total-wrapper1">
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
     </div>
   </div>
 </div>
 
-
 <!-- === FOOTER ZINUS === -->
 <footer class="footer-zinus">
-  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
 </footer>
 
 <script>
@@ -341,6 +356,7 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
+
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
         if (index > 0 && !isNaN(cleanValue)) {
           if (cleanValue < 90 && cleanValue > 0) {
@@ -359,6 +375,7 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
+
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
         if (index > 0 && !isNaN(cleanValue)) {
           if (cleanValue < 75 && cleanValue > 0) {
@@ -381,6 +398,7 @@ async function loadSheetData() {
 
     const now = new Date();
     status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
   } catch (err) {
     console.error("Fetch error:", err);
     status.textContent = "⚠️ Gagal memuat data";
@@ -400,10 +418,12 @@ setInterval(loadSheetData, 30000);
 
 document.getElementById("shiftSelector").addEventListener("change", function() {
   const value = this.value;
-  if (value === "2") window.location.href = "shift2.html";
-  else window.location.href = "tes.html";
+  if (value === "2") {
+    window.location.href = "shift2.html";
+  } else {
+    window.location.href = "tes.html";
+  }
 });
 </script>
 </body>
 </html>
-
