@@ -115,7 +115,7 @@
   }
 
   .clock {
-    text-align: Left;
+    text-align: center;
     font-size: 20px;
     color: #333;
     margin: 25px 0 5px;
@@ -170,7 +170,6 @@
 
 <!-- === TABEL TOPPER === -->
 <div class="container">
-  <div class="clock" id="clock">🕒 Memuat jam...</div>
   <h2>TOPPER Mattress Target : 90 Pcs/Jam</h2>
   <table id="tableTopper">
     <thead>
@@ -246,6 +245,13 @@
     <div class="total-box">
       <table id="tableTotalFoam">
         <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th><div class="clock" id="clock">🕒 Memuat jam...</div></th></tr></thead>
         <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
       </table>
     </div>
@@ -370,6 +376,7 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
+
 
 
 
