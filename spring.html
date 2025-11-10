@@ -331,7 +331,7 @@ async function loadSheetData() {
         td.textContent = cell;
         td.style.fontWeight = "bold";
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue) && cleanValue < 90 && cleanValue > 0) {
+        if (index > 0 && !isNaN(cleanValue) && cleanValue < 60 && cleanValue > 0) {
           td.style.backgroundColor = "#ffcccc";
           td.style.color = "#a80000";
         }
