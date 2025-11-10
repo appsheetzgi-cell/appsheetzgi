@@ -347,8 +347,8 @@ async function loadSheetData() {
     totalTopperBody.innerHTML = "";
     totalFoamBody.innerHTML = "";
 
-    const topperRows = rows.slice(1, 4);
-    const foamRows = rows.slice(7, 12);
+    const topperRows = rows.slice(5, 8);
+    const foamRows = rows.slice(11, 16);
 
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
@@ -388,7 +388,7 @@ async function loadSheetData() {
       foamBody.appendChild(tr);
     });
 
-    const totalRow = rows[14];
+    const totalRow = rows[18];
     if (totalRow) {
       const topperValue = totalRow[0] || "0";
       const foamValue = totalRow[1] || "0";
@@ -427,6 +427,7 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
+
 
 
 
