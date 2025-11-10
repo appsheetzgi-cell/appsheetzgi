@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Monitoring Produksi Realtime</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+  }
+
+  .marquee {
+    background: #006400;
+    color: white;
+    padding: 10px 0;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin: 25px 0 10px;
+    font-size: 22px;
+  }
+
+  .container {
+    width: 95%;
+    margin: 15px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-x: auto;
+    padding: 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  th, td {
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  th {
+    background: #006400;
+    color: white;
+  }
+
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  tr:hover { background-color: #e3f2fd; }
+
+  .footer {
+    text-align: right;
+    font-size: 12px;
+    padding: 8px;
+    background: #f1f1f1;
+    color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  /* === BAGIAN TOTAL + JAM === */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px 3%;
+    flex-wrap: wrap;
+  }
+
+  .total-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .total-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 180px;
+  }
+
+  .total-box table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .total-box th {
+    background: #006400;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .total-box td {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    color: #333;
+  }
+
+  /* === JAM DAN LOGO === */
+  .total-wrapper1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 3%;
+    text-align: center;
+  }
+
+  .datetime {
+    margin-bottom: 10px;
+  }
+
+  #tanggal {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  #jam {
+    font-size: 40px;
+    font-weight: bold;
+    color: #006400;
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .zinus-logo, .zinus-logo1 {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background: white;
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes fadeZoomIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* === FOOTER ZINUS === */
+  .footer-zinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #006400;
+    color: white;
+    padding: 20px 10px;
+    border-top: 4px solid #004d00;
+    margin-top: 10px;
+  }
+
+  .footer-zinus p {
+    margin: 5px 0 15px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      margin: 10px 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    th, td {
+      font-size: 14px;
+      padding: 6px 4px;
+    }
+
+    .marquee { font-size: 16px; padding: 8px 0; }
+    h2 { font-size: 18px; }
+    #jam { font-size: 24px; }
+    #tanggal { font-size: 14px; }
+
+    .zinus-logo, .zinus-logo1 {
+      width: 45px;
+      height: 45px;
+    }
+
+    .logo-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-zinus p { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- === TEKS BERJALAN === -->
+<div class="marquee">
+  <marquee behavior="scroll" direction="left" scrollamount="6">
+    HOURLY MONITORING SPRING PACKING
+  </marquee>
+</div>
+
+<!-- === TABEL TOPPER === -->
+<div class="container">
+  <h2>SPRING PACKING TARGET : 60 Pcs/Jam</h2>
+  <h2>SHIFT 1</h2>
+  <table id="tableTopper">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyTopper">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === TABEL FOAM === -->
+<div class="container">
+  <h2>SHIFT 2</h2>
+  <table id="tableFoam">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyFoam">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === BAGIAN TOTAL DAN JAM === -->
+<div class="top-bar">
+
+  <div class="total-wrapper">
+    <div class="total-box">
+      <table>
+        <thead><tr><th>SHIFT</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <select id="shiftSelector" 
+                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="total-wrapper1">
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+    </div>
+  </div>
+</div>
+
+<!-- === FOOTER ZINUS === -->
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
+</footer>
+
+<script>
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBYhHvt79gXdgMQdO86CWEyH18G2WhMKMWDrs1VRpvAOycjbdSb814zFG6Fiw3LRKXnWMOfmLlpiz5/pub?gid=235442278&single=true&output=csv";
+
+async function loadSheetData() {
+  const status = document.getElementById("status");
+  try {
+    status.textContent = "🔄 Memuat data...";
+    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
+    const text = await response.text();
+    const rows = text.trim().split("\n").map(r => r.split(","));
+
+    const topperBody = document.getElementById("bodyTopper");
+    const foamBody = document.getElementById("bodyFoam");
+    const totalTopperBody = document.getElementById("bodyTotalTopper");
+    const totalFoamBody = document.getElementById("bodyTotalFoam");
+
+    topperBody.innerHTML = "";
+    foamBody.innerHTML = "";
+    totalTopperBody.innerHTML = "";
+    totalFoamBody.innerHTML = "";
+
+    const topperRows = rows.slice(6, 10);
+    const foamRows = rows.slice(14, 18);
+
+    topperRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach((cell, index) => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 90 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
+        tr.appendChild(td);
+      });
+      topperBody.appendChild(tr);
+    });
+
+    foamRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach((cell, index) => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 60 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
+        tr.appendChild(td);
+      });
+      foamBody.appendChild(tr);
+    });
+
+    const totalRow = rows[20];
+    if (totalRow) {
+      const topperValue = totalRow[0] || "0";
+      const foamValue = totalRow[1] || "0";
+      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
+    }
+
+    const now = new Date();
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "⚠️ Gagal memuat data";
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+loadSheetData();
+setInterval(loadSheetData, 30000);
+
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  const value = this.value;
+  if (value === "2") {
+    window.location.href = "shift2.html";
+  } else {
+    window.location.href = "index.html";
+  }
+});
+</script>
+</body>
+</html>
+
+
+
