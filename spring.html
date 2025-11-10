@@ -332,3 +332,50 @@ async function loadSheetData() {
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
+        td.style.fontWeight = "bold";
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue) && cleanValue < 60 && cleanValue > 0) {
+          td.style.backgroundColor = "#ffcccc";
+          td.style.color = "#a80000";
+        }
+        tr.appendChild(td);
+      });
+      shift2Body.appendChild(tr);
+    });
+
+    // === TOTAL ===
+    const totalRow = rows[20];
+    if (totalRow) {
+      const shift1Value = totalRow[0] || "0";
+      const shift2Value = totalRow[1] || "0";
+      const outputValue = totalRow[2] || "0"; // kolom C
+
+      totalShift1Body.innerHTML = `<tr><td>${shift1Value}</td></tr>`;
+      totalShift2Body.innerHTML = `<tr><td>${shift2Value}</td></tr>`;
+      totalOutputBody.innerHTML = `<tr><td>${outputValue}</td></tr>`;
+    }
+
+    const now = new Date();
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "⚠️ Gagal memuat data";
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+loadSheetData();
+setInterval(loadSheetData, 30000);
+</script>
+</body>
+</html>
