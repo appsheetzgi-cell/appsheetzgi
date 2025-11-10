@@ -29,6 +29,12 @@
     margin: 25px 0 10px;
     font-size: 22px;
   }
+  h1 {
+    text-align: Left;
+    color: #333;
+    margin: 25px 0 10px;
+    font-size: 20px;
+  }
 
   .container {
     width: 95%;
@@ -241,7 +247,7 @@
 <!-- === TABEL TOPPER === -->
 <div class="container">
   <h2>SPRING PACKING TARGET : 60 Pcs/Jam</h2>
-  <h2>SHIFT 1</h2>
+  <h1>SHIFT 1</h1>
   <table id="tableTopper">
     <thead>
       <tr>
@@ -258,7 +264,7 @@
 
 <!-- === TABEL FOAM === -->
 <div class="container">
-  <h2>SHIFT 2</h2>
+  <h1>SHIFT 2</h1>
   <table id="tableFoam">
     <thead>
       <tr>
@@ -277,20 +283,10 @@
 <div class="top-bar">
 
   <div class="total-wrapper">
-    <div class="total-box">
-      <table>
-        <thead><tr><th>SHIFT</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>
-              <select id="shiftSelector" 
-                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
+<div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
       </table>
     </div>
 
@@ -342,11 +338,14 @@ async function loadSheetData() {
     const foamBody = document.getElementById("bodyFoam");
     const totalTopperBody = document.getElementById("bodyTotalTopper");
     const totalFoamBody = document.getElementById("bodyTotalFoam");
+    const total = document.getElementById("bodyTotal");
 
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
     totalTopperBody.innerHTML = "";
     totalFoamBody.innerHTML = "";
+    totalFoam.innerHTML = "";
+
 
     const topperRows = rows.slice(6, 10);
     const foamRows = rows.slice(14, 18);
@@ -393,8 +392,10 @@ async function loadSheetData() {
     if (totalRow) {
       const topperValue = totalRow[0] || "0";
       const foamValue = totalRow[1] || "0";
+      const totalValue = totalRow[1] || "0";
       totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
       totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
+      totalFoam.innerHTML = `<tr><td>${foamValue}</td></tr>`;
     }
 
     const now = new Date();
