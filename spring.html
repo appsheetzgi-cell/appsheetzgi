@@ -30,7 +30,7 @@
     font-size: 22px;
   }
   h1 {
-    text-align: Left;
+    text-align: left;
     color: #333;
     margin: 25px 0 10px;
     font-size: 20px;
@@ -77,7 +77,6 @@
     border-bottom-right-radius: 10px;
   }
 
-  /* === BAGIAN TOTAL + JAM === */
   .top-bar {
     display: flex;
     justify-content: space-between;
@@ -91,6 +90,7 @@
     justify-content: flex-start;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .total-box {
@@ -121,7 +121,6 @@
     color: #333;
   }
 
-  /* === JAM DAN LOGO === */
   .total-wrapper1 {
     display: flex;
     flex-direction: column;
@@ -167,14 +166,8 @@
   }
 
   @keyframes fadeZoomIn {
-    0% {
-      opacity: 0;
-      transform: scale(0.8) rotate(-5deg);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
+    0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
   }
 
   @keyframes pulse {
@@ -183,7 +176,6 @@
     100% { transform: scale(1); }
   }
 
-  /* === FOOTER ZINUS === */
   .footer-zinus {
     display: flex;
     justify-content: center;
@@ -201,38 +193,6 @@
     font-size: 16px;
     letter-spacing: 0.5px;
   }
-
-  /* === RESPONSIVE === */
-  @media (max-width: 768px) {
-    .container {
-      width: 100%;
-      margin: 10px 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
-    th, td {
-      font-size: 14px;
-      padding: 6px 4px;
-    }
-
-    .marquee { font-size: 16px; padding: 8px 0; }
-    h2 { font-size: 18px; }
-    #jam { font-size: 24px; }
-    #tanggal { font-size: 14px; }
-
-    .zinus-logo, .zinus-logo1 {
-      width: 45px;
-      height: 45px;
-    }
-
-    .logo-row {
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .footer-zinus p { font-size: 14px; }
-  }
 </style>
 </head>
 <body>
@@ -244,63 +204,63 @@
   </marquee>
 </div>
 
-<!-- === TABEL TOPPER === -->
+<!-- === SHIFT 1 === -->
 <div class="container">
   <h2>SPRING PACKING TARGET : 60 Pcs/Jam</h2>
   <h1>SHIFT 1</h1>
-  <table id="tableTopper">
+  <table id="tableShift1">
     <thead>
       <tr>
         <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
         <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
-    <tbody id="bodyTopper">
+    <tbody id="bodyShift1">
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === TABEL FOAM === -->
+<!-- === SHIFT 2 === -->
 <div class="container">
   <h1>SHIFT 2</h1>
-  <table id="tableFoam">
+  <table id="tableShift2">
     <thead>
       <tr>
         <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
         <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
-    <tbody id="bodyFoam">
+    <tbody id="bodyShift2">
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
   <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === BAGIAN TOTAL DAN JAM === -->
+<!-- === TOTAL & JAM === -->
 <div class="top-bar">
 
   <div class="total-wrapper">
-<div class="total-box">
-      <table id="tableTotalTopper">
-        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+    <div class="total-box">
+      <table id="tableTotalShift1">
+        <thead><tr><th>TOTAL SHIFT 1</th></tr></thead>
+        <tbody id="bodyTotalShift1"><tr><td>0</td></tr></tbody>
       </table>
     </div>
 
     <div class="total-box">
-      <table id="tableTotalTopper">
-        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      <table id="tableTotalShift2">
+        <thead><tr><th>TOTAL SHIFT 2</th></tr></thead>
+        <tbody id="bodyTotalShift2"><tr><td>0</td></tr></tbody>
       </table>
     </div>
 
     <div class="total-box">
-      <table id="tableTotalFoam">
-        <thead><tr><th>TOTAL FOAM</th></tr></thead>
-        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      <table id="tableTotalOutput">
+        <thead><tr><th>TOTAL OUTPUT</th></tr></thead>
+        <tbody id="bodyTotalOutput"><tr><td>0</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -317,7 +277,7 @@
   </div>
 </div>
 
-<!-- === FOOTER ZINUS === -->
+<!-- === FOOTER === -->
 <footer class="footer-zinus">
   <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
 </footer>
@@ -334,101 +294,41 @@ async function loadSheetData() {
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
 
-    const topperBody = document.getElementById("bodyTopper");
-    const foamBody = document.getElementById("bodyFoam");
-    const totalTopperBody = document.getElementById("bodyTotalTopper");
-    const totalFoamBody = document.getElementById("bodyTotalFoam");
-    const total = document.getElementById("bodyTotal");
+    const shift1Body = document.getElementById("bodyShift1");
+    const shift2Body = document.getElementById("bodyShift2");
+    const totalShift1Body = document.getElementById("bodyTotalShift1");
+    const totalShift2Body = document.getElementById("bodyTotalShift2");
+    const totalOutputBody = document.getElementById("bodyTotalOutput");
 
-    topperBody.innerHTML = "";
-    foamBody.innerHTML = "";
-    totalTopperBody.innerHTML = "";
-    totalFoamBody.innerHTML = "";
-    totalFoam.innerHTML = "";
+    shift1Body.innerHTML = "";
+    shift2Body.innerHTML = "";
+    totalShift1Body.innerHTML = "";
+    totalShift2Body.innerHTML = "";
+    totalOutputBody.innerHTML = "";
 
+    const shift1Rows = rows.slice(6, 10);
+    const shift2Rows = rows.slice(14, 18);
 
-    const topperRows = rows.slice(6, 10);
-    const foamRows = rows.slice(14, 18);
-
-    topperRows.forEach(row => {
+    // === SHIFT 1 ===
+    shift1Rows.forEach(row => {
       const tr = document.createElement("tr");
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 90 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
+        if (index > 0 && !isNaN(cleanValue) && cleanValue < 90 && cleanValue > 0) {
+          td.style.backgroundColor = "#ffcccc";
+          td.style.color = "#a80000";
         }
         tr.appendChild(td);
       });
-      topperBody.appendChild(tr);
+      shift1Body.appendChild(tr);
     });
 
-    foamRows.forEach(row => {
+    // === SHIFT 2 ===
+    shift2Rows.forEach(row => {
       const tr = document.createElement("tr");
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontWeight = "bold";
-
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 60 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
-        }
-        tr.appendChild(td);
-      });
-      foamBody.appendChild(tr);
-    });
-
-    const totalRow = rows[20];
-    if (totalRow) {
-      const topperValue = totalRow[0] || "0";
-      const foamValue = totalRow[1] || "0";
-      const totalValue = totalRow[1] || "0";
-      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
-      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
-      totalFoam.innerHTML = `<tr><td>${foamValue}</td></tr>`;
-    }
-
-    const now = new Date();
-    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
-
-  } catch (err) {
-    console.error("Fetch error:", err);
-    status.textContent = "⚠️ Gagal memuat data";
-  }
-}
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-loadSheetData();
-setInterval(loadSheetData, 30000);
-
-document.getElementById("shiftSelector").addEventListener("change", function() {
-  const value = this.value;
-  if (value === "2") {
-    window.location.href = "shift2.html";
-  } else {
-    window.location.href = "index.html";
-  }
-});
-</script>
-</body>
-</html>
-
-
-
