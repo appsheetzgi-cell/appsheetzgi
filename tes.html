@@ -23,6 +23,35 @@
     white-space: nowrap;
   }
 
+  .shift-bar {
+    background: white;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    margin: 15px 3%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .shift-bar label {
+    font-size: 24px;
+    font-weight: 600;
+    color: #083D36;
+  }
+
+  .shift-bar select {
+    font-size: 22px;
+    font-weight: bold;
+    border: 2px solid #083D36;
+    border-radius: 8px;
+    padding: 6px 12px;
+    background: #f9f9f9;
+    color: #083D36;
+    cursor: pointer;
+  }
+
   h2 {
     text-align: center;
     color: #333;
@@ -161,14 +190,8 @@
   }
 
   @keyframes fadeZoomIn {
-    0% {
-      opacity: 0;
-      transform: scale(0.8) rotate(-5deg);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
+    0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
   }
 
   @keyframes pulse {
@@ -238,22 +261,18 @@
   </marquee>
 </div>
 
+<!-- === SHIFT SELECTOR DI ATAS TABEL === -->
+<div class="shift-bar">
+  <label for="shiftSelect">SHIFT :</label>
+  <select id="shiftSelect">
+    <option value="1" selected>1</option>
+    <option value="2">2</option>
+  </select>
+</div>
+
 <!-- === TABEL TOPPER === -->
 <div class="container">
   <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-  <div class="total-wrapper">
-    <div class="total-box">
-      <table>
-        <thead><tr><th>
-              <select id="shiftSelector" 
-                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
-                <option value="SHIFT 1" selected>SHIFT 1</option>
-                <option value="SHIFT 2">SHIFT 2</option>
-              </select>
-        </th></tr></thead>
-      </table>
-    </div>
-  </div>
   <table id="tableTopper">
     <thead>
       <tr>
@@ -287,25 +306,7 @@
 
 <!-- === BAGIAN TOTAL DAN JAM === -->
 <div class="top-bar">
-
   <div class="total-wrapper">
-    <div class="total-box">
-      <table>
-        <thead><tr><th>SHIFT</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>
-              <select id="shiftSelector" 
-                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
     <div class="total-box">
       <table id="tableTotalTopper">
         <thead><tr><th>TOTAL TOPPER</th></tr></thead>
@@ -411,7 +412,6 @@ async function loadSheetData() {
 
     const now = new Date();
     status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
-
   } catch (err) {
     console.error("Fetch error:", err);
     status.textContent = "⚠️ Gagal memuat data";
@@ -429,7 +429,7 @@ updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
 
-document.getElementById("shiftSelector").addEventListener("change", function() {
+document.getElementById("shiftSelect").addEventListener("change", function() {
   const value = this.value;
   if (value === "2") {
     window.location.href = "shift2.html";
@@ -440,8 +440,3 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
-
-
-
-
-
