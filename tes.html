@@ -1,286 +1,441 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📊 Monitoring Produksi Realtime</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>📊 Monitoring Produksi Realtime - Shift 1</title>
 <style>
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
+  /* ========== Global ========== */
+  :root{
+    --green:#083D36;
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --muted:#666;
+    --danger:#a80000;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, "Segoe UI", Arial, sans-serif;
+    background:var(--bg);
+    color:#111;
   }
 
-  .marquee {
-    background: #083D36;
-    color: white;
-    padding: 10px 0;
-    font-size: 40px;
-    font-weight: bold;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
+  /* ========== Header / marquee ========== */
+  header{
+    padding:14px 8px;
+    text-align:center;
+  }
+  .title {
+    font-weight:700;
+    letter-spacing:0.06em;
+    color:#000;
+    margin:6px 0 0;
+    font-size:18px;
   }
 
-  h2 {
-    text-align: center;
-    color: #333;
-    margin: 10px 0;
-    font-size: 22px;
+  /* modern marquee (seamless) */
+  .marquee-wrap{
+    background:var(--green);
+    overflow:hidden;
+    padding:10px 0;
+  }
+  .marquee-track{
+    display:flex;
+    gap:80px;
+    align-items:center;
+    white-space:nowrap;
+    animation:marquee 18s linear infinite;
+  }
+  .marquee-item{
+    color:white;
+    font-weight:700;
+    font-size:20px;
+  }
+  @keyframes marquee{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
   }
 
-  .container {
-    width: 95%;
-    margin: 15px auto;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow-x: auto;
-    padding: 0;
+  /* ========== Top controls (shift buttons) ========== */
+  .controls{
+    width:95%;
+    margin:14px auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  .left-controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .shift-btn{
+    background:var(--green);
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(3,60,54,0.12);
+  }
+  .shift-btn.inactive{
+    background:transparent;
+    color:var(--green);
+    border:2px solid var(--green);
+    box-shadow:none;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+  /* ========== Main containers / tables ========== */
+  .card{
+    width:95%;
+    margin:10px auto;
+    background:var(--card);
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    overflow:hidden;
   }
 
-  th, td {
-    padding: 10px 6px;
-    text-align: center;
-    font-size: 25px;
+  .card h2{
+    margin:12px 0;
+    text-align:center;
+    color:#111;
+    font-size:16px;
+    font-weight:700;
   }
 
-  th {
-    background: #083D36;
-    color: white;
+  /* table base */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:16px;
+  }
+  thead th{
+    background:var(--green);
+    color:#fff;
+    padding:8px 6px;
+    font-weight:700;
+    border-right:1px solid rgba(255,255,255,0.06);
+    font-size:14px;
+  }
+  tbody td{
+    padding:8px 6px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+    font-weight:600;
+  }
+  tr.total-row td{
+    font-weight:800;
+    background:#f6f8f7;
   }
 
-  tr:nth-child(even) { background-color: #f9f9f9; }
-  tr:hover { background-color: #e3f2fd; }
-
-  .footer {
-    text-align: right;
-    font-size: 14px;
-    padding: 8px;
-    background: #f1f1f1;
-    color: #666;
-    border-top: 1px solid #ddd;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+  /* small numeric cells */
+  .num {
+    font-variant-numeric: tabular-nums;
   }
 
-  /* === SHIFT TABLE + JAM/LOGO === */
-  .shift-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 95%;
-    margin: 15px auto;
+  /* highlight low values */
+  .low{
+    background:#ffcccc;
+    color:var(--danger);
   }
 
-  .shift-table {
-    width: 400px;
-    font-size: 20px;
-    border-collapse: collapse;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  /* ========== Output (shift summary) ========== */
+  .output-wrapper{
+    width:95%;
+    margin:10px auto 20px;
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+  }
+  .output-box{
+    background:var(--card);
+    border-radius:8px;
+    padding:8px;
+    box-shadow:0 6px 12px rgba(0,0,0,0.06);
+  }
+  .output-table th{
+    background:var(--green);
+    color:#fff;
+    padding:6px 10px;
+    font-size:13px;
+  }
+  .output-table td{ padding:8px 12px; font-weight:800; font-size:18px; color:var(--green); text-align:center; }
+
+  /* ========== Shift + clock area ========== */
+  .bottom-row{
+    width:95%;
+    margin:6px auto 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:16px;
+  }
+  .clock{
+    text-align:right;
+    min-width:220px;
+  }
+  .clock #tanggal{font-weight:700; color:#222}
+  .clock #jam{font-weight:800; font-size:18px; color:var(--green)}
+  .logo-row{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    align-items:center;
+    margin-top:8px;
+  }
+  .logo-row img{ width:58px; height:58px; object-fit:contain; border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,0.08); }
+
+  /* ========== footer status line inside cards ========== */
+  .card .card-footer{
+    background:#fafafa;
+    padding:8px 12px;
+    font-size:13px;
+    color:var(--muted);
+    text-align:right;
+    border-top:1px solid #eee;
   }
 
-  .shift-table th, .shift-table td {
-    font-size: 20px;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
+  /* ========== Responsive ========== */
+  @media (max-width:900px){
+    .marquee-item{ font-size:16px }
+    thead th, tbody td { font-size:13px; padding:6px 4px; }
+    .controls{ flex-direction:column; align-items:flex-start; gap:10px }
+    .output-wrapper{ flex-direction:column; }
+    .bottom-row{ flex-direction:column; align-items:flex-start; gap:10px; }
+    .clock{ text-align:left; }
   }
-
-  .datetime-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #tanggal { font-size: 20px; font-weight: 600; color: #333; margin-bottom:5px; }
-  #jam { font-size: 40px; font-weight: bold; color: #006400; margin-bottom:5px; }
-
-  .logo-row {
-    display: flex;
-    gap: 15px;
-  }
-
-  .zinus-logo, .zinus-logo1 {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    object-fit: contain;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
-
-  .footer-zinus {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background: #083D36;
-    color: white;
-    padding: 20px 10px;
-    border-top: 4px solid #004d00;
-    margin-top: 10px;
-  }
-
-  .footer-zinus p { margin: 5px 0 15px; font-size: 16px; letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
 
-<!-- TEKS BERJALAN -->
-<div class="marquee">
-  <marquee behavior="scroll" direction="left" scrollamount="6">
-    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
-  </marquee>
-</div>
+  <!-- header + marquee -->
+  <header>
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee-track" id="marqueeTrack">
+        <div class="marquee-item">HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING</div>
+        <div class="marquee-item">HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING</div>
+      </div>
+    </div>
+    <div class="title">HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING</div>
+  </header>
 
-<!-- TABEL TOPPER -->
-<div class="container">
-  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-  <table id="tableTopper">
-    <thead>
-      <tr>
-        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
-      </tr>
-    </thead>
-    <tbody id="bodyTopper">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
-    </tbody>
-  </table>
-  <div class="footer">
-    Auto-refresh setiap 30 detik
-    <div id="status"></div>
+  <!-- shift buttons and placeholder -->
+  <div class="controls">
+    <div class="left-controls">
+      <a href="index.html"><button class="shift-btn">Shift 1</button></a>
+      <a href="shift2.html"><button class="shift-btn inactive">Shift 2</button></a>
+    </div>
+    <!-- empty right side possible future controls -->
+    <div></div>
   </div>
-</div>
 
-<!-- TABEL FOAM -->
-<div class="container">
-  <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
-  <table id="tableFoam">
-    <thead>
-      <tr>
-        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
-      </tr>
-    </thead>
-    <tbody id="bodyFoam">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
-    </tbody>
-  </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
-</div>
+  <!-- TOPPER table card -->
+  <section class="card" aria-label="Topper Packing">
+    <h2>TOPPER PACKING TARGET : 90 PC / JAM</h2>
+    <div style="overflow-x:auto;">
+      <table id="tableTopper" aria-describedby="topper-footer">
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th>08:00~09:00</th><th>09:00~10:00</th><th>10:00~11:00</th><th>11:00~12:00</th>
+            <th>13:00~14:00</th><th>14:00~15:00</th><th>15:00~16:00</th><th>16:00~17:00</th>
+            <th>17:00~18:00</th><th>18:30~19:30</th><th>AVG</th><th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody id="bodyTopper">
+          <tr><td colspan="13">Loading data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer" id="topper-footer">Auto-refresh setiap 30 detik</div>
+  </section>
 
-<!-- SHIFT 1 & 2 + JAM/LOGO -->
-<div class="shift-wrapper">
-  <table class="shift-table">
-    <thead>
-      <tr>
-        <th colspan="2">SHIFT 1</th>
-        <th colspan="2">SHIFT 2</th>
-      </tr>
-      <tr>
-        <th>Topper</th><th>Foam</th>
-        <th>Topper</th><th>Foam</th>
-      </tr>
-    </thead>
-    <tbody id="shiftBody">
-      <tr><td colspan="4">Loading shift data...</td></tr>
-    </tbody>
-  </table>
+  <!-- FOAM table card -->
+  <section class="card" aria-label="Foam Packing">
+    <h2>FOAM PACKING TARGET : 75 PC / JAM</h2>
+    <div style="overflow-x:auto;">
+      <table id="tableFoam">
+        <thead>
+          <tr>
+            <th>Line</th>
+            <th>08:00~09:00</th><th>09:00~10:00</th><th>10:00~11:00</th><th>11:00~12:00</th>
+            <th>13:00~14:00</th><th>14:00~15:00</th><th>15:00~16:00</th><th>16:00~17:00</th>
+            <th>17:00~18:00</th><th>18:30~19:30</th><th>AVG</th><th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody id="bodyFoam">
+          <tr><td colspan="13">Loading data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer" id="foam-footer">Auto-refresh setiap 30 detik</div>
+  </section>
 
-  <div class="datetime-logo">
-    <div id="tanggal"></div>
-    <div id="jam"></div>
-    <div class="logo-row">
-      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
-      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+  <!-- OUTPUT SHIFT summary (small) -->
+  <div class="output-wrapper" aria-label="Output shift summary">
+    <div class="output-box" style="flex:1">
+      <table class="output-table" style="min-width:360px;">
+        <thead>
+          <tr><th colspan="2">OUTPUT SHIFT 1</th><th colspan="2">OUTPUT SHIFT 2</th></tr>
+          <tr>
+            <th>TOPPER</th><th>FOAM</th><th>TOPPER</th><th>FOAM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="outputRow">
+            <td>0</td><td>0</td><td>0</td><td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- placeholder, can add more boxes here if needed -->
+  </div>
+
+  <!-- bottom: clock + logos -->
+  <div class="bottom-row">
+    <div></div> <!-- left empty so output sits left -->
+    <div class="clock">
+      <div id="tanggal">—</div>
+      <div id="jam">—</div>
+      <div class="logo-row" aria-hidden="true">
+        <img src="logo-zinus1.gif" alt="Zinus" onerror="this.style.display='none'">
+        <img src="Hyundai_Logo.png" alt="Hyundai" onerror="this.style.display='none'">
+      </div>
     </div>
   </div>
-</div>
 
-<!-- FOOTER -->
-<footer class="footer-zinus">
-  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
-</footer>
+  <footer style="height:20px"></footer>
 
 <script>
+/*
+  NOTE:
+  - Pastikan SHEET_URL adalah link CSV dari "Publish to web" Google Sheet
+  - Jika kamu gunakan halaman shift2, ubah sheet URL atau query param sesuai kebutuhan
+*/
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
-async function loadSheetData() {
-  const status = document.getElementById("status");
-  try {
-    status.textContent = "🔄 Memuat data...";
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
-    if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
-    const text = await response.text();
-    const rows = text.trim().split("\n").map(r => r.split(","));
+const topperBodyEl = document.getElementById('bodyTopper');
+const foamBodyEl = document.getElementById('bodyFoam');
+const topperFooter = document.getElementById('topper-footer');
+const foamFooter = document.getElementById('foam-footer');
+const outputRowEl = document.getElementById('outputRow');
 
-    const topperBody = document.getElementById("bodyTopper");
-    const foamBody = document.getElementById("bodyFoam");
-    topperBody.innerHTML = "";
-    foamBody.innerHTML = "";
+async function fetchCsv(url){
+  const res = await fetch(url + "&t=" + Date.now(), {cache:'no-store'});
+  if(!res.ok) throw new Error('Fetch failed: '+res.status);
+  const txt = await res.text();
+  // split using CRLF or LF and handle quoted commas simply (assuming simple CSV)
+  const lines = txt.trim().split(/\r?\n/).map(r => r.split(','));
+  return lines;
+}
 
-    const topperRows = rows.slice(5, 8);
-    const foamRows = rows.slice(11, 16);
+async function loadData(){
+  // do not clear UI immediately — build new content first
+  try{
+    topperFooter.textContent = '🔄 Memuat data...';
+    foamFooter.textContent = '🔄 Memuat data...';
 
-    topperRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, index) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        td.style.fontWeight = "bold";
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue) && cleanValue > 0 && cleanValue < 90) {
-          td.style.backgroundColor = "#ffcccc";
-          td.style.color = "#a80000";
-        }
-        tr.appendChild(td);
+    const rows = await fetchCsv(SHEET_URL);
+
+    // --- parse topper rows (example row indexes based on sheet you provided) ---
+    // adjust slices if your sheet rows are different
+    const topperRows = rows.slice(4, 7); // maybe header occupies first 4 rows in your CSV — adjust if needed
+    const foamRows = rows.slice(10, 14);
+    const totalRow = rows[17] || []; // row for outputs, adjust index if needed
+
+    // build topper HTML
+    let topperHtml = '';
+    if(topperRows.length === 0){
+      topperHtml = '<tr><td colspan="13">No data</td></tr>';
+    } else {
+      topperRows.forEach(r=>{
+        // ensure row has enough columns; fill missing with 0 or empty
+        const cells = r.concat(Array(13).fill('')).slice(0,13);
+        topperHtml += '<tr>';
+        cells.forEach((c,i)=>{
+          const raw = c ?? '';
+          const clean = raw.toString().trim();
+          // first column is line name (text)
+          if(i === 0){
+            topperHtml += `<td class="line">${escapeHtml(clean)}</td>`;
+          } else {
+            // numeric cell
+            const n = parseFloat(clean.replace(/[^0-9.-]/g,'')) || 0;
+            const cls = (n>0 && n < 90) ? 'num low' : 'num';
+            topperHtml += `<td class="${cls}">${n}</td>`;
+          }
+        });
+        topperHtml += '</tr>';
       });
-      topperBody.appendChild(tr);
-    });
+    }
 
-    foamRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, index) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        td.style.fontWeight = "bold";
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue) && cleanValue > 0 && cleanValue < 75) {
-          td.style.backgroundColor = "#ffcccc";
-          td.style.color = "#a80000";
-        }
-        tr.appendChild(td);
+    // build foam HTML
+    let foamHtml = '';
+    if(foamRows.length === 0){
+      foamHtml = '<tr><td colspan="13">No data</td></tr>';
+    } else {
+      foamRows.forEach(r=>{
+        const cells = r.concat(Array(13).fill('')).slice(0,13);
+        foamHtml += '<tr>';
+        cells.forEach((c,i)=>{
+          const raw = c ?? '';
+          const clean = raw.toString().trim();
+          if(i === 0){
+            foamHtml += `<td class="line">${escapeHtml(clean)}</td>`;
+          } else {
+            const n = parseFloat(clean.replace(/[^0-9.-]/g,'')) || 0;
+            const cls = (n>0 && n < 75) ? 'num low' : 'num';
+            foamHtml += `<td class="${cls}">${n}</td>`;
+          }
+        });
+        foamHtml += '</tr>';
       });
-      foamBody.appendChild(tr);
-    });
+    }
 
-    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
+    // only update DOM after we have built HTML (so table doesn't disappear)
+    topperBodyEl.innerHTML = topperHtml;
+    foamBodyEl.innerHTML = foamHtml;
 
-  } catch (err) {
-    console.error("Fetch error:", err);
-    status.textContent = "⚠️ Gagal memuat data";
+    // update footers
+    const now = new Date();
+    topperFooter.textContent = '✅ Diperbarui: ' + now.toLocaleTimeString('id-ID');
+    foamFooter.textContent = '✅ Diperbarui: ' + now.toLocaleTimeString('id-ID');
+
+    // update output row values (assume totalRow columns: [topper1, foam1, topper2, foam2])
+    const out0 = parseFloat((totalRow[0]||'').replace(/[^0-9.-]/g,'')) || 0;
+    const out1 = parseFloat((totalRow[1]||'').replace(/[^0-9.-]/g,'')) || 0;
+    const out2 = parseFloat((totalRow[2]||'').replace(/[^0-9.-]/g,'')) || 0;
+    const out3 = parseFloat((totalRow[3]||'').replace(/[^0-9.-]/g,'')) || 0;
+
+    outputRowEl.innerHTML = `<td class="num">${out0}</td><td class="num">${out1}</td><td class="num">${out2}</td><td class="num">${out3}</td>`;
+
+  }catch(err){
+    console.error(err);
+    topperFooter.textContent = '⚠️ Gagal memuat data';
+    foamFooter.textContent = '⚠️ Gagal memuat data';
   }
 }
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+function escapeHtml(s){
+  return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 }
 
-setInterval(updateClock, 1000);
-updateClock();
-loadSheetData();
-setInterval(loadSheetData, 30000);
-</script>
+/* clock */
+function updateClock(){
+  const now = new Date();
+  document.getElementById('tanggal').textContent = now.toLocaleDateString('id-ID',{ weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('jam').textContent = now.toLocaleTimeString('id-ID',{ hour12:false });
+}
 
+/* init */
+updateClock();
+setInterval(updateClock,1000);
+loadData();
+setInterval(loadData,30000);
+</script>
 </body>
 </html>
