@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📊 Monitoring Produksi Realtime</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
   body {
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -12,117 +16,106 @@
     padding: 0;
   }
 
-  /* HEADER & DROPDOWN SHIFT */
-  .header-bar {
+  /* Header teks berjalan */
+  .marquee-text {
     background: #083D36;
     color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
   }
 
-  .header-bar h1 {
-    margin: 0;
-    font-size: 26px;
-    letter-spacing: 1px;
+  .marquee-text span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 15s linear infinite;
   }
 
-  .shift-select {
-    background: #004d40;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    font-size: 18px;
-    border-radius: 6px;
-    cursor: pointer;
+  @keyframes scrollText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
   }
-  .shift-select:hover {
-    background: #00695c;
+
+  /* Container umum */
+  .container-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 15px;
+    margin-top: 20px;
   }
 
   h2 {
+    color: #083D36;
     text-align: center;
-    color: #333;
-    margin: 15px 0;
-    font-size: 22px;
-  }
-
-  .container {
-    width: 95%;
-    margin: 15px auto;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow-x: auto;
-    padding: 0;
+    margin-bottom: 15px;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
-  }
-
-  th, td {
-    padding: 10px 6px;
-    text-align: center;
-    font-size: 22px;
   }
 
   th {
-    background: #083D36;
+    background-color: #083D36;
     color: white;
+    text-align: center;
+    padding: 10px;
   }
 
-  tr:nth-child(even) { background-color: #f9f9f9; }
-  tr:hover { background-color: #e3f2fd; }
+  td {
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 
   .footer {
     text-align: right;
-    font-size: 14px;
-    padding: 6px 15px;
-    background: #f1f1f1;
+    font-size: 13px;
+    padding: 5px 10px;
     color: #666;
-    border-top: 1px solid #ddd;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
   }
 
-  /* === OUTPUT SHIFT TABLE === */
+  /* Shift Table */
   .shift-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 95%;
-    margin: 20px auto;
+    margin-top: 20px;
+    flex-wrap: wrap;
   }
 
   .shift-table {
     width: 400px;
-    font-size: 18px;
-    border-collapse: collapse;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   .shift-table th, .shift-table td {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 18px;
   }
 
-  /* JAM & LOGO */
-  .datetime-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #tanggal { font-size: 18px; font-weight: 600; color: #333; margin-bottom:5px; }
-  #jam { font-size: 36px; font-weight: bold; color: #006400; margin-bottom:10px; }
+  /* Jam & Logo */
+  #tanggal { font-size: 18px; font-weight: 600; color: #333; text-align: center; }
+  #jam { font-size: 36px; font-weight: bold; color: #006400; text-align: center; }
 
   .logo-row {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 15px;
+    margin-top: 10px;
   }
 
   .zinus-logo, .zinus-logo1 {
@@ -133,45 +126,47 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
 
-  /* FOOTER */
-  .footer-zinus {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  footer.footer-zinus {
     background: #083D36;
     color: white;
-    padding: 20px 10px;
+    text-align: center;
+    padding: 15px 10px;
     border-top: 4px solid #004d00;
-    margin-top: 10px;
+    margin-top: 25px;
   }
 
-  .footer-zinus p {
-    margin: 5px 0 10px;
-    font-size: 16px;
-    letter-spacing: 0.5px;
+  /* Dropdown posisi kiri */
+  .dropdown-shift {
+    margin-bottom: 10px;
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header-bar">
-  <h1>HOURLY MONITORING TOPPER & FOAM PACKING</h1>
-  <select id="shiftSelect" class="shift-select">
-    <option value="shift1" selected>Shift 1</option>
-    <option value="shift2">Shift 2</option>
-  </select>
+<!-- Teks berjalan -->
+<div class="marquee-text">
+  <span>📊 HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING - ZINUS INDONESIA 📦</span>
 </div>
 
-<!-- TABEL TOPPER -->
-<div class="container">
-  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-  <table id="tableTopper">
+<!-- Tabel Topper -->
+<div class="container container-box">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="dropdown-shift">
+      <select id="shiftSelector" class="form-select form-select-sm" style="width:150px;">
+        <option value="1">Shift 1</option>
+        <option value="2">Shift 2</option>
+      </select>
+    </div>
+    <h2 class="flex-grow-1 text-center m-0">TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
+    <div style="width:150px;"></div>
+  </div>
+
+  <table id="tableTopper" class="table table-bordered">
     <thead>
       <tr>
         <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th>
+        <th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
     <tbody id="bodyTopper">
@@ -181,34 +176,34 @@
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- TABEL FOAM -->
-<div class="container">
+<!-- Tabel Foam -->
+<div class="container container-box">
   <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
-  <table id="tableFoam">
+  <table id="tableFoam" class="table table-bordered">
     <thead>
       <tr>
         <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th>
+        <th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
     <tbody id="bodyFoam">
       <tr><td colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- OUTPUT SHIFT TABLE -->
-<div class="shift-wrapper">
-  <table class="shift-table">
+<!-- Shift & Jam -->
+<div class="container shift-wrapper">
+  <table class="shift-table table table-bordered">
     <thead>
       <tr>
         <th colspan="2">SHIFT 1</th>
         <th colspan="2">SHIFT 2</th>
       </tr>
       <tr>
-        <th>Topper</th><th>Foam</th>
-        <th>Topper</th><th>Foam</th>
+        <th>Topper</th><th>Foam</th><th>Topper</th><th>Foam</th>
       </tr>
     </thead>
     <tbody id="shiftBody">
@@ -216,95 +211,76 @@
     </tbody>
   </table>
 
-  <div class="datetime-logo">
+  <div>
     <div id="tanggal"></div>
     <div id="jam"></div>
     <div class="logo-row">
-      <img src="logo-zinus1.gif" class="zinus-logo1">
-      <img src="Hyundai_Logo.png" class="zinus-logo">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
     </div>
   </div>
 </div>
 
+<!-- Footer -->
 <footer class="footer-zinus">
   <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
 </footer>
 
 <script>
+// === JAM ===
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// === DROPDOWN SHIFT ===
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  if (this.value === "2") window.location.href = "shift2.html";
+  else window.location.href = "index.html";
+});
+
+// === AMBIL DATA GOOGLE SHEET ===
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
+  const status = document.getElementById("status");
   try {
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    status.textContent = "🔄 Memuat data...";
+    const response = await fetch(SHEET_URL + "&t=" + Date.now());
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
-
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
     const shiftBody = document.getElementById("shiftBody");
-
-    topperBody.innerHTML = "";
-    foamBody.innerHTML = "";
-    shiftBody.innerHTML = "";
+    topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
 
     const topperRows = rows.slice(5, 8);
     const foamRows = rows.slice(11, 16);
 
     topperRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, i) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        const val = parseFloat(cell);
-        if (i > 0 && !isNaN(val) && val < 90) td.style.backgroundColor = "#ffcccc";
-        tr.appendChild(td);
-      });
-      topperBody.appendChild(tr);
+      topperBody.innerHTML += `<tr>${row.slice(0,13).map(c=>`<td>${c}</td>`).join("")}</tr>`;
     });
-
     foamRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, i) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        const val = parseFloat(cell);
-        if (i > 0 && !isNaN(val) && val < 75) td.style.backgroundColor = "#ffcccc";
-        tr.appendChild(td);
-      });
-      foamBody.appendChild(tr);
+      foamBody.innerHTML += `<tr>${row.slice(0,13).map(c=>`<td>${c}</td>`).join("")}</tr>`;
     });
 
-    // Output shift
-    const shiftRow = rows[18];
-    if (shiftRow) {
-      shiftBody.innerHTML = `
-        <tr>
-          <td>${shiftRow[0] || "-"}</td>
-          <td>${shiftRow[1] || "-"}</td>
-          <td>${shiftRow[2] || "-"}</td>
-          <td>${shiftRow[3] || "-"}</td>
-        </tr>`;
-    }
+    const totalRow = rows[18];
+    if (totalRow)
+      shiftBody.innerHTML = `<tr><td>${totalRow[2]||0}</td><td>${totalRow[3]||0}</td><td>${totalRow[4]||0}</td><td>${totalRow[5]||0}</td></tr>`;
 
-  } catch (err) {
-    console.error("Error load data:", err);
+    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
+  } catch {
+    status.textContent = "⚠️ Gagal memuat data";
   }
 }
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12:false });
-}
-
-setInterval(updateClock, 1000);
-updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
-
-document.getElementById("shiftSelect").addEventListener("change", e => {
-  if (e.target.value === "shift2") window.location.href = "shift2.html";
-});
 </script>
+
 </body>
 </html>
