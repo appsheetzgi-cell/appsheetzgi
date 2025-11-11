@@ -60,58 +60,45 @@
   tr:nth-child(even) { background-color: #f9f9f9; }
   tr:hover { background-color: #e3f2fd; }
 
-  .footer {
-    text-align: right;
-    font-size: 12px;
-    padding: 8px;
-    background: #f1f1f1;
-    color: #666;
-    border-top: 1px solid #ddd;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 20px 3%;
-    flex-wrap: wrap;
-  }
-
-  .total-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .total-box {
+  /* === TABEL TOTAL GABUNG === */
+  .total-container {
+    width: 70%;
+    margin: 30px auto 0;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     overflow: hidden;
-    width: 180px;
   }
 
-  .total-box table {
+  .total-container table {
     width: 100%;
     border-collapse: collapse;
   }
 
-  .total-box th {
-    background: #083D36;
-    color: white;
-    font-size: 18px;
-    padding: 10px;
+  .total-container th, .total-container td {
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
   }
 
-  .total-box td {
-    font-size: 30px;
+  .total-container th {
+    background: #083D36;
+    color: white;
+  }
+
+  .total-container td {
     font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    color: #333;
+    color: #083D36;
+  }
+
+  /* === JAM DAN LOGO === */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 30px 3% 10px;
+    flex-wrap: wrap;
   }
 
   .total-wrapper1 {
@@ -121,10 +108,6 @@
     justify-content: center;
     margin-right: 3%;
     text-align: center;
-  }
-
-  .datetime {
-    margin-bottom: 10px;
   }
 
   #tanggal {
@@ -155,20 +138,9 @@
     background: white;
     object-fit: contain;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
   }
 
-  @keyframes fadeZoomIn {
-    0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
-
+  /* === FOOTER === */
   .footer-zinus {
     display: flex;
     justify-content: center;
@@ -178,33 +150,46 @@
     color: white;
     padding: 20px 10px;
     border-top: 4px solid #004d00;
-    margin-top: 10px;
-  }
-
-  .footer-zinus p {
-    margin: 5px 0 15px;
-    font-size: 16px;
-    letter-spacing: 0.5px;
-  }
-
-  @media (max-width: 768px) {
-    th, td { font-size: 14px; padding: 6px 4px; }
-    .marquee { font-size: 16px; }
-    #jam { font-size: 24px; }
-    #tanggal { font-size: 14px; }
-    .zinus-logo, .zinus-logo1 { width: 45px; height: 45px; }
-    .footer-zinus p { font-size: 14px; }
+    margin-top: 20px;
   }
 </style>
 </head>
 <body>
 
+<!-- === TEKS BERJALAN === -->
 <div class="marquee">
   <marquee behavior="scroll" direction="left" scrollamount="6">
     HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
   </marquee>
 </div>
 
+<!-- === TABEL TOTAL GABUNG === -->
+<div class="total-container">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">SHIFT 1</th>
+        <th colspan="2">SHIFT 2</th>
+      </tr>
+      <tr>
+        <th>Topper</th>
+        <th>Foam</th>
+        <th>Topper</th>
+        <th>Foam</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="totalTopper1">0</td>
+        <td id="totalFoam1">0</td>
+        <td id="totalTopper2">0</td>
+        <td id="totalFoam2">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- === TABEL TOPPER === -->
 <div class="container">
   <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
   <table id="tableTopper">
@@ -215,12 +200,12 @@
       </tr>
     </thead>
     <tbody id="bodyTopper">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+      <tr><td colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
+<!-- === TABEL FOAM === -->
 <div class="container">
   <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
   <table id="tableFoam">
@@ -231,65 +216,21 @@
       </tr>
     </thead>
     <tbody id="bodyFoam">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+      <tr><td colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === BAGIAN TOTAL DAN JAM (BARU) === -->
+<!-- === JAM & LOGO === -->
 <div class="top-bar">
-
-  <div class="total-wrapper">
-    <div style="display:flex;justify-content:center;width:100%;gap:80px;">
-      <h2 style="margin:0;font-size:28px;color:#083D36;">Output Shift 1</h2>
-      <h2 style="margin:0;font-size:28px;color:#083D36;">Output Shift 2</h2>
-    </div>
-
-    <div style="display:flex;justify-content:center;align-items:center;gap:80px;width:100%;">
-      <div style="display:flex;gap:20px;">
-        <div class="total-box">
-          <table>
-            <thead><tr><th>TOPPER</th></tr></thead>
-            <tbody id="bodyTotalTopper1"><tr><td>0</td></tr></tbody>
-          </table>
-        </div>
-        <div class="total-box">
-          <table>
-            <thead><tr><th>FOAM</th></tr></thead>
-            <tbody id="bodyTotalFoam1"><tr><td>0</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:20px;">
-        <div class="total-box">
-          <table>
-            <thead><tr><th>TOPPER</th></tr></thead>
-            <tbody id="bodyTotalTopper2"><tr><td>0</td></tr></tbody>
-          </table>
-        </div>
-        <div class="total-box">
-          <table>
-            <thead><tr><th>FOAM</th></tr></thead>
-            <tbody id="bodyTotalFoam2"><tr><td>0</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="total-wrapper1">
-    <div class="datetime">
-      <div id="tanggal"></div>
-      <div id="jam"></div>
-    </div>
+    <div id="tanggal"></div>
+    <div id="jam"></div>
     <div class="logo-row">
       <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
       <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
     </div>
   </div>
-
 </div>
 
 <footer class="footer-zinus">
@@ -300,63 +241,43 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
-  const status = document.getElementById("status");
   try {
-    status.textContent = "🔄 Memuat data...";
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    const response = await fetch(SHEET_URL + "&t=" + Date.now());
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
-    const topperBody = document.getElementById("bodyTopper");
-    const foamBody = document.getElementById("bodyFoam");
-    topperBody.innerHTML = ""; foamBody.innerHTML = "";
 
     const topperRows = rows.slice(5, 8);
     const foamRows = rows.slice(11, 16);
+    const totalRow = rows[18]; // sama kayak versi kamu sebelumnya
 
-    topperRows.forEach(r => {
-      const tr = document.createElement("tr");
-      r.slice(0,13).forEach((c,i)=>{
-        const td=document.createElement("td");td.textContent=c;td.style.fontWeight="bold";
-        const val=parseFloat(c.replace(/[^0-9.]/g,"").trim());
-        if(i>0&&!isNaN(val)&&val<90&&val>0){td.style.backgroundColor="#ffcccc";td.style.color="#a80000";}
-        tr.appendChild(td);
-      });
-      topperBody.appendChild(tr);
-    });
+    document.getElementById("bodyTopper").innerHTML = topperRows.map(r => 
+      `<tr>${r.slice(0, 13).map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
 
-    foamRows.forEach(r => {
-      const tr = document.createElement("tr");
-      r.slice(0,13).forEach((c,i)=>{
-        const td=document.createElement("td");td.textContent=c;td.style.fontWeight="bold";
-        const val=parseFloat(c.replace(/[^0-9.]/g,"").trim());
-        if(i>0&&!isNaN(val)&&val<75&&val>0){td.style.backgroundColor="#ffcccc";td.style.color="#a80000";}
-        tr.appendChild(td);
-      });
-      foamBody.appendChild(tr);
-    });
+    document.getElementById("bodyFoam").innerHTML = foamRows.map(r => 
+      `<tr>${r.slice(0, 13).map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
 
-    const total = rows[18];
-    if (total) {
-      document.getElementById("bodyTotalTopper1").innerHTML = `<tr><td>${total[0] || 0}</td></tr>`;
-      document.getElementById("bodyTotalFoam1").innerHTML   = `<tr><td>${total[1] || 0}</td></tr>`;
-      document.getElementById("bodyTotalTopper2").innerHTML = `<tr><td>${total[2] || 0}</td></tr>`;
-      document.getElementById("bodyTotalFoam2").innerHTML   = `<tr><td>${total[3] || 0}</td></tr>`;
+    // tampilkan total shift 1 & 2
+    if (totalRow) {
+      document.getElementById("totalTopper1").textContent = totalRow[0] || "0";
+      document.getElementById("totalFoam1").textContent   = totalRow[1] || "0";
+      document.getElementById("totalTopper2").textContent = totalRow[2] || "0";
+      document.getElementById("totalFoam2").textContent   = totalRow[3] || "0";
     }
-
-    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
-  } catch(e) {
-    status.textContent = "⚠️ Gagal memuat data";
+  } catch (err) {
+    console.error(err);
   }
 }
 
-function updateClock(){
-  const now=new Date();
-  document.getElementById("tanggal").textContent=now.toLocaleDateString("id-ID",{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById("jam").textContent=now.toLocaleTimeString("id-ID",{hour12:false});
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12:false });
 }
 
-setInterval(updateClock,1000);updateClock();
-loadSheetData();setInterval(loadSheetData,30000);
+setInterval(updateClock, 1000);
+updateClock();
+loadSheetData();
+setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
