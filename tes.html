@@ -212,80 +212,101 @@
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
-  const topperBody = document.getElementById("bodyTopper");
-  const foamBody = document.getElementById("bodyFoam");
-  const shiftBody = document.getElementById("shiftBody");
-  const statusElems = document.querySelectorAll(".footer");
+  const status = document.getElementById("status");
+  try {
+    status.textContent = "🔄 Memuat data...";
+    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
+    const text = await response.text();
+    const rows = text.trim().split("\n").map(r => r.split(","));
 
-  topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
-try {
-    const res = await fetch(SHEET_URL + "&t=" + Date.now(), {cache: "no-store"});
-    const text = await res.text();
-    const rows = text.trim().split("\n").map(r=>r.split(","));
+    const topperBody = document.getElementById("bodyTopper");
+    const foamBody = document.getElementById("bodyFoam");
+    const totalTopperBody = document.getElementById("bodyTotalTopper");
+    const totalFoamBody = document.getElementById("bodyTotalFoam");
 
-    // Hapus tabel lama baru setelah data siap
-    topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
+    topperBody.innerHTML = "";
+    foamBody.innerHTML = "";
+    totalTopperBody.innerHTML = "";
+    totalFoamBody.innerHTML = "";
 
-    // ...lalu append baris baru
-  
-    // Topper rows
-    rows.slice(5,8).forEach(row=>{
+    const topperRows = rows.slice(5, 8);
+    const foamRows = rows.slice(11, 16);
+
+    topperRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0,13).forEach((cell,i)=>{
+      row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-        const val = parseFloat(cell.replace(/[^0-9.]/g,""));
-        if(i>0 && !isNaN(val) && val<90 && val>0){td.style.backgroundColor="#ffcccc"; td.style.color="#a80000";}
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 90 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
         tr.appendChild(td);
       });
       topperBody.appendChild(tr);
     });
 
-    // Foam rows
-    rows.slice(11,16).forEach(row=>{
+    foamRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0,13).forEach((cell,i)=>{
+      row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-        const val = parseFloat(cell.replace(/[^0-9.]/g,""));
-        if(i>0 && !isNaN(val) && val<75 && val>0){td.style.backgroundColor="#ffcccc"; td.style.color="#a80000";}
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 75 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
     });
 
-    // Shift totals (misal row 18)
     const totalRow = rows[18];
-    if(totalRow){
-      shiftBody.innerHTML = `<tr>
-        <td>${totalRow[2]||0}</td><td>${totalRow[3]||0}</td>
-        <td>${totalRow[4]||0}</td><td>${totalRow[5]||0}</td>
-      </tr>`;
+    if (totalRow) {
+      const topperValue = totalRow[0] || "0";
+      const foamValue = totalRow[1] || "0";
+      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
     }
 
-    // Update status footer
     const now = new Date();
-    statusElems.forEach(e=>{ e.textContent = "✅ Diperbarui: "+now.toLocaleTimeString("id-ID"); });
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
 
-  } catch(err){
-    console.error(err);
-    const now = new Date();
-    statusElems.forEach(e=>{ e.textContent = "⚠️ Gagal memuat data"; });
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "⚠️ Gagal memuat data";
   }
 }
 
-function updateClock(){
+function updateClock() {
   const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID",{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID",{hour12:false});
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
 }
 
+setInterval(updateClock, 1000);
 updateClock();
-setInterval(updateClock,1000);
 loadSheetData();
-setInterval(loadSheetData,30000);
+setInterval(loadSheetData, 30000);
+
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  const value = this.value;
+  if (value === "2") {
+    window.location.href = "shift2.html";
+  } else {
+    window.location.href = "index.html";
+  }
+});
 </script>
 </body>
 </html>
