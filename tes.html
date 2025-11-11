@@ -5,227 +5,130 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📊 Monitoring Produksi Realtime</title>
 <style>
-/* ================= GLOBAL ================= */
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: #f4f6f8;
-  margin: 0;
-  padding: 0;
-}
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+  }
 
-.marquee {
-  background: #083D36;
-  color: white;
-  padding: 10px 0;
-  font-size: 40px;
-  font-weight: bold;
-  text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
-}
+  .marquee {
+    background: #083D36;
+    color: white;
+    padding: 10px 0;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
-h2 {
-  text-align: center;
-  color: #333;
-  margin: 10px 0;
-  font-size: 22px;
-}
+  h2 {
+    text-align: center;
+    color: #333;
+    margin: 10px 0;
+    font-size: 22px;
+  }
 
-.container {
-  width: 95%;
-  margin: 15px auto;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  overflow-x: auto;
-  padding: 0;
-}
+  .container {
+    width: 95%;
+    margin: 15px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-x: auto;
+    padding: 0;
+  }
 
-.footer {
-  text-align: right;
-  font-size: 12px;
-  padding: 8px;
-  background: #f1f1f1;
-  color: #666;
-  border-top: 1px solid #ddd;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
 
-/* ================= TABLES ================= */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
+  th, td {
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 25px;
+  }
 
-th, td {
-  padding: 10px 6px;
-  text-align: center;
-  font-size: 25px;
-}
+  th {
+    background: #083D36;
+    color: white;
+  }
 
-th {
-  background: #083D36;
-  color: white;
-}
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  tr:hover { background-color: #e3f2fd; }
 
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+  .footer {
+    text-align: right;
+    font-size: 12px;
+    padding: 8px;
+    background: #f1f1f1;
+    color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 
-tr:hover {
-  background-color: #e3f2fd;
-}
+  /* === SHIFT TABLE + JAM/LOGO === */
+  .shift-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 95%;
+    margin: 15px auto;
+  }
 
-/* ================= TOTAL BOX ================= */
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 20px 3%;
-  flex-wrap: wrap;
-}
+  .shift-table {
+    width: 400px;
+    font-size: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
 
-.total-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  align-items: center;
-}
+  .shift-table th, .shift-table td {
+    font-size: 20px;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+  }
 
-.total-box {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  width: 180px;
-}
+  .datetime-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-.total-box table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  #tanggal { font-size: 20px; font-weight: 600; color: #333; margin-bottom:5px; }
+  #jam { font-size: 40px; font-weight: bold; color: #006400; margin-bottom:5px; }
 
-.total-box th {
-  background: #083D36;
-  color: white;
-  font-size: 18px;
-  padding: 10px;
-}
+  .logo-row {
+    display: flex;
+    gap: 15px;
+  }
 
-.total-box td {
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  padding: 10px;
-  color: #333;
-}
+  .zinus-logo, .zinus-logo1 {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
 
-/* ================= SHIFT TABLE ================= */
-.shift-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 10px;
-}
+  .footer-zinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #083D36;
+    color: white;
+    padding: 20px 10px;
+    border-top: 4px solid #004d00;
+    margin-top: 10px;
+  }
 
-.shift-table {
-  width: 50%;
-  font-size: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.shift-table th,
-.shift-table td {
-  font-size: 22px;
-  padding: 6px 10px;
-}
-
-/* ================= JAM & LOGO ================= */
-.datetime-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-#tanggal {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-}
-
-#jam {
-  font-size: 40px;
-  font-weight: bold;
-  color: #006400;
-  text-align: right;
-}
-
-.logo-row {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 15px;
-}
-
-.zinus-logo,
-.zinus-logo1 {
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
-  background: white;
-  object-fit: contain;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
-}
-
-@keyframes fadeZoomIn {
-  0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* ================= FOOTER ================= */
-.footer-zinus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: #083D36;
-  color: white;
-  padding: 20px 10px;
-  border-top: 4px solid #004d00;
-  margin-top: 10px;
-}
-
-.footer-zinus p {
-  margin: 5px 0 15px;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 768px) {
-  .container { width: 100%; margin: 10px 0; border-radius: 0; box-shadow: none; }
-  th, td { font-size: 14px; padding: 6px 4px; }
-  .marquee { font-size: 16px; padding: 8px 0; }
-  h2 { font-size: 18px; }
-  #jam { font-size: 24px; }
-  #tanggal { font-size: 14px; }
-  .zinus-logo, .zinus-logo1 { width: 45px; height: 45px; }
-  .logo-row { flex-wrap: wrap; gap: 10px; }
-  .footer-zinus p { font-size: 14px; }
-  .shift-table { font-size: 16px; }
-}
+  .footer-zinus p { margin: 5px 0 15px; font-size: 16px; letter-spacing: 0.5px; }
 
 </style>
 </head>
@@ -248,7 +151,9 @@ tr:hover {
         <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
-    <tbody id="bodyTopper"><tr><td colspan="13">Loading data...</td></tr></tbody>
+    <tbody id="bodyTopper">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
@@ -263,12 +168,14 @@ tr:hover {
         <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
       </tr>
     </thead>
-    <tbody id="bodyFoam"><tr><td colspan="13">Loading data...</td></tr></tbody>
+    <tbody id="bodyFoam">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
   </table>
   <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- SHIFT + JAM -->
+<!-- SHIFT 1 & 2 + JAM/LOGO -->
 <div class="shift-wrapper">
   <table class="shift-table">
     <thead>
@@ -277,7 +184,8 @@ tr:hover {
         <th colspan="2">SHIFT 2</th>
       </tr>
       <tr>
-        <th>Topper</th><th>Foam</th><th>Topper</th><th>Foam</th>
+        <th>Topper</th><th>Foam</th>
+        <th>Topper</th><th>Foam</th>
       </tr>
     </thead>
     <tbody id="shiftBody">
@@ -285,7 +193,7 @@ tr:hover {
     </tbody>
   </table>
 
-  <div class="datetime-wrapper">
+  <div class="datetime-logo">
     <div id="tanggal"></div>
     <div id="jam"></div>
     <div class="logo-row">
@@ -294,7 +202,6 @@ tr:hover {
     </div>
   </div>
 </div>
-<div class="footer">Auto-refresh setiap 30 detik</div>
 
 <!-- FOOTER -->
 <footer class="footer-zinus">
@@ -305,77 +212,79 @@ tr:hover {
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
-  const status = document.querySelector(".footer#status") || document.createElement("div");
+  const topperBody = document.getElementById("bodyTopper");
+  const foamBody = document.getElementById("bodyFoam");
+  const shiftBody = document.getElementById("shiftBody");
+  const statusElems = document.querySelectorAll(".footer");
+
+  topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
+
   try {
-    status.textContent = "🔄 Memuat data...";
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
-    if (!response.ok) throw new Error("Gagal ambil data ("+response.status+")");
-    const text = await response.text();
+    const res = await fetch(SHEET_URL + "&t=" + Date.now(), {cache: "no-store"});
+    const text = await res.text();
     const rows = text.trim().split("\n").map(r=>r.split(","));
 
-    // parsing tabel topper & foam
-    const topperBody = document.getElementById("bodyTopper");
-    const foamBody = document.getElementById("bodyFoam");
-    const shiftBody = document.getElementById("shiftBody");
+    // Hapus tabel lama baru setelah data siap
+    topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
 
-    const topperRows = rows.slice(5,8);
-    const foamRows = rows.slice(11,16);
-    const totalRow = rows[18];
+    // ...lalu append baris baru
 
-    // append data tanpa mengosongkan tabel sebelum fetch selesai
-    topperRows.forEach((row,i)=>{
+    // Topper rows
+    rows.slice(5,8).forEach(row=>{
       const tr = document.createElement("tr");
-      row.slice(0,13).forEach((cell,j)=>{
+      row.slice(0,13).forEach((cell,i)=>{
         const td = document.createElement("td");
-        td.textContent=cell;
-        td.style.fontWeight="bold";
-        const val=parseFloat(cell.replace(/[^0-9.]/g,""));
-        if(j>0 && !isNaN(val) && val<90) td.style.background="#ffcccc";
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+        const val = parseFloat(cell.replace(/[^0-9.]/g,""));
+        if(i>0 && !isNaN(val) && val<90 && val>0){td.style.backgroundColor="#ffcccc"; td.style.color="#a80000";}
         tr.appendChild(td);
       });
-      if(i===0) topperBody.innerHTML=""; // hapus loading
       topperBody.appendChild(tr);
     });
 
-    foamRows.forEach((row,i)=>{
+    // Foam rows
+    rows.slice(11,16).forEach(row=>{
       const tr = document.createElement("tr");
-      row.slice(0,13).forEach((cell,j)=>{
-        const td=document.createElement("td");
-        td.textContent=cell;
-        td.style.fontWeight="bold";
-        const val=parseFloat(cell.replace(/[^0-9.]/g,""));
-        if(j>0 && !isNaN(val) && val<75) td.style.background="#ffcccc";
+      row.slice(0,13).forEach((cell,i)=>{
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+        const val = parseFloat(cell.replace(/[^0-9.]/g,""));
+        if(i>0 && !isNaN(val) && val<75 && val>0){td.style.backgroundColor="#ffcccc"; td.style.color="#a80000";}
         tr.appendChild(td);
       });
-      if(i===0) foamBody.innerHTML="";
       foamBody.appendChild(tr);
     });
 
+    // Shift totals (misal row 18)
+    const totalRow = rows[18];
     if(totalRow){
-      shiftBody.innerHTML=`<tr>
-        <td>${totalRow[2]||0}</td>
-        <td>${totalRow[3]||0}</td>
-        <td>${totalRow[4]||0}</td>
-        <td>${totalRow[5]||0}</td>
+      shiftBody.innerHTML = `<tr>
+        <td>${totalRow[2]||0}</td><td>${totalRow[3]||0}</td>
+        <td>${totalRow[4]||0}</td><td>${totalRow[5]||0}</td>
       </tr>`;
     }
 
-    status.textContent = "✅ Diperbarui: "+new Date().toLocaleTimeString("id-ID");
+    // Update status footer
+    const now = new Date();
+    statusElems.forEach(e=>{ e.textContent = "✅ Diperbarui: "+now.toLocaleTimeString("id-ID"); });
 
   } catch(err){
     console.error(err);
-    status.textContent = "⚠️ Gagal memuat data";
+    const now = new Date();
+    statusElems.forEach(e=>{ e.textContent = "⚠️ Gagal memuat data"; });
   }
 }
 
 function updateClock(){
-  const now=new Date();
-  document.getElementById("tanggal").textContent=now.toLocaleDateString("id-ID",{ weekday:'long', year:'numeric', month:'long', day:'numeric'});
-  document.getElementById("jam").textContent=now.toLocaleTimeString("id-ID",{ hour12:false });
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID",{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID",{hour12:false});
 }
 
-setInterval(updateClock,1000);
 updateClock();
+setInterval(updateClock,1000);
 loadSheetData();
 setInterval(loadSheetData,30000);
 </script>
