@@ -103,27 +103,31 @@
     align-items: center;
   }
 
-  .total-box {
+  /* === TOTAL TABEL BARU === */
+  .total-table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    text-align: center;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
-    width: 180px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
-  .total-box th {
+  .total-table th {
     background: #083D36;
     color: white;
     font-size: 18px;
-    padding: 10px;
+    padding: 8px;
   }
 
-  .total-box td {
-    font-size: 30px;
+  .total-table td {
+    font-size: 28px;
     font-weight: bold;
-    text-align: center;
     padding: 10px;
     color: #333;
+    border-top: 1px solid #ddd;
   }
 
   /* === JAM & LOGO === */
@@ -260,19 +264,25 @@
 <!-- === TOTAL & JAM === -->
 <div class="top-bar">
   <div class="total-wrapper">
-    <div class="total-box">
-      <table>
-        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
-        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
-      </table>
-    </div>
-
-    <div class="total-box">
-      <table>
-        <thead><tr><th>TOTAL FOAM</th></tr></thead>
-        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
-      </table>
-    </div>
+    <table class="total-table">
+      <thead>
+        <tr>
+          <th colspan="2">OUTPUT SHIFT 1</th>
+          <th colspan="2">OUTPUT SHIFT 2</th>
+        </tr>
+        <tr>
+          <th>TOPPER</th>
+          <th>FOAM</th>
+          <th>TOPPER</th>
+          <th>FOAM</th>
+        </tr>
+      </thead>
+      <tbody id="bodyTotalOutput">
+        <tr>
+          <td>0</td><td>0</td><td>0</td><td>0</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="total-wrapper1">
@@ -301,8 +311,6 @@ async function loadSheetData() {
     const rows = text.trim().split("\n").map(r => r.split(","));
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
-    const totalTopperBody = document.getElementById("bodyTotalTopper");
-    const totalFoamBody = document.getElementById("bodyTotalFoam");
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
 
@@ -341,10 +349,16 @@ async function loadSheetData() {
       foamBody.appendChild(tr);
     });
 
-    const totalRow = rows[18];
+    // === TOTAL OUTPUT SHIFT 1 & 2 ===
+    const totalRow = rows[18]; // nanti kamu ubah sesuai lokasi data
     if (totalRow) {
-      totalTopperBody.innerHTML = `<tr><td>${totalRow[0]}</td></tr>`;
-      totalFoamBody.innerHTML = `<tr><td>${totalRow[1]}</td></tr>`;
+      document.getElementById("bodyTotalOutput").innerHTML = `
+        <tr>
+          <td>${totalRow[0] || 0}</td>
+          <td>${totalRow[1] || 0}</td>
+          <td>${totalRow[2] || 0}</td>
+          <td>${totalRow[3] || 0}</td>
+        </tr>`;
     }
 
     status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
