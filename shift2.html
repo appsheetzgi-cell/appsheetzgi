@@ -23,21 +23,19 @@
   position: relative;
 }
 
-.marquee-content {
+.marquee-track {
   display: inline-block;
-  position: absolute;
-  will-change: transform;
+  white-space: nowrap;
   animation: scroll-left 15s linear infinite;
 }
 
-@keyframes scroll-left {
-  0%   { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+.marquee-track span {
+  display: inline-block;
+  padding-right: 100%; /* jarak antar teks */
 }
 
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
@@ -252,10 +250,12 @@
 
 <!-- === TEKS BERJALAN === -->
 <div class="marquee-container">
-  <div class="marquee-content">
-    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+  <div class="marquee-track">
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING</span>
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING</span>
   </div>
 </div>
+
 
 
 <!-- === TABEL TOPPER === -->
