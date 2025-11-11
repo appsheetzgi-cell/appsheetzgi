@@ -218,8 +218,7 @@ async function loadSheetData() {
   const statusElems = document.querySelectorAll(".footer");
 
   topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
-
-  try {
+try {
     const res = await fetch(SHEET_URL + "&t=" + Date.now(), {cache: "no-store"});
     const text = await res.text();
     const rows = text.trim().split("\n").map(r=>r.split(","));
@@ -228,7 +227,7 @@ async function loadSheetData() {
     topperBody.innerHTML = foamBody.innerHTML = shiftBody.innerHTML = "";
 
     // ...lalu append baris baru
-
+  
     // Topper rows
     rows.slice(5,8).forEach(row=>{
       const tr = document.createElement("tr");
