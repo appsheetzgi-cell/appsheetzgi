@@ -19,8 +19,6 @@
     font-size: 40px;
     font-weight: bold;
     text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
   }
 
   h2 {
@@ -60,10 +58,10 @@
   tr:nth-child(even) { background-color: #f9f9f9; }
   tr:hover { background-color: #e3f2fd; }
 
-  /* === TABEL TOTAL GABUNG === */
+  /* === TABEL TOTAL GABUNG (POSISI DI BAWAH) === */
   .total-container {
     width: 70%;
-    margin: 30px auto 0;
+    margin: 30px auto 40px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
@@ -140,7 +138,6 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   }
 
-  /* === FOOTER === */
   .footer-zinus {
     display: flex;
     justify-content: center;
@@ -161,32 +158,6 @@
   <marquee behavior="scroll" direction="left" scrollamount="6">
     HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
   </marquee>
-</div>
-
-<!-- === TABEL TOTAL GABUNG === -->
-<div class="total-container">
-  <table>
-    <thead>
-      <tr>
-        <th colspan="2">SHIFT 1</th>
-        <th colspan="2">SHIFT 2</th>
-      </tr>
-      <tr>
-        <th>Topper</th>
-        <th>Foam</th>
-        <th>Topper</th>
-        <th>Foam</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="totalTopper1">0</td>
-        <td id="totalFoam1">0</td>
-        <td id="totalTopper2">0</td>
-        <td id="totalFoam2">0</td>
-      </tr>
-    </tbody>
-  </table>
 </div>
 
 <!-- === TABEL TOPPER === -->
@@ -221,6 +192,32 @@
   </table>
 </div>
 
+<!-- === TABEL TOTAL DI BAWAH === -->
+<div class="total-container">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">SHIFT 1</th>
+        <th colspan="2">SHIFT 2</th>
+      </tr>
+      <tr>
+        <th>Topper</th>
+        <th>Foam</th>
+        <th>Topper</th>
+        <th>Foam</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="totalTopper1">0</td>
+        <td id="totalFoam1">0</td>
+        <td id="totalTopper2">0</td>
+        <td id="totalFoam2">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <!-- === JAM & LOGO === -->
 <div class="top-bar">
   <div class="total-wrapper1">
@@ -248,7 +245,7 @@ async function loadSheetData() {
 
     const topperRows = rows.slice(5, 8);
     const foamRows = rows.slice(11, 16);
-    const totalRow = rows[18]; // sama kayak versi kamu sebelumnya
+    const totalRow = rows[18];
 
     document.getElementById("bodyTopper").innerHTML = topperRows.map(r => 
       `<tr>${r.slice(0, 13).map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
@@ -256,7 +253,6 @@ async function loadSheetData() {
     document.getElementById("bodyFoam").innerHTML = foamRows.map(r => 
       `<tr>${r.slice(0, 13).map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
 
-    // tampilkan total shift 1 & 2
     if (totalRow) {
       document.getElementById("totalTopper1").textContent = totalRow[0] || "0";
       document.getElementById("totalFoam1").textContent   = totalRow[1] || "0";
