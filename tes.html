@@ -62,7 +62,7 @@
 
   .footer {
     text-align: right;
-    font-size: 12px;
+    font-size: 14px;
     padding: 8px;
     background: #f1f1f1;
     color: #666;
@@ -129,7 +129,6 @@
   }
 
   .footer-zinus p { margin: 5px 0 15px; font-size: 16px; letter-spacing: 0.5px; }
-
 </style>
 </head>
 <body>
@@ -155,7 +154,10 @@
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
+  <div class="footer">
+    Auto-refresh setiap 30 detik
+    <div id="status"></div>
+  </div>
 </div>
 
 <!-- TABEL FOAM -->
@@ -222,13 +224,8 @@ async function loadSheetData() {
 
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
-    const totalTopperBody = document.getElementById("bodyTotalTopper");
-    const totalFoamBody = document.getElementById("bodyTotalFoam");
-
     topperBody.innerHTML = "";
     foamBody.innerHTML = "";
-    totalTopperBody.innerHTML = "";
-    totalFoamBody.innerHTML = "";
 
     const topperRows = rows.slice(5, 8);
     const foamRows = rows.slice(11, 16);
@@ -239,13 +236,10 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 90 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
+        if (index > 0 && !isNaN(cleanValue) && cleanValue > 0 && cleanValue < 90) {
+          td.style.backgroundColor = "#ffcccc";
+          td.style.color = "#a80000";
         }
         tr.appendChild(td);
       });
@@ -258,29 +252,17 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-
         const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 75 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
+        if (index > 0 && !isNaN(cleanValue) && cleanValue > 0 && cleanValue < 75) {
+          td.style.backgroundColor = "#ffcccc";
+          td.style.color = "#a80000";
         }
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
     });
 
-    const totalRow = rows[18];
-    if (totalRow) {
-      const topperValue = totalRow[0] || "0";
-      const foamValue = totalRow[1] || "0";
-      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
-      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
-    }
-
-    const now = new Date();
-    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
 
   } catch (err) {
     console.error("Fetch error:", err);
@@ -298,15 +280,7 @@ setInterval(updateClock, 1000);
 updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
-
-document.getElementById("shiftSelector").addEventListener("change", function() {
-  const value = this.value;
-  if (value === "2") {
-    window.location.href = "shift2.html";
-  } else {
-    window.location.href = "index.html";
-  }
-});
 </script>
+
 </body>
 </html>
