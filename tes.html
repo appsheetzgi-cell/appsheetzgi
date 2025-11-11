@@ -23,45 +23,40 @@
     white-space: nowrap;
   }
 
-  .shift-bar {
-    background: white;
+  .header-top {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    padding: 10px 20px;
-    gap: 10px;
-    margin: 15px 3%;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
   }
 
-  .shift-bar label {
-    font-size: 24px;
-    font-weight: 600;
-    color: #083D36;
-  }
-
-  .shift-bar select {
+  .header-top h2 {
+    color: #333;
     font-size: 22px;
+    margin: 0;
+  }
+
+  .header-top select {
+    font-size: 20px;
     font-weight: bold;
-    border: 2px solid #083D36;
+    padding: 5px 10px;
     border-radius: 8px;
-    padding: 6px 12px;
-    background: #f9f9f9;
+    border: 2px solid #083D36;
+    background-color: white;
     color: #083D36;
     cursor: pointer;
   }
 
-  h2 {
-    text-align: center;
-    color: #333;
-    margin: 10px 0 10px;
-    font-size: 22px;
+  .header-top select:hover {
+    background-color: #083D36;
+    color: white;
   }
 
   .container {
     width: 95%;
-    margin: 15px auto;
+    margin: 10px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -124,11 +119,6 @@
     width: 180px;
   }
 
-  .total-box table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
   .total-box th {
     background: #083D36;
     color: white;
@@ -144,7 +134,6 @@
     color: #333;
   }
 
-  /* === JAM DAN LOGO === */
   .total-wrapper1 {
     display: flex;
     flex-direction: column;
@@ -152,10 +141,6 @@
     justify-content: center;
     margin-right: 3%;
     text-align: center;
-  }
-
-  .datetime {
-    margin-bottom: 10px;
   }
 
   #tanggal {
@@ -169,7 +154,6 @@
     font-weight: bold;
     color: #006400;
     margin-top: 5px;
-    text-align: center;
   }
 
   .logo-row {
@@ -183,8 +167,8 @@
     width: 60px;
     height: 60px;
     border-radius: 10px;
-    background: white;
     object-fit: contain;
+    background: white;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
   }
@@ -200,7 +184,6 @@
     100% { transform: scale(1); }
   }
 
-  /* === FOOTER ZINUS === */
   .footer-zinus {
     display: flex;
     justify-content: center;
@@ -216,39 +199,6 @@
   .footer-zinus p {
     margin: 5px 0 15px;
     font-size: 16px;
-    letter-spacing: 0.5px;
-  }
-
-  /* === RESPONSIVE === */
-  @media (max-width: 768px) {
-    .container {
-      width: 100%;
-      margin: 10px 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
-    th, td {
-      font-size: 14px;
-      padding: 6px 4px;
-    }
-
-    .marquee { font-size: 16px; padding: 8px 0; }
-    h2 { font-size: 18px; }
-    #jam { font-size: 24px; }
-    #tanggal { font-size: 14px; }
-
-    .zinus-logo, .zinus-logo1 {
-      width: 45px;
-      height: 45px;
-    }
-
-    .logo-row {
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .footer-zinus p { font-size: 14px; }
   }
 </style>
 </head>
@@ -261,23 +211,17 @@
   </marquee>
 </div>
 
-<!-- === SHIFT SELECTOR DI ATAS TABEL === -->
-<div class="shift-bar">
-  <select id="shiftSelect">
-    <option value="SHIFT 1" selected>SHIFT 1</option>
-    <option value="SHIFT 2">SHIFT 2</option>
+<!-- === JUDUL + SHIFT DROPDOWN === -->
+<div class="header-top">
+  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
+  <select id="shiftSelectorTop">
+    <option value="1" selected>Shift 1</option>
+    <option value="2">Shift 2</option>
   </select>
 </div>
 
 <!-- === TABEL TOPPER === -->
 <div class="container">
-  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-  <div class="shift-bar">
-  <select id="shiftSelect">
-    <option value="SHIFT 1" selected>SHIFT 1</option>
-    <option value="SHIFT 2">SHIFT 2</option>
-  </select>
-</div>
   <table id="tableTopper">
     <thead>
       <tr>
@@ -289,7 +233,7 @@
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
 </div>
 
 <!-- === TABEL FOAM === -->
@@ -306,10 +250,10 @@
       <tr><td class="loading" colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === BAGIAN TOTAL DAN JAM === -->
+<!-- === TOTAL DAN JAM === -->
 <div class="top-bar">
   <div class="total-wrapper">
     <div class="total-box">
@@ -328,20 +272,17 @@
   </div>
 
   <div class="total-wrapper1">
-    <div class="datetime">
-      <div id="tanggal"></div>
-      <div id="jam"></div>
-    </div>
+    <div id="tanggal"></div>
+    <div id="jam"></div>
     <div class="logo-row">
-      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
-      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+      <img src="logo-zinus1.gif" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" class="zinus-logo">
     </div>
   </div>
 </div>
 
-<!-- === FOOTER ZINUS === -->
 <footer class="footer-zinus">
-  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
 </footer>
 
 <script>
@@ -352,7 +293,6 @@ async function loadSheetData() {
   try {
     status.textContent = "🔄 Memuat data...";
     const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
-    if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
 
@@ -375,13 +315,10 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 90 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
+        const val = parseFloat(cell);
+        if (index > 0 && !isNaN(val) && val < 90) {
+          td.style.background = "#ffcccc";
+          td.style.color = "#a80000";
         }
         tr.appendChild(td);
       });
@@ -394,13 +331,10 @@ async function loadSheetData() {
         const td = document.createElement("td");
         td.textContent = cell;
         td.style.fontWeight = "bold";
-
-        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
-        if (index > 0 && !isNaN(cleanValue)) {
-          if (cleanValue < 75 && cleanValue > 0) {
-            td.style.backgroundColor = "#ffcccc";
-            td.style.color = "#a80000";
-          }
+        const val = parseFloat(cell);
+        if (index > 0 && !isNaN(val) && val < 75) {
+          td.style.background = "#ffcccc";
+          td.style.color = "#a80000";
         }
         tr.appendChild(td);
       });
@@ -409,24 +343,20 @@ async function loadSheetData() {
 
     const totalRow = rows[18];
     if (totalRow) {
-      const topperValue = totalRow[0] || "0";
-      const foamValue = totalRow[1] || "0";
-      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
-      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
+      totalTopperBody.innerHTML = `<tr><td>${totalRow[0]}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td>${totalRow[1]}</td></tr>`;
     }
 
-    const now = new Date();
-    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
-  } catch (err) {
-    console.error("Fetch error:", err);
+    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
+  } catch (e) {
     status.textContent = "⚠️ Gagal memuat data";
   }
 }
 
 function updateClock() {
   const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12:false });
 }
 
 setInterval(updateClock, 1000);
@@ -434,13 +364,8 @@ updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
 
-document.getElementById("shiftSelect").addEventListener("change", function() {
-  const value = this.value;
-  if (value === "2") {
-    window.location.href = "shift2.html";
-  } else {
-    window.location.href = "index.html";
-  }
+document.getElementById("shiftSelectorTop").addEventListener("change", function() {
+  if (this.value === "2") window.location.href = "shift2.html";
 });
 </script>
 </body>
