@@ -183,3 +183,210 @@
     letter-spacing: 0.5px;
   }
 </style>
+</head>
+<body>
+
+<!-- === TEKS BERJALAN === -->
+<div class="marquee">
+  <marquee behavior="scroll" direction="left" scrollamount="6">
+    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+  </marquee>
+</div>
+
+<!-- === TABEL TOPPER === -->
+<div class="container">
+  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
+  <table id="tableTopper">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyTopper">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === TABEL FOAM === -->
+<div class="container">
+  <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
+  <table id="tableFoam">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyFoam">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === BAGIAN TOTAL DAN JAM === -->
+<div class="top-bar">
+
+  <div class="total-wrapper">
+    <div class="total-box">
+      <table>
+        <thead><tr><th>SHIFT</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <select id="shiftSelector" 
+                style="font-size:28px;font-weight:bold;text-align:center;width:100%;border:none;background:none;appearance:none;outline:none;cursor:pointer;">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="total-box">
+      <table id="tableTotalFoam">
+        <thead><tr><th>TOTAL FOAM</th></tr></thead>
+        <tbody id="bodyTotalFoam"><tr><td>0</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="total-wrapper1">
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+    </div>
+  </div>
+</div>
+
+<!-- === FOOTER ZINUS === -->
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
+</footer>
+
+<script>
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
+
+async function loadSheetData() {
+  const status = document.getElementById("status");
+  try {
+    status.textContent = "🔄 Memuat data...";
+    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Gagal ambil data (" + response.status + ")");
+    const text = await response.text();
+    const rows = text.trim().split("\n").map(r => r.split(","));
+
+    const topperBody = document.getElementById("bodyTopper");
+    const foamBody = document.getElementById("bodyFoam");
+    const totalTopperBody = document.getElementById("bodyTotalTopper");
+    const totalFoamBody = document.getElementById("bodyTotalFoam");
+
+    topperBody.innerHTML = "";
+    foamBody.innerHTML = "";
+    totalTopperBody.innerHTML = "";
+    totalFoamBody.innerHTML = "";
+
+    const topperRows = rows.slice(5, 8);
+    const foamRows = rows.slice(11, 16);
+
+    topperRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach((cell, index) => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 90 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
+        tr.appendChild(td);
+      });
+      topperBody.appendChild(tr);
+    });
+
+    foamRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach((cell, index) => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontWeight = "bold";
+
+        const cleanValue = parseFloat(cell.replace(/[^0-9.]/g, "").trim());
+        if (index > 0 && !isNaN(cleanValue)) {
+          if (cleanValue < 75 && cleanValue > 0) {
+            td.style.backgroundColor = "#ffcccc";
+            td.style.color = "#a80000";
+          }
+        }
+        tr.appendChild(td);
+      });
+      foamBody.appendChild(tr);
+    });
+
+    const totalRow = rows[18];
+    if (totalRow) {
+      const topperValue = totalRow[0] || "0";
+      const foamValue = totalRow[1] || "0";
+      totalTopperBody.innerHTML = `<tr><td>${topperValue}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td>${foamValue}</td></tr>`;
+    }
+
+    const now = new Date();
+    status.textContent = "✅ Diperbarui: " + now.toLocaleTimeString("id-ID");
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "⚠️ Gagal memuat data";
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+loadSheetData();
+setInterval(loadSheetData, 30000);
+
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  const value = this.value;
+  if (value === "2") {
+    window.location.href = "shift2.html";
+  } else {
+    window.location.href = "index.html";
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
