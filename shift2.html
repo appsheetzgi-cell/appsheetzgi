@@ -12,33 +12,16 @@
     padding: 0;
   }
   
-.marquee-container {
-  width: 100%;
-  overflow: hidden;
-  background: #083D36;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  white-space: nowrap;
-  position: relative;
-}
-
-.marquee-track {
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll-left 15s linear infinite;
-}
-
-.marquee-track span {
-  display: inline-block;
-  padding-right: 100%; /* jarak antar teks */
-}
-
-@keyframes scroll-left {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
+.marquee {
+    background: #083D36;
+    color: white;
+    padding: 10px 0;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
   h2 {
     text-align: center;
