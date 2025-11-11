@@ -12,16 +12,30 @@
     padding: 0;
   }
 
-  .marquee {
-    background: #006400;
-    color: white;
-    padding: 10px 0;
-    font-size: 40px;
-    font-weight: bold;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+ .marquee {
+  width: 100%;
+  overflow: hidden;
+  background: #083D36;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+}
+
+.marquee-track span {
+  padding-right: 50px; /* jarak antar teks duplikat */
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 
   h2 {
     text-align: center;
@@ -233,10 +247,12 @@
 
 <!-- === TEKS BERJALAN === -->
 <div class="marquee">
-  <marquee behavior="scroll" direction="left" scrollamount="6">
-    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
-  </marquee>
+  <div class="marquee-track">
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING&nbsp;&nbsp;&nbsp;</span>
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING&nbsp;&nbsp;&nbsp;</span>
+  </div>
 </div>
+
 
 <!-- === TABEL TOPPER === -->
 <div class="container">
