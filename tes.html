@@ -23,40 +23,40 @@
     white-space: nowrap;
   }
 
-  .header-top {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 15px;
-    flex-wrap: wrap;
-  }
-
-  .header-top h2 {
+  h2 {
+    text-align: center;
     color: #333;
+    margin: 10px 0 10px;
     font-size: 22px;
-    margin: 0;
   }
 
-  .header-top select {
+  .header-shift {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 3% 10px 3%;
+  }
+
+  .header-shift h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #333;
+  }
+
+  .shift-select {
     font-size: 20px;
     font-weight: bold;
     padding: 5px 10px;
-    border-radius: 8px;
     border: 2px solid #083D36;
-    background-color: white;
+    border-radius: 6px;
+    background: #fff;
     color: #083D36;
     cursor: pointer;
   }
 
-  .header-top select:hover {
-    background-color: #083D36;
-    color: white;
-  }
-
   .container {
     width: 95%;
-    margin: 10px auto;
+    margin: 15px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -95,7 +95,6 @@
     border-bottom-right-radius: 10px;
   }
 
-  /* === BAGIAN TOTAL + JAM === */
   .top-bar {
     display: flex;
     justify-content: space-between;
@@ -117,6 +116,11 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     width: 180px;
+  }
+
+  .total-box table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
   .total-box th {
@@ -143,6 +147,10 @@
     text-align: center;
   }
 
+  .datetime {
+    margin-bottom: 10px;
+  }
+
   #tanggal {
     font-size: 20px;
     font-weight: 600;
@@ -154,6 +162,7 @@
     font-weight: bold;
     color: #006400;
     margin-top: 5px;
+    text-align: center;
   }
 
   .logo-row {
@@ -167,8 +176,8 @@
     width: 60px;
     height: 60px;
     border-radius: 10px;
-    object-fit: contain;
     background: white;
+    object-fit: contain;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
   }
@@ -199,25 +208,28 @@
   .footer-zinus p {
     margin: 5px 0 15px;
     font-size: 16px;
+    letter-spacing: 0.5px;
   }
 </style>
 </head>
 <body>
 
-<!-- === TEKS BERJALAN === -->
 <div class="marquee">
   <marquee behavior="scroll" direction="left" scrollamount="6">
     HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
   </marquee>
 </div>
 
-<!-- === JUDUL + SHIFT DROPDOWN === -->
-<div class="header-top">
+<!-- === SHIFT DROPDOWN + TITLE === -->
+<div class="header-shift">
+  <div>
+    <label for="shiftSelector" style="font-size:22px;font-weight:bold;color:#083D36;">Shift</label>
+    <select id="shiftSelector" class="shift-select">
+      <option value="1" selected>Shift 1</option>
+      <option value="2">Shift 2</option>
+    </select>
+  </div>
   <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-  <select id="shiftSelectorTop">
-    <option value="1" selected>Shift 1</option>
-    <option value="2">Shift 2</option>
-  </select>
 </div>
 
 <!-- === TABEL TOPPER === -->
@@ -230,10 +242,10 @@
       </tr>
     </thead>
     <tbody id="bodyTopper">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+      <tr><td colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
 </div>
 
 <!-- === TABEL FOAM === -->
@@ -247,13 +259,13 @@
       </tr>
     </thead>
     <tbody id="bodyFoam">
-      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+      <tr><td colspan="13">Loading data...</td></tr>
     </tbody>
   </table>
-  <div class="footer">Auto-refresh setiap 30 detik</div>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
 </div>
 
-<!-- === TOTAL DAN JAM === -->
+<!-- === BAGIAN TOTAL & JAM === -->
 <div class="top-bar">
   <div class="total-wrapper">
     <div class="total-box">
@@ -272,17 +284,19 @@
   </div>
 
   <div class="total-wrapper1">
-    <div id="tanggal"></div>
-    <div id="jam"></div>
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
     <div class="logo-row">
-      <img src="logo-zinus1.gif" class="zinus-logo1">
-      <img src="Hyundai_Logo.png" class="zinus-logo">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
     </div>
   </div>
 </div>
 
 <footer class="footer-zinus">
-  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
 </footer>
 
 <script>
@@ -311,12 +325,11 @@ async function loadSheetData() {
 
     topperRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, index) => {
+      row.slice(0, 13).forEach((cell, i) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontWeight = "bold";
-        const val = parseFloat(cell);
-        if (index > 0 && !isNaN(val) && val < 90) {
+        const val = parseFloat(cell.replace(/[^0-9.]/g, ""));
+        if (i > 0 && !isNaN(val) && val < 90 && val > 0) {
           td.style.background = "#ffcccc";
           td.style.color = "#a80000";
         }
@@ -327,12 +340,11 @@ async function loadSheetData() {
 
     foamRows.forEach(row => {
       const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, index) => {
+      row.slice(0, 13).forEach((cell, i) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontWeight = "bold";
-        const val = parseFloat(cell);
-        if (index > 0 && !isNaN(val) && val < 75) {
+        const val = parseFloat(cell.replace(/[^0-9.]/g, ""));
+        if (i > 0 && !isNaN(val) && val < 75 && val > 0) {
           td.style.background = "#ffcccc";
           td.style.color = "#a80000";
         }
@@ -343,20 +355,21 @@ async function loadSheetData() {
 
     const totalRow = rows[18];
     if (totalRow) {
-      totalTopperBody.innerHTML = `<tr><td>${totalRow[0]}</td></tr>`;
-      totalFoamBody.innerHTML = `<tr><td>${totalRow[1]}</td></tr>`;
+      totalTopperBody.innerHTML = `<tr><td>${totalRow[0] || "0"}</td></tr>`;
+      totalFoamBody.innerHTML = `<tr><td>${totalRow[1] || "0"}</td></tr>`;
     }
 
     status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
-  } catch (e) {
+  } catch (err) {
+    console.error(err);
     status.textContent = "⚠️ Gagal memuat data";
   }
 }
 
 function updateClock() {
   const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12:false });
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
 }
 
 setInterval(updateClock, 1000);
@@ -364,8 +377,9 @@ updateClock();
 loadSheetData();
 setInterval(loadSheetData, 30000);
 
-document.getElementById("shiftSelectorTop").addEventListener("change", function() {
-  if (this.value === "2") window.location.href = "shift2.html";
+document.getElementById("shiftSelector").addEventListener("change", e => {
+  if (e.target.value === "2") window.location.href = "shift2.html";
+  else window.location.href = "index.html";
 });
 </script>
 </body>
