@@ -5,28 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📊 Monitoring Produksi Realtime</title>
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* Tidak bisa scroll */
-  }
-
   body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f6f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-origin: top center;
-  }
-
-  #mainContent {
-    width: 100vw;
-    height: 100vh;
-    transform: scale(1);
-    transform-origin: top center;
-    transition: transform 0.2s ease;
+    margin: 0;
+    padding: 0;
   }
 
   .marquee {
@@ -49,7 +32,7 @@
 
   .container {
     width: 95%;
-    margin: 10px auto;
+    margin: 15px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -88,20 +71,19 @@
     border-bottom-right-radius: 10px;
   }
 
-  /* === TOTAL BAR BARU === */
   .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin: 15px 3%;
+    margin: 20px 3%;
     flex-wrap: wrap;
   }
 
   .total-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
+    gap: 10px;
   }
 
   .total-box {
@@ -110,6 +92,11 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     width: 180px;
+  }
+
+  .total-box table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
   .total-box th {
@@ -127,7 +114,6 @@
     color: #333;
   }
 
-  /* === JAM DAN LOGO === */
   .total-wrapper1 {
     display: flex;
     flex-direction: column;
@@ -190,7 +176,7 @@
     flex-direction: column;
     background: #083D36;
     color: white;
-    padding: 15px 10px;
+    padding: 20px 10px;
     border-top: 4px solid #004d00;
     margin-top: 10px;
   }
@@ -198,92 +184,119 @@
   .footer-zinus p {
     margin: 5px 0 15px;
     font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 768px) {
+    th, td { font-size: 14px; padding: 6px 4px; }
+    .marquee { font-size: 16px; }
+    #jam { font-size: 24px; }
+    #tanggal { font-size: 14px; }
+    .zinus-logo, .zinus-logo1 { width: 45px; height: 45px; }
+    .footer-zinus p { font-size: 14px; }
   }
 </style>
 </head>
 <body>
-<div id="mainContent">
-  <div class="marquee">
-    <marquee behavior="scroll" direction="left" scrollamount="6">
-      HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
-    </marquee>
-  </div>
 
-  <div class="container">
-    <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
-    <table id="tableTopper">
-      <thead>
-        <tr>
-          <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-          <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
-        </tr>
-      </thead>
-      <tbody id="bodyTopper"><tr><td colspan="13">Loading data...</td></tr></tbody>
-    </table>
-    <div class="footer">Auto-refresh setiap 30 detik</div>
-  </div>
-
-  <div class="container">
-    <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
-    <table id="tableFoam">
-      <thead>
-        <tr>
-          <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
-          <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
-        </tr>
-      </thead>
-      <tbody id="bodyFoam"><tr><td colspan="13">Loading data...</td></tr></tbody>
-    </table>
-    <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
-  </div>
-
-  <!-- === TOTAL SHIFT BARU === -->
-  <div class="top-bar">
-    <div class="total-wrapper">
-      <div style="display: flex; justify-content: center; width: 100%; gap: 80px;">
-        <h2 style="margin: 0; font-size: 28px; color: #083D36;">Output Shift 1</h2>
-        <h2 style="margin: 0; font-size: 28px; color: #083D36;">Output Shift 2</h2>
-      </div>
-      <div style="display: flex; justify-content: center; align-items: center; gap: 80px; width: 100%;">
-        <div style="display: flex; gap: 20px;">
-          <div class="total-box"><table><thead><tr><th>TOPPER</th></tr></thead><tbody id="bodyTotalTopper1"><tr><td>0</td></tr></tbody></table></div>
-          <div class="total-box"><table><thead><tr><th>FOAM</th></tr></thead><tbody id="bodyTotalFoam1"><tr><td>0</td></tr></tbody></table></div>
-        </div>
-        <div style="display: flex; gap: 20px;">
-          <div class="total-box"><table><thead><tr><th>TOPPER</th></tr></thead><tbody id="bodyTotalTopper2"><tr><td>0</td></tr></tbody></table></div>
-          <div class="total-box"><table><thead><tr><th>FOAM</th></tr></thead><tbody id="bodyTotalFoam2"><tr><td>0</td></tr></tbody></table></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="total-wrapper1">
-      <div class="datetime">
-        <div id="tanggal"></div>
-        <div id="jam"></div>
-      </div>
-      <div class="logo-row">
-        <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
-        <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer-zinus">
-    <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
-  </footer>
+<div class="marquee">
+  <marquee behavior="scroll" direction="left" scrollamount="6">
+    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+  </marquee>
 </div>
 
-<script>
-function scaleToFit() {
-  const content = document.getElementById("mainContent");
-  const scaleX = window.innerWidth / content.scrollWidth;
-  const scaleY = window.innerHeight / content.scrollHeight;
-  const scale = Math.min(scaleX, scaleY);
-  content.style.transform = `scale(${scale})`;
-}
-window.addEventListener('resize', scaleToFit);
-window.addEventListener('load', scaleToFit);
+<div class="container">
+  <h2>TOPPER PACKING TARGET : 90 Pcs/Jam</h2>
+  <table id="tableTopper">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyTopper">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer">Auto-refresh setiap 30 detik</div>
+</div>
 
+<div class="container">
+  <h2>FOAM PACKING TARGET : 75 Pcs/Jam</h2>
+  <table id="tableFoam">
+    <thead>
+      <tr>
+        <th>LINE</th><th>09:00</th><th>10:00</th><th>11:00</th><th>12:00</th>
+        <th>14:00</th><th>15:00</th><th>16:00</th><th>17:00</th><th>18:00</th><th>19:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyFoam">
+      <tr><td class="loading" colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === BAGIAN TOTAL DAN JAM (BARU) === -->
+<div class="top-bar">
+
+  <div class="total-wrapper">
+    <div style="display:flex;justify-content:center;width:100%;gap:80px;">
+      <h2 style="margin:0;font-size:28px;color:#083D36;">Output Shift 1</h2>
+      <h2 style="margin:0;font-size:28px;color:#083D36;">Output Shift 2</h2>
+    </div>
+
+    <div style="display:flex;justify-content:center;align-items:center;gap:80px;width:100%;">
+      <div style="display:flex;gap:20px;">
+        <div class="total-box">
+          <table>
+            <thead><tr><th>TOPPER</th></tr></thead>
+            <tbody id="bodyTotalTopper1"><tr><td>0</td></tr></tbody>
+          </table>
+        </div>
+        <div class="total-box">
+          <table>
+            <thead><tr><th>FOAM</th></tr></thead>
+            <tbody id="bodyTotalFoam1"><tr><td>0</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:20px;">
+        <div class="total-box">
+          <table>
+            <thead><tr><th>TOPPER</th></tr></thead>
+            <tbody id="bodyTotalTopper2"><tr><td>0</td></tr></tbody>
+          </table>
+        </div>
+        <div class="total-box">
+          <table>
+            <thead><tr><th>FOAM</th></tr></thead>
+            <tbody id="bodyTotalFoam2"><tr><td>0</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="total-wrapper1">
+    <div class="datetime">
+      <div id="tanggal"></div>
+      <div id="jam"></div>
+    </div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>  
+</footer>
+
+<script>
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTo_FFsfIx50Tgyzo2JZneIQtNBfIpP6eJ-KhzS1qenNIqy7rjmMaE1h1H5X2e_-7jdCbcwq6wdk5oL/pub?gid=773938712&single=true&output=csv";
 
 async function loadSheetData() {
@@ -293,7 +306,6 @@ async function loadSheetData() {
     const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
     const text = await response.text();
     const rows = text.trim().split("\n").map(r => r.split(","));
-
     const topperBody = document.getElementById("bodyTopper");
     const foamBody = document.getElementById("bodyFoam");
     topperBody.innerHTML = ""; foamBody.innerHTML = "";
@@ -303,11 +315,10 @@ async function loadSheetData() {
 
     topperRows.forEach(r => {
       const tr = document.createElement("tr");
-      r.slice(0, 13).forEach((c, i) => {
-        const td = document.createElement("td");
-        td.textContent = c; td.style.fontWeight = "bold";
-        const v = parseFloat(c.replace(/[^0-9.]/g, "").trim());
-        if (i > 0 && !isNaN(v) && v < 90 && v > 0) { td.style.backgroundColor="#ffcccc"; td.style.color="#a80000"; }
+      r.slice(0,13).forEach((c,i)=>{
+        const td=document.createElement("td");td.textContent=c;td.style.fontWeight="bold";
+        const val=parseFloat(c.replace(/[^0-9.]/g,"").trim());
+        if(i>0&&!isNaN(val)&&val<90&&val>0){td.style.backgroundColor="#ffcccc";td.style.color="#a80000";}
         tr.appendChild(td);
       });
       topperBody.appendChild(tr);
@@ -315,44 +326,37 @@ async function loadSheetData() {
 
     foamRows.forEach(r => {
       const tr = document.createElement("tr");
-      r.slice(0, 13).forEach((c, i) => {
-        const td = document.createElement("td");
-        td.textContent = c; td.style.fontWeight = "bold";
-        const v = parseFloat(c.replace(/[^0-9.]/g, "").trim());
-        if (i > 0 && !isNaN(v) && v < 75 && v > 0) { td.style.backgroundColor="#ffcccc"; td.style.color="#a80000"; }
+      r.slice(0,13).forEach((c,i)=>{
+        const td=document.createElement("td");td.textContent=c;td.style.fontWeight="bold";
+        const val=parseFloat(c.replace(/[^0-9.]/g,"").trim());
+        if(i>0&&!isNaN(val)&&val<75&&val>0){td.style.backgroundColor="#ffcccc";td.style.color="#a80000";}
         tr.appendChild(td);
       });
       foamBody.appendChild(tr);
     });
 
-    // Total untuk Shift 1 dan Shift 2
-    const total1 = rows[18];
-    const total2 = rows[19];
-    if (total1) {
-      document.getElementById("bodyTotalTopper1").innerHTML = `<tr><td>${total1[0] || 0}</td></tr>`;
-      document.getElementById("bodyTotalFoam1").innerHTML = `<tr><td>${total1[1] || 0}</td></tr>`;
-    }
-    if (total2) {
-      document.getElementById("bodyTotalTopper2").innerHTML = `<tr><td>${total2[0] || 0}</td></tr>`;
-      document.getElementById("bodyTotalFoam2").innerHTML = `<tr><td>${total2[1] || 0}</td></tr>`;
+    const total = rows[18];
+    if (total) {
+      document.getElementById("bodyTotalTopper1").innerHTML = `<tr><td>${total[0] || 0}</td></tr>`;
+      document.getElementById("bodyTotalFoam1").innerHTML   = `<tr><td>${total[1] || 0}</td></tr>`;
+      document.getElementById("bodyTotalTopper2").innerHTML = `<tr><td>${total[2] || 0}</td></tr>`;
+      document.getElementById("bodyTotalFoam2").innerHTML   = `<tr><td>${total[3] || 0}</td></tr>`;
     }
 
     status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
-  } catch (e) {
+  } catch(e) {
     status.textContent = "⚠️ Gagal memuat data";
   }
 }
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12:false });
+function updateClock(){
+  const now=new Date();
+  document.getElementById("tanggal").textContent=now.toLocaleDateString("id-ID",{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById("jam").textContent=now.toLocaleTimeString("id-ID",{hour12:false});
 }
 
-setInterval(updateClock, 1000);
-updateClock();
-loadSheetData();
-setInterval(loadSheetData, 30000);
+setInterval(updateClock,1000);updateClock();
+loadSheetData();setInterval(loadSheetData,30000);
 </script>
 </body>
 </html>
