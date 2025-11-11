@@ -1,0 +1,185 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+  }
+
+  .marquee {
+    background: #083D36;
+    color: white;
+    padding: 0.6vw 0;
+    font-size: clamp(16px, 2vw, 40px);
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin: 1vw 0;
+    font-size: clamp(16px, 1.5vw, 28px);
+    font-weight: 600;
+  }
+
+  .container {
+    width: 95%;
+    margin: 1.5vw auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  th, td {
+    padding: 0.6vw 0.4vw;
+    text-align: center;
+    font-size: clamp(14px, 1.3vw, 28px);
+    transition: all 0.2s ease;
+  }
+
+  th {
+    background: #083D36;
+    color: white;
+    font-weight: 600;
+  }
+
+  td {
+    font-weight: 600;
+    color: #222;
+  }
+
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  tr:hover { background-color: #e3f2fd; }
+
+  .footer {
+    text-align: right;
+    font-size: clamp(10px, 1vw, 14px);
+    padding: 8px;
+    background: #f1f1f1;
+    color: #666;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  /* === BAGIAN TOTAL + JAM === */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 2vw 3%;
+    flex-wrap: wrap;
+  }
+
+  .total-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.2vw;
+    align-items: center;
+  }
+
+  .total-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: clamp(120px, 12vw, 200px);
+  }
+
+  .total-box th {
+    background: #083D36;
+    color: white;
+    font-size: clamp(14px, 1.2vw, 22px);
+    padding: 0.8vw;
+  }
+
+  .total-box td {
+    font-size: clamp(18px, 2vw, 40px);
+    font-weight: 700;
+    text-align: center;
+    color: #083D36;
+    padding: 0.8vw;
+  }
+
+  /* === JAM DAN LOGO === */
+  .total-wrapper1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 3%;
+    text-align: center;
+  }
+
+  #tanggal {
+    font-size: clamp(14px, 1vw, 22px);
+    font-weight: 600;
+    color: #333;
+  }
+
+  #jam {
+    font-size: clamp(22px, 3vw, 60px);
+    font-weight: 700;
+    color: #0B6E4F;
+    margin-top: 5px;
+  }
+
+  .logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 10px;
+  }
+
+  .zinus-logo, .zinus-logo1 {
+    width: clamp(40px, 4vw, 80px);
+    height: clamp(40px, 4vw, 80px);
+    border-radius: 10px;
+    background: white;
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes fadeZoomIn {
+    0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* === FOOTER ZINUS === */
+  .footer-zinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #083D36;
+    color: white;
+    padding: 1.5vw;
+    border-top: 4px solid #004d00;
+    margin-top: 1vw;
+  }
+
+  .footer-zinus p {
+    margin: 5px 0 15px;
+    font-size: clamp(12px, 1vw, 18px);
+    letter-spacing: 0.5px;
+  }
+</style>
