@@ -90,27 +90,42 @@
     align-items: center;
   }
 
-  .total-box {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: clamp(120px, 12vw, 200px);
+    .total-box {
+    background: linear-gradient(145deg, #ffffff, #f3f7f5);
+    border-radius: 20px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.1),
+                -3px -3px 8px rgba(255,255,255,0.6);
+    width: clamp(140px, 13vw, 220px);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .total-box:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 14px rgba(0,0,0,0.15),
+                -3px -3px 10px rgba(255,255,255,0.7);
   }
 
   .total-box th {
-    background: #083D36;
+    background: #0B6E4F;
     color: white;
     font-size: clamp(14px, 1.2vw, 22px);
     padding: 0.8vw;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: none;
   }
 
   .total-box td {
-    font-size: clamp(18px, 2vw, 40px);
+    font-size: clamp(20px, 2vw, 45px);
     font-weight: 700;
     text-align: center;
-    color: #083D36;
-    padding: 0.8vw;
+    color: #0B6E4F;
+    padding: 1vw;
+    background: transparent;
+    border: none;
   }
+
 
   /* === JAM DAN LOGO === */
   .total-wrapper1 {
@@ -182,6 +197,49 @@
     font-size: clamp(12px, 1vw, 18px);
     letter-spacing: 0.5px;
   }
+
+  html, body {
+    height: 100%;
+    overflow: hidden; /* ❌ Hilangkan scroll bar */
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Atur tinggi konten utama agar muat di layar */
+  .container {
+    flex: 1;
+    overflow: hidden;
+    margin: 0.5vw auto;
+    height: 40vh; /* Sesuaikan proporsi: dua tabel = 2x40vh + topbar/footer */
+  }
+
+  .top-bar {
+    height: 15vh;
+    align-items: center;
+  }
+
+  .footer-zinus {
+    height: 5vh;
+  }
+
+  table {
+    height: 100%;
+  }
+
+  tbody {
+    display: table-row-group;
+  }
+
+  /* Agar font otomatis mengecil saat layar kecil */
+  @media (max-height: 700px) {
+    th, td { font-size: clamp(10px, 1.1vw, 20px); }
+    h2 { font-size: clamp(12px, 1.2vw, 20px); }
+  }
+  
 </style>
 </head>
 <body>
