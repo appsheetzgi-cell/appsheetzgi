@@ -1,8 +1,12 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Monitoring Produksi Realtime</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background-color: #f4f6f8;
     margin: 0;
     padding: 0;
@@ -11,9 +15,9 @@
   .marquee {
     background: #083D36;
     color: white;
-    padding: 0.6vw 0;
-    font-size: clamp(16px, 2vw, 40px);
-    font-weight: 700;
+    padding: 10px 0;
+    font-size: 40px;
+    font-weight: bold;
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
@@ -22,18 +26,18 @@
   h2 {
     text-align: center;
     color: #333;
-    margin: 1vw 0;
-    font-size: clamp(16px, 1.5vw, 28px);
-    font-weight: 600;
+    margin: 10px 0 10px;
+    font-size: 22px;
   }
 
   .container {
     width: 95%;
-    margin: 1.5vw auto;
+    margin: 15px auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     overflow-x: auto;
+    padding: 0;
   }
 
   table {
@@ -43,21 +47,14 @@
   }
 
   th, td {
-    padding: 0.6vw 0.4vw;
+    padding: 10px 6px;
     text-align: center;
-    font-size: clamp(14px, 1.3vw, 28px);
-    transition: all 0.2s ease;
+    font-size: 25px;
   }
 
   th {
     background: #083D36;
     color: white;
-    font-weight: 600;
-  }
-
-  td {
-    font-weight: 600;
-    color: #222;
   }
 
   tr:nth-child(even) { background-color: #f9f9f9; }
@@ -65,7 +62,7 @@
 
   .footer {
     text-align: right;
-    font-size: clamp(10px, 1vw, 14px);
+    font-size: 12px;
     padding: 8px;
     background: #f1f1f1;
     color: #666;
@@ -79,53 +76,44 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin: 2vw 3%;
+    margin: 20px 3%;
     flex-wrap: wrap;
   }
 
   .total-wrapper {
     display: flex;
     justify-content: flex-start;
-    gap: 1.2vw;
+    gap: 20px;
     align-items: center;
   }
 
-    .total-box {
-    background: linear-gradient(145deg, #ffffff, #f3f7f5);
-    border-radius: 20px;
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.1),
-                -3px -3px 8px rgba(255,255,255,0.6);
-    width: clamp(140px, 13vw, 220px);
+  .total-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
-    transition: all 0.3s ease;
+    width: 180px;
   }
 
-  .total-box:hover {
-    transform: scale(1.03);
-    box-shadow: 6px 6px 14px rgba(0,0,0,0.15),
-                -3px -3px 10px rgba(255,255,255,0.7);
+  .total-box table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
   .total-box th {
-    background: #0B6E4F;
+    background: #083D36;
     color: white;
-    font-size: clamp(14px, 1.2vw, 22px);
-    padding: 0.8vw;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border: none;
+    font-size: 18px;
+    padding: 10px;
   }
 
   .total-box td {
-    font-size: clamp(20px, 2vw, 45px);
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: bold;
     text-align: center;
-    color: #0B6E4F;
-    padding: 1vw;
-    background: transparent;
-    border: none;
+    padding: 10px;
+    color: #333;
   }
-
 
   /* === JAM DAN LOGO === */
   .total-wrapper1 {
@@ -137,30 +125,34 @@
     text-align: center;
   }
 
+  .datetime {
+    margin-bottom: 10px;
+  }
+
   #tanggal {
-    font-size: clamp(14px, 1vw, 22px);
+    font-size: 20px;
     font-weight: 600;
     color: #333;
   }
 
   #jam {
-    font-size: clamp(22px, 3vw, 60px);
-    font-weight: 700;
-    color: #0B6E4F;
+    font-size: 40px;
+    font-weight: bold;
+    color: #006400;
     margin-top: 5px;
+    text-align: center;
   }
 
   .logo-row {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
-    margin-top: 10px;
+    gap: 15px;
   }
 
   .zinus-logo, .zinus-logo1 {
-    width: clamp(40px, 4vw, 80px);
-    height: clamp(40px, 4vw, 80px);
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
     background: white;
     object-fit: contain;
@@ -169,8 +161,14 @@
   }
 
   @keyframes fadeZoomIn {
-    0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0); }
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
   }
 
   @keyframes pulse {
@@ -187,59 +185,48 @@
     flex-direction: column;
     background: #083D36;
     color: white;
-    padding: 1.5vw;
+    padding: 20px 10px;
     border-top: 4px solid #004d00;
-    margin-top: 1vw;
+    margin-top: 10px;
   }
 
   .footer-zinus p {
     margin: 5px 0 15px;
-    font-size: clamp(12px, 1vw, 18px);
+    font-size: 16px;
     letter-spacing: 0.5px;
   }
 
-  html, body {
-    height: 100%;
-    overflow: hidden; /* ❌ Hilangkan scroll bar */
-  }
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      margin: 10px 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
 
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+    th, td {
+      font-size: 14px;
+      padding: 6px 4px;
+    }
 
-  /* Atur tinggi konten utama agar muat di layar */
-  .container {
-    flex: 1;
-    overflow: hidden;
-    margin: 0.5vw auto;
-    height: 40vh; /* Sesuaikan proporsi: dua tabel = 2x40vh + topbar/footer */
-  }
+    .marquee { font-size: 16px; padding: 8px 0; }
+    h2 { font-size: 18px; }
+    #jam { font-size: 24px; }
+    #tanggal { font-size: 14px; }
 
-  .top-bar {
-    height: 15vh;
-    align-items: center;
-  }
+    .zinus-logo, .zinus-logo1 {
+      width: 45px;
+      height: 45px;
+    }
 
-  .footer-zinus {
-    height: 5vh;
-  }
+    .logo-row {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-  table {
-    height: 100%;
+    .footer-zinus p { font-size: 14px; }
   }
-
-  tbody {
-    display: table-row-group;
-  }
-
-  /* Agar font otomatis mengecil saat layar kecil */
-  @media (max-height: 700px) {
-    th, td { font-size: clamp(10px, 1.1vw, 20px); }
-    h2 { font-size: clamp(12px, 1.2vw, 20px); }
-  }
-  
 </style>
 </head>
 <body>
@@ -308,6 +295,8 @@
 
     <div class="total-box">
       <table id="tableTotalTopper">
+        <thead><tr><th>TOTAL TOPPER</th></tr></thead>
+        <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
         <thead><tr><th>TOTAL TOPPER</th></tr></thead>
         <tbody id="bodyTotalTopper"><tr><td>0</td></tr></tbody>
       </table>
@@ -440,9 +429,6 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
-
-
-
 
 
 
