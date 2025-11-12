@@ -119,12 +119,13 @@ tr:hover {
 .total-table {
   width: 100%;
   max-width: 650px;
-  border-collapse: collapse;
+  border-collapse: collapse; /* biar border-nya menyatu */
   text-align: center;
   background: white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border: 2px solid white; /* ✅ border luar warna putih */
 }
 
 .total-table th {
@@ -132,6 +133,7 @@ tr:hover {
   color: white;
   font-size: clamp(18px, 3vw, 26px);
   padding: 10px;
+  border: 2px solid white; /* ✅ border putih antar header */
 }
 
 .total-table td {
@@ -139,9 +141,10 @@ tr:hover {
   font-weight: bold;
   padding: 12px;
   color: #333;
-  border-top: 1px solid #ddd;
+  border: 2px solid white; /* ✅ border putih antar sel */
   word-wrap: break-word;
 }
+
 
 /* === JAM & LOGO === */
 .total-wrapper1 {
