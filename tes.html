@@ -343,7 +343,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontSize = "25px";
+        td.style.fontSize = "40px";
         const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
         if (index > 0 && !isNaN(v) && v < 90 && v > 0) {
           td.style.backgroundColor = "#ffcccc";
@@ -359,7 +359,7 @@ async function loadSheetData() {
       row.slice(0, 13).forEach((cell, index) => {
         const td = document.createElement("td");
         td.textContent = cell;
-        td.style.fontSize = "25px";
+        td.style.fontSize = "40px";
         const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
         if (index > 0 && !isNaN(v) && v < 75 && v > 0) {
           td.style.backgroundColor = "#ffcccc";
@@ -375,10 +375,10 @@ async function loadSheetData() {
     if (totalRow) {
       document.getElementById("bodyTotalOutput").innerHTML = `
         <tr>
-          <td style="font-size:20px;">${totalRow[0] || 0}</td>
-          <td style="font-size:20px;">${totalRow[1] || 0}</td>
-          <td style="font-size:20px;">${totalRow[2] || 0}</td>
-          <td style="font-size:20px;">${totalRow[3] || 0}</td>
+          <td style="font-size:40px;">${totalRow[0] || 0}</td>
+          <td style="font-size:40px;">${totalRow[1] || 0}</td>
+          <td style="font-size:40px;">${totalRow[2] || 0}</td>
+          <td style="font-size:40px;">${totalRow[3] || 0}</td>
         </tr>`;
     }
 
