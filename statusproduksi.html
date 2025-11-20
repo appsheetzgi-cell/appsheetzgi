@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Status Produksi</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <h2 class="text-center fw-bold mb-4">Status Produksi</h2>
+
+    <!-- Card Input Week -->
+    <div class="card p-3 mb-4 shadow-sm">
+      <label class="fw-semibold mb-2">Pilih Week</label>
+      <input type="number" id="weekInput" class="form-control" placeholder="Masukkan week..." />
+      <button class="btn btn-primary mt-3 w-100" onclick="loadData()">Tampilkan</button>
+    </div>
+
+    <!-- Tabel -->
+    <div class="card p-3 shadow-sm">
+      <h5 class="fw-bold mb-3">Foam_Packing</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="dataTable">
+          <thead class="table-success text-center">
+            <tr>
+              <th>Week</th>
+              <th>Buyer</th>
+              <th>PO NO</th>
+              <th>Qty Order</th>
+              <th>QTY Produksi</th>
+              <th>OS Produksi</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script ambil data dari Google Sheet -->
+  <script>
+    // Ganti dengan URL Sheet API kamu
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbyFcLUntO7SO1ot6zkIopYcB4b9uj989U_8sXbwkr-rYwxWeo3yfThDu347KMvG99Mo/exec";
+
+    async function loadData() {
+      const week = document.getElementById("weekInput").value;
+      if (!week) return alert("Masukkan week terlebih dahulu!");
+
+      const res = await fetch(SHEET_URL);
+      const data = await res.json();
+
+      const rows = data.filter(r => r.Week == week);
+
+      let html = "";
+      rows.forEach(r => {
+        html += `
+          <tr>
+            <td>${r.Week}</td>
+            <td>${r.Buyer}</td>
+            <td>${r.PO}</td>
+            <td>${r.QtyOrder}</td>
+            <td>${r.QtyProduksi}</td>
+            <td>${r.OSProduksi}</td>
+            <td class="fw-bold ${r.Status === 'Completed' ? 'text-success' : 'text-danger'}">${r.Status}</td>
+          </tr>`;
+      });
+
+      document.getElementById("tableBody").innerHTML = html;
+    }
+  </script>
+</body>
+</html>
