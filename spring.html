@@ -77,72 +77,47 @@
     border-bottom-right-radius: 10px;
   }
 
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 20px 3%;
+.total-wrapper1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 3%;
+  text-align: center;
+  flex-wrap: wrap;
+}
 
-  }
+#tanggal {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 600;
+  color: #333;
+}
 
-  .total-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    align-items: center;
-
-  }
-
-  .total-box {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-    width: 180px;
-  }
-
-  .shift-label {
-  background: #083D36;
-  color: white;
-  font-size: 25px;
+#jam {
+  font-size: clamp(40px, 6vw, 65px);
   font-weight: bold;
-  padding: 6px 10px;
-  border-radius: 10px;
-  width: fit-content;
-  margin-left: 10px;
-  margin-bottom: 2px;
+  color: #006400;
   margin-top: 5px;
 }
 
+.logo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
 
-  .total-box table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+.zinus-logo, .zinus-logo1 {
+  width: clamp(60px, 5vw, 90px);
+  height: clamp(60px, 5vw, 90px);
+  border-radius: 10px;
+  background: white;
+  object-fit: contain;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
+}
 
-  .total-box th {
-    background: #083D36;
-    color: white;
-    font-size: 30px;
-    padding: 10px;
-  }
-
-  .total-box td {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    color: #333;
-  }
-
-  .total-wrapper1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-right: 3%;
-    text-align: center;
-  }
 
   .datetime {
     margin-bottom: 10px;
@@ -255,30 +230,25 @@
 
 <!-- === TOTAL & JAM === -->
 <div class="top-bar">
-
   <div class="total-wrapper">
-    <div class="total-box">
-      <table id="tableTotalShift1">
-        <thead><tr><th>OUTPUT SHIFT 1</th></tr></thead>
-        <tbody id="bodyTotalShift1"><tr><td>0</td></tr></tbody>
-      </table>
-    </div>
+    <table class="total-table">
+      <thead>
+        <tr>
+          <th colspan="2">OUTPUT SHIFT 1</th>
+          <th colspan="2">OUTPUT SHIFT 2</th>
+          <th colspan="2">TOTAL OUTPUT</th>
+        </tr>
 
-    <div class="total-box">
-      <table id="tableTotalShift2">
-        <thead><tr><th>OUTPUT SHIFT 2</th></tr></thead>
-        <tbody id="bodyTotalShift2"><tr><td>0</td></tr></tbody>
-      </table>
-    </div>
-
-    <div class="total-box">
-      <table id="tableTotalOutput">
-        <thead><tr><th>TOTAL OUTPUT</th></tr></thead>
-        <tbody id="bodyTotalOutput"><tr><td>0</td></tr></tbody>
-      </table>
-    </div>
+        </thead>
+      <tbody id="bodyTotalOutput">
+        <tr>
+    <td rowspan="2" colspan="2">0</td>
+	  <td rowspan="2" colspan="2">0</td>
+	  <td rowspan="2" colspan="2">0</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
   <div class="total-wrapper1">
     <div class="datetime">
       <div id="tanggal"></div>
@@ -310,15 +280,13 @@ async function loadSheetData() {
 
     const shift1Body = document.getElementById("bodyShift1");
     const shift2Body = document.getElementById("bodyShift2");
-    const totalShift1Body = document.getElementById("bodyTotalShift1");
-    const totalShift2Body = document.getElementById("bodyTotalShift2");
-    const totalOutputBody = document.getElementById("bodyTotalOutput");
+    const totalBody = document.getElementById("bodyTotal");
+
 
     shift1Body.innerHTML = "";
     shift2Body.innerHTML = "";
-    totalShift1Body.innerHTML = "";
-    totalShift2Body.innerHTML = "";
-    totalOutputBody.innerHTML = "";
+    totalBody.innerHTML = "";
+
 
     const shift1Rows = rows.slice(6, 10);
     const shift2Rows = rows.slice(14, 18);
@@ -360,8 +328,8 @@ async function loadSheetData() {
     // === TOTAL ===
     const totalRow = rows[20];
     if (totalRow) {
-      const shift1Value = totalRow[0] || "0";
-      const shift2Value = totalRow[1] || "0";
+      const totalBody = totalRow[0] || "0";
+      const totalBody = totalRow[1] || "0";
       const outputValue = totalRow[2] || "0"; // kolom C
 
       totalShift1Body.innerHTML = `<tr><td>${shift1Value}</td></tr>`;
