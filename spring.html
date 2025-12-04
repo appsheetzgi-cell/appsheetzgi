@@ -52,7 +52,7 @@ h2 {
 .container {
   width: 95vw;
   max-width: 100%;
-  margin: 50px auto;
+  margin: 70px auto;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -198,7 +198,7 @@ tr:hover {
   color: white;
   padding: 20px 10px;
   border-top: 4px solid #004d00;
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .footer-zinus p {
@@ -324,7 +324,7 @@ async function loadSheetData() {
         td.style.fontSize = "35px";
         td.style.fontWeight = "bold";
         const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
-        if (index > 0 && !isNaN(v) && v < 90 && v > 0) {
+        if (index > 0 && !isNaN(v) && v < 65 && v > 0) {
           td.style.backgroundColor = "#ffcccc";
           td.style.color = "#a80000";
         }
