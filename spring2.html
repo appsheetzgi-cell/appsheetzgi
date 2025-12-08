@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Monitoring Produksi Realtime</title>
+<style>
+  body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* hindari scroll horizontal */
+}
+
+.marquee {
+  background: #083D36;
+  color: white;
+  padding: 12px 0;
+  font-size: clamp(16px, 4vw, 50px); /* responsive font */
+  font-weight: bold;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+h2 {
+  color: #333;
+  margin: 3px 0;
+  font-size: clamp(35px, 3vw, 40px);
+}
+
+.h2-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3px 3%;
+  flex-wrap: wrap;
+}
+
+.h2-header select {
+  font-size: clamp(30px, 2.5vw, 35px);
+  font-weight: bold;
+  border: none;
+  background: none;
+  color: #083D36;
+  cursor: pointer;
+  outline: none;
+  min-width: 100px;
+}
+
+.container {
+  width: 95vw;
+  max-width: 100%;
+  margin: 80px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  overflow-x: auto; /* hanya jika perlu */
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  word-wrap: break-word; /* pecah kata agar tidak overflow */
+  table-layout: fixed; /* penting untuk wrapping kolom */
+}
+
+th, td {
+  padding: 10px 6px;
+  text-align: center;
+  font-size: clamp(14px, 2vw, 32px);
+  overflow-wrap: break-word;
+}
+
+th {
+  background: #083D36;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #e3f2fd;
+}
+
+.footer {
+  text-align: right;
+  font-size: clamp(12px, 1.5vw, 18px);
+  padding: 8px;
+  background: #f1f1f1;
+  color: #666;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* === TOTAL + JAM === */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 20px 3%;
+  margin-Bottom: 20px 3%;
+  flex-wrap: wrap;
+}
+
+.total-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.total-table {
+  width: 100%;
+  max-width: 600px;
+  border-collapse: collapse; /* biar border-nya menyatu */
+  text-align: center;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border: 2px solid white; /* ✅ border luar warna putih */
+}
+
+.total-table th {
+  background: #083D36;
+  color: white;
+  font-size: clamp(18px, 3vw, 26px);
+  padding: 10px;
+  border: 2px solid white; /* ✅ border putih antar header */
+}
+
+.total-table td {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: bold;
+  padding: 12px;
+  color: #333;
+  border: 2px solid white; /* ✅ border putih antar sel */
+  word-wrap: break-word;
+}
+
+
+/* === JAM & LOGO === */
+.total-wrapper1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 3%;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+#tanggal {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 600;
+  color: #333;
+}
+
+#jam {
+  font-size: clamp(40px, 6vw, 65px);
+  font-weight: bold;
+  color: #006400;
+  margin-top: 5px;
+}
+
+.logo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.zinus-logo, .zinus-logo1 {
+  width: clamp(60px, 5vw, 90px);
+  height: clamp(60px, 5vw, 90px);
+  border-radius: 10px;
+  background: white;
+  object-fit: contain;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  animation: fadeZoomIn 1.5s ease-out forwards, pulse 6s ease-in-out infinite;
+}
+
+/* === FOOTER === */
+.footer-zinus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #083D36;
+  color: white;
+  padding: 20px 10px;
+  border-top: 4px solid #004d00;
+  margin-top: 10px;
+}
+
+.footer-zinus p {
+  margin: 3px 0 5px;
+  font-size: clamp(20px, 2vw, 35px);
+}
+
+@keyframes fadeZoomIn {
+  0% { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .h2-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .total-wrapper {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- === TEKS BERJALAN === -->
+<div class="marquee">
+  <marquee behavior="scroll" direction="left" scrollamount="10">
+    HOURLY MONITORING SPRING PACKING
+  </marquee>
+</div>
+
+<!-- === TABEL TOPPER === -->
+
+<div class="container">
+  <div class="h2-header">
+    <select id="shiftSelector">
+      <option value="1" selected>SHIFT 1</option>
+      <option value="2">SHIFT 2</option>
+    </select>
+    <h2>SPRING PACKING TARGET : 65 PC/JAM</h2>
+    <div style="width:80px;"></div>
+  </div>
+
+  <table id="tableTopper">
+    <thead>
+      <tr>
+        <th style="width: 220px;">LINE</th><th>21:00</th><th>22:00</th><th>23:00</th><th>00:00</th>
+        <th>02:00</th><th>03:00</th><th>04:00</th><th>05:00</th>
+        <th>06:30</th><th>07:30</th><th>AVG</th><th>TOTAL</th>
+      </tr>
+    </thead>
+    <tbody id="bodyTopper">
+      <tr><td colspan="13">Loading data...</td></tr>
+    </tbody>
+  </table>
+  <div class="footer" id="status">Auto-refresh setiap 30 detik</div>
+</div>
+
+<!-- === TOTAL & JAM === -->
+<div class="top-bar">
+  <div class="total-wrapper">
+    <table class="total-table">
+      <thead>
+        <tr>
+          <th>OUTPUT SHIFT 1</th>
+          <th>OUTPUT SHIFT 2</th>
+          <th>TOTAL OUTPUT</th>
+        </tr>
+        </thead>
+      <tbody id="bodyTotalOutput">
+        <tr>
+          <td>0</td><td>0</td><td>0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="total-wrapper1">
+    <div id="tanggal"></div>
+    <div id="jam"></div>
+    <div class="logo-row">
+      <img src="logo-zinus1.gif" alt="Zinus Logo" class="zinus-logo1">
+      <img src="Hyundai_Logo.png" alt="Hyundai Logo" class="zinus-logo">
+    </div>
+  </div>
+</div>
+
+<footer class="footer-zinus">
+  <p>© Zinus Global Indonesia | Factory 2 Karawang</p>
+</footer>
+
+<script>
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBYhHvt79gXdgMQdO86CWEyH18G2WhMKMWDrs1VRpvAOycjbdSb814zFG6Fiw3LRKXnWMOfmLlpiz5/pub?gid=235442278&single=true&output=csv";
+
+async function loadSheetData() {
+  const status = document.getElementById("status");
+  try {
+    status.textContent = "🔄 Memuat data...";
+    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    const text = await response.text();
+    const rows = text.trim().split("\n").map(r => r.split(","));
+    const topperBody = document.getElementById("bodyTopper");
+    topperBody.innerHTML = "";
+
+    const topperRows = rows.slice(14, 18);
+
+    topperRows.forEach(row => {
+      const tr = document.createElement("tr");
+      row.slice(0, 13).forEach((cell, index) => {
+        const td = document.createElement("td");
+        td.textContent = cell;
+        td.style.fontSize = "35px";
+        td.style.fontWeight = "bold";
+        const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
+        if (index > 0 && !isNaN(v) && v < 65 && v > 0) {
+          td.style.backgroundColor = "#ffcccc";
+          td.style.color = "#a80000";
+        }
+        tr.appendChild(td);
+      });
+      topperBody.appendChild(tr);
+    });
+
+    // === TOTAL OUTPUT SHIFT 1 & 2 ===
+    const totalRow = rows[20]; // nanti kamu ubah sesuai lokasi data
+    if (totalRow) {
+      document.getElementById("bodyTotalOutput").innerHTML = `
+        <tr>
+          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[0] || 0}</td>
+          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[1] || 0}</td>
+          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[2] || 0}</td>
+        </tr>`;
+    }
+
+    status.textContent = "✅ Diperbarui: " + new Date().toLocaleTimeString("id-ID");
+  } catch {
+    status.textContent = "⚠️ Gagal memuat data";
+  }
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+loadSheetData();
+setInterval(loadSheetData, 30000);
+
+document.getElementById("shiftSelector").addEventListener("change", function() {
+  const v = this.value;
+  window.location.href = v === "2" ? "spring2.html" : "spring.html";
+});
+</script>
+</body>
+</html>
+
