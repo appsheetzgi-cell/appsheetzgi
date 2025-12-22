@@ -119,7 +119,7 @@ tr:hover {
 
 .total-table {
   width: 100%;
-  max-width: 600px;
+  max-width: 300px;
   border-collapse: collapse; /* biar border-nya menyatu */
   text-align: center;
   background: white;
@@ -275,14 +275,12 @@ tr:hover {
     <table class="total-table">
       <thead>
         <tr>
-          <th>OUTPUT SHIFT 1</th>
-          <th>OUTPUT SHIFT 2</th>
-          <th>TOTAL OUTPUT</th>
+         <th>TOTAL OUTPUT</th>
         </tr>
         </thead>
       <tbody id="bodyTotalOutput">
         <tr>
-          <td>0</td><td>0</td><td>0</td>
+          <td>0</td>
         </tr>
       </tbody>
     </table>
@@ -340,8 +338,6 @@ async function loadSheetData() {
       document.getElementById("bodyTotalOutput").innerHTML = `
         <tr>
           <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[0] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[1] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[2] || 0}</td>
         </tr>`;
     }
 
