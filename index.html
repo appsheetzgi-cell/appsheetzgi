@@ -118,7 +118,7 @@ tr:hover {
 
 .total-table {
   width: 100%;
-  max-width: 900px;
+  max-width: 600px;
   border-collapse: collapse; /* biar border-nya menyatu */
   text-align: center;
   background: white;
@@ -291,22 +291,16 @@ tr:hover {
     <table class="total-table">
       <thead>
         <tr>
-          <th colspan="2">OUTPUT SHIFT 1</th>
-          <th colspan="2">OUTPUT SHIFT 2</th>
           <th colspan="2">TOTAL OUTPUT</th>
         </tr>
         <tr>
-          <th>TOPPER</th>
-          <th>FOAM</th>
-          <th>TOPPER</th>
-          <th>FOAM</th>
           <th>TOPPER</th>
           <th>FOAM</th>
         </tr>
         </thead>
       <tbody id="bodyTotalOutput">
         <tr>
-          <td>0</td><td>0</td><td>0</td><td>0</td>
+          <td>0</td>
         </tr>
       </tbody>
     </table>
@@ -385,10 +379,6 @@ async function loadSheetData() {
         <tr>
           <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[0] || 0}</td>
           <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[1] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[2] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[3] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[4] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[5] || 0}</td>
         </tr>`;
     }
 
@@ -416,6 +406,7 @@ document.getElementById("shiftSelector").addEventListener("change", function() {
 </script>
 </body>
 </html>
+
 
 
 
