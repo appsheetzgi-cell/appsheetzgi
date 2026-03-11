@@ -14,14 +14,32 @@
 }
 
 .marquee {
-  background: #083D36;
-  color: white;
-  padding: 12px 0;
+  width:100%;
+  overflow:hidden;
+  background:black;
+  color:white;
   font-size: clamp(16px, 4vw, 50px); /* responsive font */
-  font-weight: bold;
-  text-align: center;
-  overflow: hidden;
-  white-space: nowrap;
+}
+
+.track{
+  display:flex;
+  width:max-content;
+  animation:scroll 15s linear infinite;
+}
+
+.track span{
+  padding-right:50px;
+  white-space:nowrap;
+}
+
+@keyframes scroll{
+  0%{
+    transform:translateX(0);
+  }
+  100%{
+    transform:translateX(-50%);
+  }
+}
 }
 
 h2 {
@@ -262,9 +280,12 @@ tr:hover {
 <body>
 
 <!-- === TEKS BERJALAN === -->
-<div class="running-text">
-  <div class="text">
-    HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+<div class="marrquee">
+  <div class="track">
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+    </span>
+    <span>HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
+    </span> 
   </div>
 </div>
 
