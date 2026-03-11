@@ -280,88 +280,36 @@ tr:hover {
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEw2CJU1c2YCuLCVXLYdVeWJd2LymXQKEps_9rxN4VhDUWDIuCCWJGLwRyd8a7Bwq-3-lTe13ugikw/pub?gid=903721211&single=true&output=csv";
 
 async function loadSheetData() {
-  const status = document.getElementById("status");
-  try {
-    status.textContent = "?? Memuat data...";
-    const response = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
-    const text = await response.text();
-    const rows = text.trim().split("\n").map(r => r.split(","));
-    const topperBody = document.getElementById("bodyTopper");
-    const foamBody = document.getElementById("bodyFoam");
-    topperBody.innerHTML = "";
-    foamBody.innerHTML = "";
 
-    const topperRows = rows.slice(29, 42);
-    const foamRows = rows.slice(11, 17);
+  const response = await fetch(SHEET_URL + "&t=" + Date.now());
+  const text = await response.text();
 
-    topperRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 5).forEach((cell, index) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        td.style.fontSize = "35px";
-        td.style.fontWeight = "bold";
-        const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
-        if (index > 0 && !isNaN(v) && v < 90 && v > 0) {
-          td.style.backgroundColor = "#ffcccc";
-          td.style.color = "#a80000";
-        }
-        tr.appendChild(td);
-      });
-      topperBody.appendChild(tr);
+  const rows = text.trim().split("\n").map(r => r.split(","));
+
+  const topperBody = document.getElementById("bodyTopper");
+  topperBody.innerHTML = "";
+
+  const topperRows = rows.slice(29, 42);
+
+  topperRows.forEach(row => {
+    const tr = document.createElement("tr");
+
+    row.slice(0,5).forEach(cell=>{
+      const td = document.createElement("td");
+      td.textContent = cell;
+      td.style.fontSize = "35px";
+      td.style.fontWeight = "bold";
+      tr.appendChild(td);
     });
 
-    foamRows.forEach(row => {
-      const tr = document.createElement("tr");
-      row.slice(0, 13).forEach((cell, index) => {
-        const td = document.createElement("td");
-        td.textContent = cell;
-        td.style.fontSize = "35px";
-        td.style.fontWeight = "bold";
-        const v = parseFloat(cell.replace(/[^0-9.]/g, ""));
-        if (index > 0 && !isNaN(v) && v < 75 && v > 0) {
-          td.style.backgroundColor = "#ffcccc";
-          td.style.color = "#a80000";
-        }
-        tr.appendChild(td);
-      });
-      foamBody.appendChild(tr);
-    });
+    topperBody.appendChild(tr);
+  });
 
-    // === TOTAL OUTPUT SHIFT 1 & 2 ===
-    const totalRow = rows[19]; // nanti kamu ubah sesuai lokasi data
-    if (totalRow) {
-      document.getElementById("bodyTotalOutput").innerHTML = `
-        <tr>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[0] || 0}</td>
-          <td style="font-size:45px; border: 2px solid #083D36;">${totalRow[1] || 0}</td>
-        </tr>`;
-    }
-
-    status.textContent = "? Diperbarui: " + new Date().toLocaleTimeString("id-ID");
-  } catch {
-    status.textContent = "?? Gagal memuat data";
-  }
 }
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("tanggal").textContent = now.toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  document.getElementById("jam").textContent = now.toLocaleTimeString("id-ID", { hour12: false });
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-loadSheetData();
-setInterval(loadSheetData, 30000);
-
-document.getElementById("shiftSelector").addEventListener("change", function() {
-  const v = this.value;
-  window.location.href = v === "2" ? "shift2.html" : "index.html";
-});
 </script>
 </body>
 </html>
+
 
 
 
