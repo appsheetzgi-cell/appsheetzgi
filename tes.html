@@ -229,16 +229,41 @@ tr:hover {
   }
 }
 
+  .running-text {
+  width: 100%;
+  overflow: hidden;
+  background: black;
+  color: white;
+  font-size: 24px;
+  padding: 10px 0;
+}
+
+.running-text .text {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: jalan 15s linear infinite;
+}
+
+@keyframes jalan {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 </style>
 
 </head>
 <body>
 
 <!-- === TEKS BERJALAN === -->
-<div class="marquee">
-  <marquee behavior="scroll" direction="left" scrollamount="10">
+<div class="running-text">
+  <div class="text">
     HOURLY MONITORING TOPPER PACKING DAN FOAM PACKING
-  </marquee>
+  </div>
 </div>
 
 <!-- === TABEL TOPPER === -->
