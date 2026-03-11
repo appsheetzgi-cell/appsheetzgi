@@ -76,6 +76,12 @@ th, td {
   overflow-wrap: break-word;
   border: 2px solid white;
 }
+/* BUYER rata kiri */
+#tableTopper td:first-child,
+#tableTopper th:first-child {
+  text-align: left;
+  padding-left: 20px;
+}
 
 th {
   background: #083D36;
@@ -289,7 +295,7 @@ async function loadSheetData() {
   const topperBody = document.getElementById("bodyTopper");
   topperBody.innerHTML = "";
 
-  const topperRows = rows.slice(29, 42);
+  const topperRows = rows.slice(27, 42);
 
   topperRows.forEach(row => {
     const tr = document.createElement("tr");
@@ -316,6 +322,7 @@ setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
+
 
 
 
