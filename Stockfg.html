@@ -306,9 +306,17 @@ async function loadSheetData() {
   });
 
 }
+
+/* JALANKAN DATA */
+loadSheetData();
+
+/* AUTO REFRESH 30 DETIK */
+setInterval(loadSheetData, 30000);
+
 </script>
 </body>
 </html>
+
 
 
 
