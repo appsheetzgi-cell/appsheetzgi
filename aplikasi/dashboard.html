@@ -1,0 +1,11 @@
+<script>
+if (!localStorage.getItem("nama")) {
+  window.location.href = "login.html";
+}
+
+// ❌ hanya admin
+if (localStorage.getItem("role") !== "admin") {
+  alert("Akses ditolak!");
+  window.location.href = "index.html";
+}
+</script>

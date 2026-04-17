@@ -1,0 +1,11 @@
+<script>
+if (!localStorage.getItem("nama")) {
+  window.location.href = "login.html";
+}
+
+// ❌ operator tidak boleh akses dashboard
+if (localStorage.getItem("role") !== "operator") {
+  alert("Akses ditolak!");
+  window.location.href = "dashboard.html";
+}
+</script>
