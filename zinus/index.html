@@ -69,18 +69,12 @@ document.getElementById("formLogin").addEventListener("submit", function(e){
     let password = document.querySelector('[name="password"]').value;
     let departement = document.querySelector('[name="departement"]').value;
 
-    let formData = new URLSearchParams();
-    formData.append("username", username);
-    formData.append("password", password);
-    formData.append("departement", departement);
+    let url = "https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec"
+        + "?username=" + encodeURIComponent(username)
+        + "&password=" + encodeURIComponent(password)
+        + "&departement=" + encodeURIComponent(departement);
 
-    fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
-        method: "POST",
-        body: formData,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    })
+    fetch(url)
     .then(res => res.json())
     .then(data => {
         console.log(data);
