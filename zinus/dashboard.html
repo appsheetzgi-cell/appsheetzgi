@@ -51,37 +51,89 @@
 </div>
 
 <script>
+// 🔐 PROTEKSI LOGIN
+if(localStorage.getItem("login") !== "true"){
+    alert("Harus login dulu!");
+    window.location.href = "index.html";
+}
+
 let username = localStorage.getItem("username");
 let departement = localStorage.getItem("departement");
 
 document.getElementById("infoUser").innerText =
     "User: " + username + " | Dept: " + departement;
 
-// submit data
+
+// 🔥 SIMPAN DATA (ANTI 405)
 document.getElementById("formProduksi").addEventListener("submit", function(e){
     e.preventDefault();
 
-    let formData = new FormData(this);
+    let plan = document.querySelector('[name="plan"]').value;
+    let actual = document.querySelector('[name="actual"]').value;
+    let keterangan = document.querySelector('[name="keterangan"]').value;
+
+    let formData = new URLSearchParams();
     formData.append("username", username);
     formData.append("departement", departement);
+    formData.append("plan", plan);
+    formData.append("actual", actual);
+    formData.append("keterangan", keterangan);
 
     fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
         method: "POST",
+        mode: "no-cors", // 🔥 penting
         body: formData
     })
-    .then(res => res.json())
-    .then(data => {
+    .then(() => {
         alert("Data berhasil disimpan!");
-        this.reset();
+        document.getElementById("formProduksi").reset();
         loadData();
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error kirim data!");
     });
 });
 
-// logout
+
+// 🔥 LOAD DATA (HISTORY)
+function loadData(){
+    fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec")
+    .then(res => res.json())
+    .then(data => {
+
+        let html = "";
+
+        for(let i=1; i<data.length; i++){
+
+            // filter sesuai departement
+            if(data[i][2] === departement){
+
+                html += `
+                <tr>
+                    <td>${data[i][0]}</td>
+                    <td>${data[i][1]}</td>
+                    <td>${data[i][2]}</td>
+                    <td>${data[i][3]}</td>
+                    <td>${data[i][4]}</td>
+                    <td>${data[i][5]}</td>
+                </tr>`;
+            }
+        }
+
+        document.querySelector("#tabelData tbody").innerHTML = html;
+    });
+}
+
+
+// 🔥 LOGOUT
 function logout(){
     localStorage.clear();
     window.location.href = "index.html";
 }
+
+// pertama load
+loadData();
 </script>
 
 </body>
