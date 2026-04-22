@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Login</title>
+	<!-- Icon  -->
+	<link rel="shortcut icon" type="image/icon" href="logo.jpg">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/bootstrap/css/custom.css" rel="stylesheet">
+    <link href="assets/dist/css/AdminLTE.min.css" rel="stylesheet" >
+    <link href="assets/plugins/iCheck/square/blue.css" rel="stylesheet">
+    <link href="assets/fa/css/font-awesome.min.css" rel="stylesheet">  
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">        
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+       	<img src="gambar/logo.jpg" style="width: 120px; height: 120px;">
+        <h3 class="text-center"><font color="#31605E">ZINUS KARAWANG</font></h3>        
+        <form method="post">
+          <div class="form-group">           	
+          	<div class="input-group">
+          		<span class="input-group-addon"><i class="fa fa-user"></i></span>
+	            <input type="text" class="form-control" placeholder="Username" name="username" required  />	            
+            </div>
+          </div>
+          <div class="form-group">
+          	<div class="input-group">
+	            <span class="input-group-addon"><i class="fa fa-unlock"></i></span>
+	            <input  type="password" class="form-control" placeholder="Password" name="password"  required>
+            </div>
+          </div>
+          <div class="form-group">
+          	<div class="input-group col-md-8">          	
+          		<span class="input-group-addon"><i class="fa fa-shield"></i></span>
+	            <select class="form-control" name="departement" required>            	
+	            	<option value="" disabled selected>Pilih Departement</option>
+	            	<option value="packing_foam">Packing Foam</option>
+	            	<option value="packing_spring">Packing Spring</option>
+                    <option value="quilting">Quilting</option>
+					<option value="sewing_foam">Sewing Foam</option>
+					<option value="sewing_spring">Sewing Spring</option>
+					<option value="spring_net">Spring Core</option>
+					<option value="bonding">Bonding</option>
+					<option value="finish_good">Finish Good</option>
+					<option value="loading">Loading</option>
+					<option value="webbing">webbing</option>
+					<option value="embroidery">Embroidery</option>
+	            </select>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <input type="submit" class="btn btn-primary btn-block btn-flat pull-right" value="Login" name="login"/>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+       
 
+      </div>
+<script>
+document.getElementById("formLogin").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "success"){
+
+            // ✅ SESSION
+            localStorage.setItem("login", "true");
+            localStorage.setItem("username", formData.get("username"));
+            localStorage.setItem("departement", data.departement);
+            localStorage.setItem("role", data.role);
+
+            window.location.href = "dashboard.html";
+
+        } else {
+            alert("Login gagal!");
+        }
+    });
+});
+</script>
+
+</body>
+</html>
