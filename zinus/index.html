@@ -72,18 +72,8 @@ document.querySelector("form").addEventListener("submit", function(e){
         + "&password=" + password
         + "&departement=" + departement;
 
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-
-        if(data.status === "success"){
-            localStorage.setItem("token", data.token);
-
-            window.location.href = "dashboard.html";
-        } else {
-            alert("Login gagal!");
-        }
-    });
+    // 🔥 redirect ke Google Script
+    window.location.href = url;
 });
 </script>
 </body>
