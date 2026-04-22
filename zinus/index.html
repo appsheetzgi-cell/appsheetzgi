@@ -58,50 +58,36 @@
             <!-- /.col -->
           </div>
         </form>
-       
-
-      </div>
+ </div>
 <script>
-document.addEventListener("DOMContentLoaded", function(){
+document.querySelector("form").addEventListener("submit", function(e){
+    e.preventDefault();
 
-    const form = document.querySelector("form");
+    let username = document.querySelector('[name="username"]').value;
+    let password = document.querySelector('[name="password"]').value;
+    let departement = document.querySelector('[name="departement"]').value;
 
-    form.addEventListener("submit", function(e){
-        e.preventDefault();
+    let url = "https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec"
+        + "?username=" + username
+        + "&password=" + password
+        + "&departement=" + departement;
 
-        let username = document.querySelector('[name="username"]').value;
-        let password = document.querySelector('[name="password"]').value;
-        let departement = document.querySelector('[name="departement"]').value;
+    fetch(url, {
+        method: "GET",
+        mode: "no-cors"
+    })
+    .then(() => {
+        // ❗ karena no-cors, kita tidak bisa baca response
+        localStorage.setItem("login", "true");
+        localStorage.setItem("username", username);
+        localStorage.setItem("departement", departement);
 
-        let url = "https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec"
-            + "?username=" + encodeURIComponent(username)
-            + "&password=" + encodeURIComponent(password)
-            + "&departement=" + encodeURIComponent(departement);
-
-        console.log("URL:", url); // 🔥 DEBUG
-
-        fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            console.log("Response:", data);
-
-            if(data.status === "success"){
-                localStorage.setItem("login", "true");
-                localStorage.setItem("username", username);
-                localStorage.setItem("departement", departement);
-
-                window.location.href = "dashboard.html";
-            } else {
-                alert("Login gagal!");
-            }
-        })
-        .catch(err => {
-            console.error("Error:", err);
-            alert("Error koneksi!");
-        });
-
+        window.location.href = "dashboard.html";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error koneksi!");
     });
-
 });
 </script>
 </body>
