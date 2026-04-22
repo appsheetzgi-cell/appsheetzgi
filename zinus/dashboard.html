@@ -5,27 +5,7 @@
     <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<script>
-let token = localStorage.getItem("token");
-
-if(!token){
-    alert("Harus login dulu!");
-    window.location.href = "index.html";
-}
-
-fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec?token=" + token)
-.then(res => res.json())
-.then(data => {
-
-    if(data.status !== "valid"){
-        alert("Session habis!");
-        localStorage.clear();
-        window.location.href = "index.html";
-    }
-
-});
-</script>
-    
+   
 <div class="container mt-4">
     <h3>Dashboard Produksi</h3>
 
