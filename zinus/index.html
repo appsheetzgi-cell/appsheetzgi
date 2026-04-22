@@ -67,13 +67,31 @@ document.querySelector("form").addEventListener("submit", function(e){
     let password = document.querySelector('[name="password"]').value;
     let departement = document.querySelector('[name="departement"]').value;
 
-    let url = "https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec"
-        + "?username=" + username
-        + "&password=" + password
-        + "&departement=" + departement;
+    // 🔥 DATA USER MANUAL
+    const users = [
+        {username: "foam", password: "12345", departement: "packing_foam"},
+        {username: "spring", password: "12345", departement: "packing_spring"},
+        {username: "admin", password: "admin", departement: "finish_good"}
+    ];
 
-    // 🔥 redirect ke Google Script
-    window.location.href = url;
+    // 🔍 CEK LOGIN
+    let found = users.find(user =>
+        user.username === username &&
+        user.password === password &&
+        user.departement === departement
+    );
+
+    if(found){
+        // simpan session
+        localStorage.setItem("login", "true");
+        localStorage.setItem("username", username);
+        localStorage.setItem("departement", departement);
+
+        // masuk dashboard
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Login gagal!");
+    }
 });
 </script>
 </body>
