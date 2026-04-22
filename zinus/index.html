@@ -65,27 +65,35 @@
 document.getElementById("formLogin").addEventListener("submit", function(e){
     e.preventDefault();
 
-    let formData = new FormData(this);
+    let formData = new URLSearchParams();
+    formData.append("username", this.username.value);
+    formData.append("password", this.password.value);
+    formData.append("departement", this.departement.value);
 
     fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
         method: "POST",
-        body: formData
+        body: formData,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
     })
     .then(res => res.json())
     .then(data => {
-        if(data.status === "success"){
+        console.log(data);
 
-            // ✅ SESSION
+        if(data.status === "success"){
             localStorage.setItem("login", "true");
-            localStorage.setItem("username", formData.get("username"));
+            localStorage.setItem("username", this.username.value);
             localStorage.setItem("departement", data.departement);
-            localStorage.setItem("role", data.role);
 
             window.location.href = "dashboard.html";
-
         } else {
             alert("Login gagal!");
         }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error koneksi!");
     });
 });
 </script>
