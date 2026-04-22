@@ -65,10 +65,14 @@
 document.getElementById("formLogin").addEventListener("submit", function(e){
     e.preventDefault();
 
+    let username = document.querySelector('[name="username"]').value;
+    let password = document.querySelector('[name="password"]').value;
+    let departement = document.querySelector('[name="departement"]').value;
+
     let formData = new URLSearchParams();
-    formData.append("username", this.username.value);
-    formData.append("password", this.password.value);
-    formData.append("departement", this.departement.value);
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("departement", departement);
 
     fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
         method: "POST",
@@ -83,7 +87,7 @@ document.getElementById("formLogin").addEventListener("submit", function(e){
 
         if(data.status === "success"){
             localStorage.setItem("login", "true");
-            localStorage.setItem("username", this.username.value);
+            localStorage.setItem("username", username);
             localStorage.setItem("departement", data.departement);
 
             window.location.href = "dashboard.html";
