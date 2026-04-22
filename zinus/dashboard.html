@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Produksi</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<script>
+// ?? proteksi login
+if(localStorage.getItem("login") !== "true"){
+    window.location.href = "index.html";
+}
+</script>
+
+<div class="container mt-4">
+    <h3>Dashboard Produksi</h3>
+
+    <h5 id="infoUser"></h5>
+
+    <button onclick="logout()" class="btn btn-danger btn-sm mb-3">Logout</button>
+
+    <form id="formProduksi">
+        <div class="form-group">
+            <label>Plan</label>
+            <input type="number" name="plan" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Actual</label>
+            <input type="number" name="actual" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Keterangan</label>
+            <input type="text" name="keterangan" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+
+    <hr>
+
+    <h4>History Produksi</h4>
+    <table class="table table-bordered" id="tabelData">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>User</th>
+                <th>Dept</th>
+                <th>Plan</th>
+                <th>Actual</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+let username = localStorage.getItem("username");
+let departement = localStorage.getItem("departement");
+
+document.getElementById("infoUser").innerText =
+    "User: " + username + " | Dept: " + departement;
+
+// submit data
+document.getElementById("formProduksi").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let formData = new FormData(this);
+    formData.append("username", username);
+    formData.append("departement", departement);
+
+    fetch("https://script.google.com/macros/s/AKfycbzvnffyWqgYMCk1z_tnmGQgCYqxKO9HxYJZO84tV2ylkoOMGO5qrifUhpfYxUB_UJZ2mg/exec", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Data berhasil disimpan!");
+        this.reset();
+        loadData();
+    });
+});
+
+// logout
+function logout(){
+    localStorage.clear();
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
