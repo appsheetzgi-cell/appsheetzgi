@@ -72,21 +72,17 @@ document.querySelector("form").addEventListener("submit", function(e){
         + "&password=" + password
         + "&departement=" + departement;
 
-    fetch(url, {
-        method: "GET",
-        mode: "no-cors"
-    })
-    .then(() => {
-        // ❗ karena no-cors, kita tidak bisa baca response
-        localStorage.setItem("login", "true");
-        localStorage.setItem("username", username);
-        localStorage.setItem("departement", departement);
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
 
-        window.location.href = "dashboard.html";
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Error koneksi!");
+        if(data.status === "success"){
+            localStorage.setItem("token", data.token);
+
+            window.location.href = "dashboard.html";
+        } else {
+            alert("Login gagal!");
+        }
     });
 });
 </script>
